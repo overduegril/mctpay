@@ -1,5 +1,6 @@
 package com.mctpay.manager.controller.point;
 
+import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.manager.model.dto.point.ManagerGiftDTO;
 import com.mctpay.manager.service.point.impl.ManagerGiftService;
 import io.swagger.annotations.Api;
@@ -24,9 +25,12 @@ public class ManagerGiftController {
 
     @ApiOperation(value = "兑换礼物列表查询", notes = "兑换礼物", httpMethod = "GET")
     @RequestMapping("/get")
-    public ManagerGiftDTO get(@RequestParam Long id) {
+    public ResponseData get(@RequestParam Long id) {
         ManagerGiftDTO managerGiftDTO = managerGiftService.get(id);
-        return managerGiftDTO;
+        ResponseData responseData = new ResponseData();
+        responseData.setData(managerGiftDTO);
+        responseData.setResult(0);
+        return responseData;
 
     }
 }

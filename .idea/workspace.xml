@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="99766654-266b-4a00-83cf-d263c1d5162e" name="Default" comment="" />
+    <list default="true" id="99766654-266b-4a00-83cf-d263c1d5162e" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/mctpay-common/src/main/java/com/mctpay/common/base/model/ResponseData.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/logs/manager-portal.log.2020-02-24" afterPath="$PROJECT_DIR$/logs/manager-portal.log.2020-02-24" />
+      <change beforePath="$PROJECT_DIR$/manager-portal/src/main/java/com/mctpay/manager/controller/point/ManagerGiftController.java" afterPath="$PROJECT_DIR$/manager-portal/src/main/java/com/mctpay/manager/controller/point/ManagerGiftController.java" />
+    </list>
     <ignored path="$PROJECT_DIR$/mctpay-common/target/" />
     <ignored path="$PROJECT_DIR$/mctpay-parent/target/" />
     <ignored path="$PROJECT_DIR$/manager-portal/target/" />
@@ -41,11 +46,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ManagerAppplication.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ManagerAppplication.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manager-portal/src/main/java/com/mctpay/manager/ManagerAppplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+            <state relative-caret-position="336">
+              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ResponseData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mctpay-common/src/main/java/com/mctpay/common/base/model/ResponseData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ManagerGiftController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/manager-portal/src/main/java/com/mctpay/manager/controller/point/ManagerGiftController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="245">
+              <caret line="23" column="36" lean-forward="true" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -53,12 +78,27 @@
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
       <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/mctpay-common/src/main/java/com/mctpay/common/base/model/ResponseData.java" />
+        <option value="$PROJECT_DIR$/manager-portal/src/main/java/com/mctpay/manager/controller/point/ManagerGiftController.java" />
+      </list>
     </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -113,7 +153,98 @@
             <path>
               <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
               <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-portal" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-portal" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-portal" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-portal" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-portal" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-portal" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+              <item name="point" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
               <item name="mctpay-common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="mctpay-common" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="mctpay-common" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="mctpay-common" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="mctpay-common" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mctpay" type="462c0819:PsiDirectoryNode" />
+              <item name="mctpay-common" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="base" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mctpay" type="b2602c69:ProjectViewProjectNode" />
@@ -149,6 +280,11 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.mctpay.common.base.model" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -275,15 +411,16 @@
       <option name="presentableId" value="Default" />
       <updated>1582522704279</updated>
       <workItem from="1582522705707" duration="131000" />
-      <workItem from="1582522853051" duration="301000" />
+      <workItem from="1582522853051" duration="1194000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="432000" />
+    <option name="totallyTimeSpent" value="1325000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -377,8 +514,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/manager-portal/src/main/java/com/mctpay/manager/ManagerAppplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+        <state relative-caret-position="336">
+          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mctpay-common/src/main/java/com/mctpay/common/base/model/ResponseData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manager-portal/src/main/java/com/mctpay/manager/controller/point/ManagerGiftController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="23" column="36" lean-forward="true" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
           <folding />
         </state>
       </provider>
