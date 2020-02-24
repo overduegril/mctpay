@@ -43,7 +43,7 @@ public class MCTGlobalExceptionHandler {
      * @Description 解析异常
      * @Date 15:06 2020/2/24
      **/
-    public static ResponseData resolveException(Exception ex){
+    public static ResponseData resolveException(Exception ex) {
         ResponseData responseData = new ResponseData();
         ErrorCode code = ErrorCode.ERROR;
         // 获取异常名
@@ -53,6 +53,7 @@ public class MCTGlobalExceptionHandler {
         } else if (className.contains("DisabledException")) {
             code = ErrorCode.ACCOUNT_DISABLED;
         }
+        log.debug("bug-happen---------------------------------" + ex.getMessage());
         responseData.fail(code.getCode(), code.getMessage());
         return responseData;
     }

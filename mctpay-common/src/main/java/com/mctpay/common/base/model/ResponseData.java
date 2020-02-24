@@ -27,7 +27,6 @@ public class ResponseData<T> {
         this.result = 1;
         this.errorMsg = errMsg;
         this.errorCode = errCode;
-        log.debug(errCode + ":" + errMsg);
         return this;
     }
 
