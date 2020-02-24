@@ -1,10 +1,13 @@
 package com.mctpay.common.base.model;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @Author: guodongwei
  * @Description: 基础返回
  * @Date: 2020/2/24 13:58
  */
+@Slf4j
 public class ResponseData<T> {
     private Integer result;
     private T data;
@@ -24,6 +27,7 @@ public class ResponseData<T> {
         this.result = 1;
         this.errorMsg = errMsg;
         this.errorCode = errCode;
+        log.debug(errCode + ":" + errMsg);
         return this;
     }
 

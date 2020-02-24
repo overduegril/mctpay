@@ -26,6 +26,7 @@ public class ManagerGiftController {
     @ApiOperation(value = "兑换礼物列表查询", notes = "兑换礼物", httpMethod = "GET")
     @RequestMapping("/get")
     public ResponseData get(@RequestParam Long id) {
+        int i = 1 / 0;
         ManagerGiftDTO managerGiftDTO = managerGiftService.get(id);
         ResponseData responseData = new ResponseData();
         return responseData.success(managerGiftDTO);

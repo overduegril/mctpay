@@ -3,13 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/manager-portal/manager-portal.iml" filepath="$PROJECT_DIR$/manager-portal/manager-portal.iml" />
-      <module fileurl="file://$PROJECT_DIR$/manager-portal/manager-portal.iml" filepath="$PROJECT_DIR$/manager-portal/manager-portal.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/mctpay.iml" filepath="$PROJECT_DIR$/.idea/mctpay.iml" />
       <module fileurl="file://$PROJECT_DIR$/mctpay-common/mctpay-common.iml" filepath="$PROJECT_DIR$/mctpay-common/mctpay-common.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mctpay-common/mctpay-common.iml" filepath="$PROJECT_DIR$/mctpay-common/mctpay-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/mctpay-parent/mctpay-parent.iml" filepath="$PROJECT_DIR$/mctpay-parent/mctpay-parent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mctpay-parent/mctpay-parent.iml" filepath="$PROJECT_DIR$/mctpay-parent/mctpay-parent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/merchant-portal/merchant-portal.iml" filepath="$PROJECT_DIR$/merchant-portal/merchant-portal.iml" />
       <module fileurl="file://$PROJECT_DIR$/merchant-portal/merchant-portal.iml" filepath="$PROJECT_DIR$/merchant-portal/merchant-portal.iml" />
     </modules>
   </component>
