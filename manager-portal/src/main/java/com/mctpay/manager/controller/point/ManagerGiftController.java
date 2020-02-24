@@ -28,9 +28,7 @@ public class ManagerGiftController {
     public ResponseData get(@RequestParam Long id) {
         ManagerGiftDTO managerGiftDTO = managerGiftService.get(id);
         ResponseData responseData = new ResponseData();
-        responseData.setData(managerGiftDTO);
-        responseData.setResult(0);
-        return responseData;
+        return responseData.success(managerGiftDTO);
 
     }
 }
