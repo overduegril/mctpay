@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.manager.mapper.member.MctMemberMapper">
+
+    <sql id="Base_Column_List">
+	    id, nickname, phone_number, email, bank_card, credit_level, status, create_time, update_time</sql>
+
+    <select id="get" resultType="com.mctpay.manager.model.entity.member.MctMemberEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from mct_member where id = #{value}
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="nickname != null">
+            and nickname = #{nickname}
+        </if>
+        <if test="phoneNumber != null">
+            and phone_number = #{phoneNumber}
+        </if>
+        <if test="email != null">
+            and email = #{email}
+        </if>
+        <if test="bankCard != null">
+            and bank_card = #{bankCard}
+        </if>
+        <if test="creditLevel != null">
+            and credit_level = #{creditLevel}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>

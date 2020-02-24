@@ -1,0 +1,4 @@
+com\xtpay\common\uitl\UIdUtils.class
+com\mctpay\common\base\mapper\BaseMapper.class
+com\xtpay\common\config\UidGeneratorConfig.class
+com\xtpay\common\base\entity\BaseEntity.class
