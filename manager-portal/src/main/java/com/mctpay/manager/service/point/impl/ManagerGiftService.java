@@ -1,6 +1,7 @@
 package com.mctpay.manager.service.point.impl;
 
 import com.mctpay.manager.model.dto.point.ManagerGiftDTO;
+import com.mctpay.manager.model.entity.point.ManagerMemberLevelRulesEntity;
 
 /**
  * @Author: guodongwei
@@ -8,7 +9,5 @@ import com.mctpay.manager.model.dto.point.ManagerGiftDTO;
  * @Date: 2020/2/24 10:28
  */
 public interface ManagerGiftService {
-
-    ManagerGiftDTO get(Long id);
 
 }

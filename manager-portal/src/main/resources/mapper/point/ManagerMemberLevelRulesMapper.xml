@@ -5,12 +5,21 @@
 
 
     <sql id="Base_Column_List">
-		        id ,            member_level_name ,            member_level_code ,            point ,            last_operator ,            status ,            create_time ,            update_time        </sql>
+	    id, member_level_name, member_level_code, point, last_operator, status, create_time, update_time</sql>
 
     <select id="get" resultType="com.mctpay.manager.model.entity.point.ManagerMemberLevelRulesEntity">
         select
         <include refid="Base_Column_List"/>
         from manager_member_level_rules where id = #{value}
+    </select
+    >
+
+    <!-- 获取积分等级设置列表 -->
+    <select id="listMemberLevelRules"
+            resultType="com.mctpay.manager.model.entity.point.ManagerMemberLevelRulesEntity">
+        SELECT  <include refid="Base_Column_List"/>
+        FROM manager_member_level_rules
+        WHERE status = 1
     </select>
 
     <sql id="where">
