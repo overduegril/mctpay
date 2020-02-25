@@ -1,4 +1,4 @@
-package com.xtpay.common.config;
+package com.mctpay.common.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

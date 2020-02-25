@@ -1,5 +1,7 @@
 package com.mctpay.common.base.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -7,11 +9,15 @@ import lombok.extern.slf4j.Slf4j;
  * @Description: 基础返回
  * @Date: 2020/2/24 13:58
  */
-@Slf4j
+@ApiModel(value = "格式返回")
 public class ResponseData<T> {
+    @ApiModelProperty(value = "成功为0，失败为1")
     private Integer result;
+    @ApiModelProperty(value = "返回数据")
     private T data;
+    @ApiModelProperty(value = "错误码")
     private Integer errorCode;
+    @ApiModelProperty(value = "错误信息")
     private String errorMsg;
 
     public ResponseData() {

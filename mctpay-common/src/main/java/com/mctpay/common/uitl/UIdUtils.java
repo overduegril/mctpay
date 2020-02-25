@@ -1,4 +1,4 @@
-package com.xtpay.common.uitl;
+package com.mctpay.common.uitl;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
@@ -11,7 +11,7 @@ import com.xtpay.common.config.UidGeneratorConfig;
  */
 public class UIdUtils {
 
-    public Long getUid() {
+    public  static  Long getUid() {
         UidGeneratorConfig uidGeneratorConfig = new UidGeneratorConfig();
         long centerId = uidGeneratorConfig.getCenterId();
         long workId = uidGeneratorConfig.getWorkId();
