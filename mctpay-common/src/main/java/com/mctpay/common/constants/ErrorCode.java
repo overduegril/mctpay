@@ -19,7 +19,11 @@ public enum ErrorCode {
     /**
      * 手机号已经被使用
      */
-    PHONENUM_HAS_BEEN_USED(3004, " phonenum_has_been_used");
+    PHONENUM_HAS_BEEN_USED(3004, " phonenum_has_been_used"),
+    /**
+     * 用户名已经被使用
+     */
+    USERNAME_HAS_BEEN_USED(3005, " username_has_been_used");
     private int code;
     private String message;
 

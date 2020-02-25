@@ -1,6 +1,7 @@
 package com.mctpay.manager.service.system.impl;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.manager.mapper.system.UserMapper;
 import com.mctpay.manager.model.param.UserParam;
 import com.mctpay.manager.service.system.ManagerUserService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import static com.mctpay.common.constants.ErrorCode.EMAIL_HAS_BEEN_USED;
 import static com.mctpay.common.constants.ErrorCode.PHONENUM_HAS_BEEN_USED;
+import static com.mctpay.common.constants.ErrorCode.USERNAME_HAS_BEEN_USED;
 
 /**
  * @Author: guodongwei
@@ -36,6 +38,11 @@ public class ManagerUserServiceImpl implements ManagerUserService{
         if (phoneNumberCount != 0) {
             return new ResponseData<>().fail(PHONENUM_HAS_BEEN_USED.getCode(), PHONENUM_HAS_BEEN_USED.getMessage());
         }
+        Integer userName = userMapper.countUserName(userParam.getUsername());
+        if (userName != 0) {
+            return new ResponseData<>().fail(USERNAME_HAS_BEEN_USED.getCode(), USERNAME_HAS_BEEN_USED.getMessage());
+        }
+        userParam.setPassword(SecureUtils.MD5Encrypt(userParam.getPassword()));
         userMapper.insertUser(userParam);
         return new ResponseData().success(null);
     }

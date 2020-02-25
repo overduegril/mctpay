@@ -50,6 +50,13 @@
         WHERE phone_number = #{phoneNumber}
     </select>
 
+    <!-- 判断用户名是否被使用 -->
+    <select id="countUserName" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM manager_user
+        WHERE user_name = #{userName}
+    </select>
+
     <sql id="where">
         <where>
             <include refid="baseWhere"></include>

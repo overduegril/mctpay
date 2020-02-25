@@ -29,4 +29,10 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Date 21:07 2020/2/24
      **/
     Integer countPhoneNumber(String phoneNumber);
+
+    /**
+     * @Description 判断用户名是否被使用
+     * @Date 21:07 2020/2/24
+     **/
+    Integer countUserName(String userName);
 }
