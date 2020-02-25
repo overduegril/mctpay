@@ -1,6 +1,6 @@
 package com.mctpay.manager.service.system.impl;
 
-import com.mctpay.manager.mapper.system.ManagerUserMapper;
+import com.mctpay.manager.mapper.system.UserMapper;
 import com.mctpay.manager.model.param.UserParam;
 import com.mctpay.manager.service.system.ManagerUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class ManagerUserServiceImpl implements ManagerUserService{
 
     @Autowired
-    private ManagerUserMapper managerUserMapper;
+    private UserMapper userMapper;
 
     /**
      * @Description 注册管理员
@@ -25,6 +25,6 @@ public class ManagerUserServiceImpl implements ManagerUserService{
     public void insertUser(UserParam userParam) {
         // 验证手机号，邮箱是否重复
 
-        managerUserMapper.insertUser(userParam);
+        userMapper.insertUser(userParam);
     }
 }

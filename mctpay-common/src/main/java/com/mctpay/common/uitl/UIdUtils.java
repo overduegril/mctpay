@@ -2,7 +2,7 @@ package com.mctpay.common.uitl;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
-import com.xtpay.common.config.UidGeneratorConfig;
+import com.mctpay.common.config.UidGeneratorConfig;
 
 /**
  * @Author: guodongwei

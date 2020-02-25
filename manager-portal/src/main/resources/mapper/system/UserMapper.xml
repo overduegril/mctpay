@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.manager.mapper.system.UserMapper">
+
+
+    <sql id="Base_Column_List">
+	    id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time</sql>
+
+    <!-- 注册管理元 -->
+    <insert id="insertUser">
+        INSERT INTO manager_user(<include refid="Base_Column_List"/>)
+        VALUES (
+        #{id},
+        #{username},
+        #{nickname},
+        #{password},
+        #{gender},
+        #{phoneNumber},
+        #{email},
+        #{remark},
+        #{createTime},
+        #{updateTime}
+    </insert>
+
+
+
+    <select id="get" resultType="com.mctpay.manager.model.entity.system.UserEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from manager_user where id = #{value}
+    </select>
+
+    <!-- 判断邮箱 -->
+    <select id="countEmail" resultType="java.lang.Integer">
+
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="username != null">
+            and username = #{username}
+        </if>
+        <if test="nickname != null">
+            and nickname = #{nickname}
+        </if>
+        <if test="password != null">
+            and password = #{password}
+        </if>
+        <if test="gender != null">
+            and gender = #{gender}
+        </if>
+        <if test="phoneNumber != null">
+            and phone_number = #{phoneNumber}
+        </if>
+        <if test="email != null">
+            and email = #{email}
+        </if>
+        <if test="remark != null">
+            and remark = #{remark}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>
