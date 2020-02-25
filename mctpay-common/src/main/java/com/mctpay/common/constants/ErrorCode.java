@@ -11,8 +11,15 @@ public enum ErrorCode {
      */
     ERROR(5000, "error"),
     ACCOUNT_DISABLED(3001, "account_disabled"),
-    USERNAME_NOT_FOUND(3002, "username_not_found");
-
+    USERNAME_NOT_FOUND(3002, "username_not_found"),
+    /**
+     * 邮箱已经被使用
+     */
+    EMAIL_HAS_BEEN_USED(3003, "email_has_been_used"),
+    /**
+     * 手机号已经被使用
+     */
+    PHONENUM_HAS_BEEN_USED(3004, " phonenum_has_been_used");
     private int code;
     private String message;
 

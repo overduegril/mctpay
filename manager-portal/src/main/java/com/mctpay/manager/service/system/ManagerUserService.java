@@ -1,5 +1,6 @@
 package com.mctpay.manager.service.system;
 
+import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.manager.model.param.UserParam;
 
 /**
@@ -13,6 +14,6 @@ public interface ManagerUserService {
      * @Description 注册管理员
      * @Date 20:45 2020/2/24
      **/
-    void insertUser(UserParam userParam);
+    ResponseData insertUser(UserParam userParam);
 
 }

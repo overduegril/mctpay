@@ -9,18 +9,23 @@
 
     <!-- 注册管理元 -->
     <insert id="insertUser">
-        INSERT INTO manager_user(<include refid="Base_Column_List"/>)
+        INSERT INTO manager_user(
+        id, username, nickname, password, phone_number, email, remark, status, create_time, update_time
+        )
         VALUES (
         #{id},
         #{username},
         #{nickname},
         #{password},
-        #{gender},
+        <!-- 保留字段 -->
+        <!-- #{gender}, -->
         #{phoneNumber},
         #{email},
         #{remark},
+        #{status},
         #{createTime},
         #{updateTime}
+        )
     </insert>
 
 
@@ -31,9 +36,18 @@
         from manager_user where id = #{value}
     </select>
 
-    <!-- 判断邮箱 -->
+    <!-- 判断邮箱是否被使用 -->
     <select id="countEmail" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM manager_user
+        WHERE email = #{email}
+    </select>
 
+    <!-- 判断手机号是否被使用 -->
+    <select id="countPhoneNumber" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM manager_user
+        WHERE phone_number = #{phoneNumber}
     </select>
 
     <sql id="where">

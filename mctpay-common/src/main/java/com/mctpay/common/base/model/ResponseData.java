@@ -2,7 +2,6 @@ package com.mctpay.common.base.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Author: guodongwei

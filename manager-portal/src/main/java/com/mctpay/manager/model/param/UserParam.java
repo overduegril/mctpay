@@ -14,7 +14,7 @@ import lombok.Data;
 @ApiModel(value = "管理员注册参数")
 public class UserParam extends BaseEntity {
 
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "id", hidden = true)
     private Long id;
     /**
      * 用户名
@@ -53,6 +53,6 @@ public class UserParam extends BaseEntity {
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态：0无效记录，1有效记录， 3未曾登录")
+    @ApiModelProperty(value = "状态：0无效记录，1有效记录， 3未曾登录", hidden=true)
     private Integer status;
 }

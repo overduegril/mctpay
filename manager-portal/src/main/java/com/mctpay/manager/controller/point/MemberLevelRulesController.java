@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberLevelRulesController {
 
     @Autowired
-    private MemberLevelRulesService managerMemberLevelRulesService;
+    private MemberLevelRulesService memberLevelRulesService;
 
     @ApiOperation(value = "积分等级设置", notes = "积分等级设置", httpMethod = "GET")
     @RequestMapping("/listMemberLevelRules")
     public ResponseData<MemberLevelRulesDTO> listMemberLevelRules() {
-        MemberLevelRulesDTO memberLevelRulesDTO = managerMemberLevelRulesService.listMemberLevelRules();
+        MemberLevelRulesDTO memberLevelRulesDTO = memberLevelRulesService.listMemberLevelRules();
         ResponseData responseData = new ResponseData();
         return responseData.success(memberLevelRulesDTO);
     }
