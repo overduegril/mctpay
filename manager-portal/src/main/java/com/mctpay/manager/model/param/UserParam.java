@@ -53,6 +53,6 @@ public class UserParam extends BaseEntity {
     /**
      * 状态
      */
-    @ApiModelProperty(value = "状态：0无效记录，1有效记录， 3未曾登录", hidden=true)
+    @ApiModelProperty(value = "状态：0无效记录，1有效记录，-1冻结, 3未曾登录", hidden=true)
     private Integer status;
 }

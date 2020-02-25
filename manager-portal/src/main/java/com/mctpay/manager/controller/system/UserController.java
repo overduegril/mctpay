@@ -7,9 +7,7 @@ import com.mctpay.manager.service.system.ManagerUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -27,7 +25,7 @@ public class UserController {
     private ManagerUserService managerUserService;
 
     @ApiOperation(value = "管理员注册", notes = "管理员注册", httpMethod = "POST", consumes = "application/json")
-    @RequestMapping("/insertUser")
+    @PostMapping("/insertUser")
     public ResponseData insertUser(@RequestBody UserParam userParam) {
         // 设置会员ID
         Long id = UIdUtils.getUid();
@@ -38,4 +36,9 @@ public class UserController {
         return managerUserService.insertUser(userParam);
     }
 
+    @ApiOperation(value = "冻结/激活管理员", notes = "冻结/激活管理员-status传值为1，表示激活管理员，-1为冻结管理员", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/switchUser")
+    public ResponseData switchUser(@RequestParam Long userId, @RequestParam Integer state) {
+        return managerUserService.switchUser(userId, state);
+    }
 }

@@ -28,6 +28,12 @@
         )
     </insert>
 
+    <!-- 激活，冻结用户 -->
+    <update id="updateSwitchUser">
+        UPDATE manager_user
+        SET status = #{state}
+        WHERE id = #{userId}
+    </update>
 
 
     <select id="get" resultType="com.mctpay.manager.model.entity.system.UserEntity">

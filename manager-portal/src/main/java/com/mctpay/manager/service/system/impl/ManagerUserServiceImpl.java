@@ -46,4 +46,14 @@ public class ManagerUserServiceImpl implements ManagerUserService{
         userMapper.insertUser(userParam);
         return new ResponseData().success(null);
     }
+
+    /**
+     * @Description 激活冻结用户
+     * @Date 21:31 2020/2/25
+     **/
+    @Override
+    public ResponseData switchUser(Long userId, Integer state) {
+        userMapper.updateSwitchUser(userId, state);
+        return new ResponseData().success(null);
+    }
 }

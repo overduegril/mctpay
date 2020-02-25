@@ -3,6 +3,7 @@ package com.mctpay.manager.mapper.system;
 import com.mctpay.common.base.mapper.BaseMapper;
 import com.mctpay.manager.model.entity.system.UserEntity;
 import com.mctpay.manager.model.param.UserParam;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -35,4 +36,10 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Date 21:07 2020/2/24
      **/
     Integer countUserName(String userName);
+
+    /**
+     * @Description 激活冻结用户
+     * @Date 21:34 2020/2/25
+     **/
+    void updateSwitchUser(@Param("userId") Long userId,@Param("state") Integer state);
 }

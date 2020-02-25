@@ -2,6 +2,7 @@ package com.mctpay.manager.service.system;
 
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.manager.model.param.UserParam;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @Author: guodongwei
@@ -16,4 +17,9 @@ public interface ManagerUserService {
      **/
     ResponseData insertUser(UserParam userParam);
 
+    /**
+     * @Description 激活冻结用户
+     * @Date 21:30 2020/2/25
+     **/
+    ResponseData switchUser(Long userId, Integer state);
 }
