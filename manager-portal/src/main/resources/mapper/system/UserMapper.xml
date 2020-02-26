@@ -70,6 +70,14 @@
         WHERE username = #{username}
     </select>
 
+    <!-- 差选会员列表 -->
+    <select id="listUser" resultType="com.mctpay.manager.model.entity.system.UserEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM manager_user
+        WHERE status != 0
+    </select>
+
     <sql id="where">
         <where>
             <include refid="baseWhere"></include>

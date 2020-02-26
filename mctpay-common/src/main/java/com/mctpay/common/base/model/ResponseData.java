@@ -1,5 +1,6 @@
 package com.mctpay.common.base.model;
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -11,13 +12,13 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "格式返回")
 public class ResponseData<T> {
     @ApiModelProperty(value = "成功为0，失败为1")
-    private Integer result;
+    Integer result;
     @ApiModelProperty(value = "返回数据")
-    private T data;
+    T data;
     @ApiModelProperty(value = "错误码")
-    private Integer errorCode;
-    @ApiModelProperty(value = "错误信息")
-    private String errorMsg;
+    Integer errorCode;
+    @ApiModelProperty(value = "错d误信息")
+    String errorMsg;
 
     public ResponseData() {
     }

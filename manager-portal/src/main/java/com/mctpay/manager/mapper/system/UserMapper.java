@@ -6,6 +6,8 @@ import com.mctpay.manager.model.param.UserParam;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author dongwei_guo
  * @date 2020-02-23 18:23:01
@@ -48,4 +50,10 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Date 10:12 2020/2/26
      **/
     UserEntity getByUserName(String userName);
+
+    /**
+     * @Description 分页查询会员列表
+     * @Date 19:51 2020/2/26
+     **/
+    List<UserEntity> listUser();
 }

@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @date 2020-02-23 18:22:59
  */
 @Data
-@ApiModel(value = "角色")
+
 public class RoleEntity extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

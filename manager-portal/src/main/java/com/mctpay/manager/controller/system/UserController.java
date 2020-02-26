@@ -1,22 +1,22 @@
 package com.mctpay.manager.controller.system;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.common.uitl.UIdUtils;
-import com.mctpay.manager.model.entity.system.UserEntity;
+import com.mctpay.common.base.model.PageParam;
+import com.mctpay.manager.model.dto.system.UserDTO;
 import com.mctpay.manager.model.param.UserParam;
-import com.mctpay.manager.service.system.ManagerUserService;
+import com.mctpay.manager.service.system.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: guodongwei
@@ -29,7 +29,7 @@ import java.util.Date;
 public class UserController {
 
     @Autowired
-    private ManagerUserService managerUserService;
+    private UserService userService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "管理员注册", notes = "管理员注册", httpMethod = "POST", consumes = "application/json")
@@ -38,16 +38,27 @@ public class UserController {
         // 设置会员ID
         Long id = UIdUtils.getUid();
         userParam.setId(id);
-        userParam.setStatus(3);
+        userParam.setStatus(2);
         userParam.setCreateTime(new Date());
         userParam.setUpdateTime(new Date());
-        return managerUserService.insertUser(userParam);
+        return userService.insertUser(userParam);
     }
 
-    @ApiOperation(value = "冻结/激活管理员", notes = "冻结/激活管理员-status传值为1，表示激活管理员，-1为冻结管理员", httpMethod = "POST", consumes = "application/json")
+    @ApiOperation(value = "冻结/激活管理员", notes = "冻结/激活管理员；status传值为正数则是激活的状态，负数为冻结状态，传该管理原status的相反数", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/switchUser")
     public ResponseData switchUser(@RequestParam Long userId, @RequestParam Integer state) {
-        return managerUserService.switchUser(userId, state);
+        return userService.switchUser(userId, state);
     }
 
+    @ApiOperation(value = "分页查询管理员", notes = "分页查询管理员;status值为1||2，表示激活管理员，-1||-2为冻结管理员", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/listUser")
+    public ResponsePageInfo<List<UserDTO>> listUser(@RequestBody PageParam pageParam) {
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+        if (pageParam.getOrder() != null) {
+            PageHelper.orderBy(pageParam.getOrder());
+        }
+        List<UserDTO> userDTOs = userService.listUser();
+        PageInfo<UserDTO> userDTOsPageinfo = new PageInfo<>(userDTOs);
+        return new ResponsePageInfo<List<UserDTO>>().success(userDTOs, userDTOsPageinfo);
+    }
 }

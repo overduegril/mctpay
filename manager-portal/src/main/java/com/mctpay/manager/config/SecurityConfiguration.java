@@ -118,8 +118,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     ResponseData<Object> responseData = new ResponseData<>();
                     if (authException instanceof InsufficientAuthenticationException) {
                         responseData.fail(NON_AUTHENTICATION.getCode(), NON_AUTHENTICATION.getMessage());
+                        out.write(new ObjectMapper().writeValueAsString(responseData));
+                    } else {
+                        out.write(new ObjectMapper().writeValueAsString(responseData.success(null)));
                     }
-                    out.write(new ObjectMapper().writeValueAsString(responseData.success(null)));
                     out.flush();
                     out.close();
                 });

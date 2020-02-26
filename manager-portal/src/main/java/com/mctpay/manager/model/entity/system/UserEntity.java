@@ -96,7 +96,7 @@ public class UserEntity extends BaseEntity implements Serializable, UserDetails 
      **/
     @Override
     public boolean isAccountNonLocked() {
-        if (status == -1) {
+        if (status < 0) {
             return false;
         } else
             return true;

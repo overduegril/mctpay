@@ -3,10 +3,16 @@ package com.mctpay.manager.service.system.impl;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.manager.mapper.system.UserMapper;
+import com.mctpay.manager.model.dto.system.UserDTO;
+import com.mctpay.manager.model.entity.system.UserEntity;
 import com.mctpay.manager.model.param.UserParam;
-import com.mctpay.manager.service.system.ManagerUserService;
+import com.mctpay.manager.service.system.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.mctpay.common.constants.ErrorCode.EMAIL_HAS_BEEN_USED;
 import static com.mctpay.common.constants.ErrorCode.PHONENUM_HAS_BEEN_USED;
@@ -18,7 +24,7 @@ import static com.mctpay.common.constants.ErrorCode.USERNAME_HAS_BEEN_USED;
  * @Date: 2020/2/24 20:18
  */
 @Service
-public class ManagerUserServiceImpl implements ManagerUserService{
+public class ManagerUserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
@@ -55,5 +61,21 @@ public class ManagerUserServiceImpl implements ManagerUserService{
     public ResponseData switchUser(Long userId, Integer state) {
         userMapper.updateSwitchUser(userId, state);
         return new ResponseData().success(null);
+    }
+
+    /**
+     * @Description 分页查询会员列表
+     * @Date 19:58 2020/2/26
+     **/
+    @Override
+    public List<UserDTO> listUser() {
+        List<UserEntity> userEntities = userMapper.listUser();
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for (UserEntity userEntity : userEntities) {
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(userEntity, userDTO);
+            userDTOs.add(userDTO);
+        }
+        return userDTOs;
     }
 }
