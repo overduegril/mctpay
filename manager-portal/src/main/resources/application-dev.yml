@@ -39,6 +39,9 @@ logging:
 
 server:
   port: 9100
+  servlet:
+     session:
+       timeout: 3600
 # 分页
 pagehelper:
   helperDialect: mysql

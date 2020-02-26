@@ -48,10 +48,10 @@ public class MCTGlobalExceptionHandler {
         ErrorCode code = ErrorCode.ERROR;
         // 获取异常名
         String className = ex.getClass().getName();
-        if (className.contains("UsernameNotFoundException")) {
-            code = ErrorCode.USERNAME_NOT_FOUND;
+        if (className.contains("non_authentication")) {
+            code = ErrorCode.NON_AUTHENTICATION;
         } else if (className.contains("DisabledException")) {
-            code = ErrorCode.ACCOUNT_DISABLED;
+            // -- TODO 如果有其它错误在这里解析。设置规定格式让前端进行规则处理
         }
         log.debug("bug-happen---------------------------------" + ex.getMessage());
         responseData.fail(code.getCode(), code.getMessage());

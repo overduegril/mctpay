@@ -63,6 +63,13 @@
         WHERE user_name = #{userName}
     </select>
 
+    <!-- 根据账号获取用户 -->
+    <select id="getByUserName" resultType="com.mctpay.manager.model.entity.system.UserEntity">
+        SELECT id, username, nickname, password, phone_number, email, remark, status
+        FROM manager_user
+        WHERE username = #{username}
+    </select>
+
     <sql id="where">
         <where>
             <include refid="baseWhere"></include>

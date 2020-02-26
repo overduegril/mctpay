@@ -10,8 +10,12 @@ public enum ErrorCode {
      * 账号错误
      */
     ERROR(5000, "error"),
-    ACCOUNT_DISABLED(3001, "account_disabled"),
-    USERNAME_NOT_FOUND(3002, "username_not_found"),
+    /**
+     * 未进行身份验证
+     */
+    NON_AUTHENTICATION(3000, "non_authentication"),
+    ACCOUNT_FROZEN(3001, "account_frozen"),
+    USERNAME_OR_PASSWORD_ERR(3002, "username_or_password_err"),
     /**
      * 邮箱已经被使用
      */
@@ -24,6 +28,7 @@ public enum ErrorCode {
      * 用户名已经被使用
      */
     USERNAME_HAS_BEEN_USED(3005, " username_has_been_used");
+
     private int code;
     private String message;
 

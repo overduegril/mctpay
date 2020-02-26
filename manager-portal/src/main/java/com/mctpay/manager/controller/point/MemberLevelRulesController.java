@@ -6,6 +6,7 @@ import com.mctpay.manager.service.point.MemberLevelRulesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,7 @@ public class MemberLevelRulesController {
     @Autowired
     private MemberLevelRulesService memberLevelRulesService;
 
+    @PreAuthorize("hasRole('MANAGER')")
     @ApiOperation(value = "积分等级设置", notes = "积分等级设置", httpMethod = "GET")
     @RequestMapping("/listMemberLevelRules")
     public ResponseData<MemberLevelRulesDTO> listMemberLevelRules() {

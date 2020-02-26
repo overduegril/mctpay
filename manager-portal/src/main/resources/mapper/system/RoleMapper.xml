@@ -7,9 +7,16 @@
 	    id, role_name, description, status, create_time, update_time</sql>
 
     <select id="get" resultType="com.mctpay.manager.model.entity.system.RoleEntity">
-        select
+        SELECT
         <include refid="Base_Column_List"/>
         from mct_role where id = #{value}
+    </select>
+
+    <!-- 获取用户角色 -->
+    <select id="getByUserId" resultType="com.mctpay.manager.model.entity.system.RoleEntity">
+        SELECT role.id, role.role_name, role.description
+        FROM mct_user_role userrole, mct_role role, manager_user manageruser
+        WHERE userrole.role_id = role.id AND manageruser.id = #{id}
     </select>
 
     <sql id="where">
