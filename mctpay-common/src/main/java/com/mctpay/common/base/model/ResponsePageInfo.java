@@ -1,5 +1,6 @@
 package com.mctpay.common.base.model;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,7 +22,7 @@ public class ResponsePageInfo<T> extends ResponseData<T> {
      * @Description 重新成功方法。设置封装分页信息
      * @Date 20:48 2020/2/26
      **/
-    public ResponsePageInfo success(T data, PageInfo pageInfo) {
+    public ResponsePageInfo success(T data,  Page<Object> pageInfo) {
         basicPageInfo = new BasicPageInfo();
         super.result = 0;
         super.data = data;

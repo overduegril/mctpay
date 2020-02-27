@@ -31,4 +31,10 @@ public interface UserService {
      * @Date 19:45 2020/2/26
      **/
     List<UserDTO> listUser();
+
+    /**
+     * @Description 根据输入内容查询会员
+     * @Date 10:29 2020/2/27
+     **/
+    List<UserDTO> listUserByInput(String inputContent);
 }

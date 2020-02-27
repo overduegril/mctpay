@@ -1,5 +1,6 @@
 package com.mctpay.manager.controller.system;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mctpay.common.base.model.ResponseData;
@@ -13,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -31,7 +33,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "管理员注册", notes = "管理员注册", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertUser")
     public ResponseData insertUser(@RequestBody UserParam userParam) {
@@ -53,12 +55,22 @@ public class UserController {
     @ApiOperation(value = "分页查询管理员", notes = "分页查询管理员;status值为1||2，表示激活管理员，-1||-2为冻结管理员", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/listUser")
     public ResponsePageInfo<List<UserDTO>> listUser(@RequestBody PageParam pageParam) {
-        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
-        if (pageParam.getOrder() != null) {
+        Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+        if (!StringUtils.isEmpty(pageParam.getOrder())) {
             PageHelper.orderBy(pageParam.getOrder());
         }
         List<UserDTO> userDTOs = userService.listUser();
-        PageInfo<UserDTO> userDTOsPageinfo = new PageInfo<>(userDTOs);
-        return new ResponsePageInfo<List<UserDTO>>().success(userDTOs, userDTOsPageinfo);
+        return new ResponsePageInfo<List<UserDTO>>().success(userDTOs, pageInfo);
+    }
+
+    @ApiOperation(value = "根据输入内容查询管理员", notes = "冻结/激活管理员；status传值为正数则是激活的状态，负数为冻结状态，传该管理原status的相反数", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/listUserByInput")
+    public ResponseData listUserByInput(@RequestParam String inputContent, @RequestBody PageParam pageParam) {
+        Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+        if (!StringUtils.isEmpty(pageParam.getOrder())) {
+            PageHelper.orderBy(pageParam.getOrder());
+        }
+        List<UserDTO> userDTOs = userService.listUserByInput(inputContent);
+        return new ResponsePageInfo<List<UserDTO>>().success(userDTOs, pageInfo);
     }
 }

@@ -60,7 +60,7 @@
     <select id="countUserName" resultType="java.lang.Integer">
         SELECT count(*)
         FROM manager_user
-        WHERE user_name = #{userName}
+        WHERE username = #{userName}
     </select>
 
     <!-- 根据账号获取用户 -->
@@ -76,6 +76,15 @@
         <include refid="Base_Column_List"/>
         FROM manager_user
         WHERE status != 0
+    </select>
+
+    <!-- 根据输入查询管理员信息 -->
+    <select id="listUserByInput" resultType="com.mctpay.manager.model.entity.system.UserEntity">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM (SELECT id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time, CONCAT(username, nickname, remark) AS content
+              FROM manager_user ) t0
+              WHERE content LIKE CONCAT('%', #{inputContent}, '%') AND status != 0
     </select>
 
     <sql id="where">

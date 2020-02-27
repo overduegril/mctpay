@@ -48,8 +48,8 @@ public class MCTGlobalExceptionHandler {
         ErrorCode code = ErrorCode.ERROR;
         // 获取异常名
         String className = ex.getClass().getName();
-        if (className.contains("MctException")) {
-            code = ErrorCode.ERROR;
+        if (className.contains("AccessDeniedException")) {
+            code = ErrorCode.NON_AUTHENTICATION;
         } else if (className.contains("DisabledException")) {
             // -- TODO 如果有其它错误在这里解析。设置规定格式让前端进行规则处理
         }

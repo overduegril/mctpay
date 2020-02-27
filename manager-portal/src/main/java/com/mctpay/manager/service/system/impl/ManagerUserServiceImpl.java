@@ -78,4 +78,20 @@ public class ManagerUserServiceImpl implements UserService {
         }
         return userDTOs;
     }
+
+    /**
+     * @Description 根据输入内容查询会员
+     * @Date 10:29 2020/2/27
+     **/
+    @Override
+    public List<UserDTO> listUserByInput(String inputContent) {
+        List<UserEntity> userEntities = userMapper.listUserByInput(inputContent);
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for (UserEntity userEntity : userEntities) {
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(userEntity, userDTO);
+            userDTOs.add(userDTO);
+        }
+        return userDTOs;
+    }
 }
