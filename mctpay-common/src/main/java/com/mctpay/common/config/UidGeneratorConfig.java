@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
  * @Date: 2020/2/21 17:49
  */
 @Configuration
-@PropertySource("classpath:config/oss.properties")
+@PropertySource("classpath:config/uidgenerator.properties")
 public class UidGeneratorConfig {
 
     /**

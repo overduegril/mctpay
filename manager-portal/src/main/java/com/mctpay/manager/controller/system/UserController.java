@@ -65,7 +65,7 @@ public class UserController {
 
     @ApiOperation(value = "根据输入内容查询管理员", notes = "冻结/激活管理员；status传值为正数则是激活的状态，负数为冻结状态，传该管理原status的相反数", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/listUserByInput")
-    public ResponseData listUserByInput(@RequestParam String inputContent, @RequestBody PageParam pageParam) {
+    public ResponseData<List<UserDTO>> listUserByInput(String inputContent, @RequestBody PageParam pageParam) {
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
             PageHelper.orderBy(pageParam.getOrder());
