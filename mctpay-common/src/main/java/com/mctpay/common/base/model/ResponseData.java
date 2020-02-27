@@ -17,7 +17,7 @@ public class ResponseData<T> {
     T data;
     @ApiModelProperty(value = "错误码")
     Integer errorCode;
-    @ApiModelProperty(value = "错d误信息")
+    @ApiModelProperty(value = "错误信息")
     String errorMsg;
 
     public ResponseData() {
