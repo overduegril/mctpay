@@ -34,7 +34,7 @@ import static com.mctpay.common.constants.ErrorCode.*;
  * @Date: 2020/2/25 17:26
  */
 @Configuration
-@EnableWebSecurity
+// @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 

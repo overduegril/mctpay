@@ -1,5 +1,6 @@
 package com.mctpay.manager.service.point.impl;
 
+import com.mctpay.common.config.UidGeneratorConfig;
 import com.mctpay.manager.mapper.point.MemberLevelRulesMapper;
 import com.mctpay.manager.model.dto.point.MemberLevelRulesDTO;
 import com.mctpay.manager.model.entity.point.MemberLevelRulesEntity;

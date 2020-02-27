@@ -57,3 +57,7 @@ mybatis:
     call-setters-on-nulls: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   executor-type: simple
+
+aliyun-oss:
+  bucketName: wosz
+  keyPrefix: mctpay/merchant/

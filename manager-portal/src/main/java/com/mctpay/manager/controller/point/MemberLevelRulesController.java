@@ -23,7 +23,7 @@ public class MemberLevelRulesController {
     @Autowired
     private MemberLevelRulesService memberLevelRulesService;
 
-    @PreAuthorize("hasRole('MANAGER')")
+    // @PreAuthorize("hasRole('MANAGER')")
     @ApiOperation(value = "积分等级设置", notes = "积分等级设置", httpMethod = "GET")
     @RequestMapping("/listMemberLevelRules")
     public ResponseData<MemberLevelRulesDTO> listMemberLevelRules() {

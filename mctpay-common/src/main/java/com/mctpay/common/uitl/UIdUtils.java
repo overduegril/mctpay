@@ -3,6 +3,7 @@ package com.mctpay.common.uitl;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import com.mctpay.common.config.UidGeneratorConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @Author: guodongwei
@@ -12,9 +13,8 @@ import com.mctpay.common.config.UidGeneratorConfig;
 public class UIdUtils {
 
     public  static  Long getUid() {
-        UidGeneratorConfig uidGeneratorConfig = new UidGeneratorConfig();
-        long centerId = uidGeneratorConfig.getCenterId();
-        long workId = uidGeneratorConfig.getWorkId();
+        long centerId = UidGeneratorConfig.centerId;
+        long workId = UidGeneratorConfig.workId;
         Snowflake snowflake = IdUtil.createSnowflake(workId, centerId);
         return snowflake.nextId();
     }
