@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Api(value = "商户相关", tags = "商户")
 @RestController
-@RequestMapping("merchant")
+@RequestMapping("manager-merchant")
 public class MerchantController {
 
     @Autowired

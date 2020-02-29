@@ -3,6 +3,40 @@
 
 <mapper namespace="com.mctpay.manager.mapper.template.ShowPictureMapper">
 
+
+    <!-- 修改状态 -->
+    <update id="updateSwitchShowPicturer">
+        UPDATE mct_show_picture
+        SET status = #{status}
+        WHERE id = #{showPicturerId}
+    </update>
+
+    <!-- 获取所有轮播图 -->
+    <select id="listShowPicturer" resultType="com.mctpay.manager.model.entity.template.ShowPictureEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mct_show_picture
+        WHERE status != 0
+    </select>
+
+    <!--
+        插入轮播广告
+    -->
+
+    <insert id="insertShowPicturer">
+        INSERT INTO mct_show_picture(<include refid="Base_Column_List"/>)
+        VALUES (
+        #{id},
+        #{useTypeCode},
+        #{useTypeName},
+        #{address},
+        #{sdkType},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
     <sql id="Base_Column_List">
 	    id, use_type_code, use_type_name, address, sdk_type, status, create_time, update_time</sql>
 

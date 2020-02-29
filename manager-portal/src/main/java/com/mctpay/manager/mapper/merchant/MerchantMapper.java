@@ -30,7 +30,7 @@ public interface MerchantMapper extends BaseMapper<MerchantEntity> {
      * @Description 冻结/取消冻结用户
      * @Date 10:47  2020/2/29
      **/
-    void updateSwitchMerchant(@Param("merchantId") Long giftId , @Param("state") Integer  state);
+    void updateSwitchMerchant(@Param("merchantId") Long merchantId , @Param("state") Integer  state);
     /**
      * @Description 修改商户
      * @Date 10:47  2020/2/29
