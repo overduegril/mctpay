@@ -2,12 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mctpay.manager.mapper.point.GiftMapper">
+    <!--
+    插入积分产品
+    -->
+    <insert id="insertGift">
+        INSERT INTO manager_gift(<include refid="Base_Column_List"/>)
+        VALUES (
+        #{id},
+        #{goodsName},
+        #{maxExchangeCount},
+        #{goodsTypeCode},
+        #{goodsTypeName},
+        #{goodsAmount},
+        #{exchangePoint},
+        #{status},
+        #{startDate},
+        #{endDate},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <!-- 根据输入查询积分产品信息 -->
+    <select id="listGiftByInput" resultType="com.mctpay.manager.model.entity.point.GiftEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        manager_gift
+        WHERE goods_name LIKE CONCAT('%', #{inputContent}, '%') AND status != 0
+    </select>
+
+    <!-- 激活，冻结积分产品 -->
+    <update id="updateSwitchGift">
+        UPDATE manager_gift
+        SET status = #{state}
+        WHERE id = #{giftId}
+    </update>
 
     <sql id="Base_Column_List">
 	  id, goods_name, max_exchange_count, goods_type_code, goods_type_name, goods_amount ,exchange_point ,
-	  status ,
-	  create_time ,
-	  update_time</sql>
+	  status,
+	  start_date,
+	  end_date,
+	  create_time,
+	  update_time
+    </sql>
 
     <select id="get" resultType="com.mctpay.manager.model.entity.point.GiftEntity">
       select
@@ -53,5 +92,7 @@
             and update_time = #{updateTime}
         </if>
     </sql>
+
+
 
 </mapper>

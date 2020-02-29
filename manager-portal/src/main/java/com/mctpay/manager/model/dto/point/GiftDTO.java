@@ -48,4 +48,6 @@ public class GiftDTO {
     @ApiModelProperty(value = "兑换所需积分")
     private Integer exchangePoint;
 
+
+
 }
