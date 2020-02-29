@@ -7,7 +7,7 @@
     <sql id="Base_Column_List">
 	    id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time</sql>
 
-    <!-- 注册管理元 -->
+    <!-- 注册管理员 -->
     <insert id="insertUser">
         INSERT INTO manager_user(
         id, username, nickname, password, phone_number, email, remark, status, create_time, update_time
@@ -84,7 +84,11 @@
       <include refid="Base_Column_List"/>
       FROM (SELECT id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time, CONCAT(username, nickname, remark) AS content
               FROM manager_user ) t0
-              WHERE content LIKE CONCAT('%', #{inputContent}, '%') AND status != 0
+              WHERE status != 0
+              <if test="inputContent != null and inputContent != ''">
+                  AND content LIKE CONCAT('%', #{inputContent}, '%')
+              </if>
+
     </select>
 
     <sql id="where">

@@ -15,6 +15,7 @@ import java.util.List;
  */
 @Mapper
 public interface MerchantMapper extends BaseMapper<MerchantEntity> {
+
     /**
      * @Description 插入商户
      * @Date 22:31  2020/2/28

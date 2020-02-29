@@ -2,6 +2,7 @@ package com.mctpay.manager.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.config.MyBCryptPasswordEncoder;
 import com.mctpay.manager.model.entity.system.UserEntity;
 import com.mctpay.manager.service.system.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

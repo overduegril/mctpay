@@ -61,5 +61,5 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Description 根据输入查询管理员信息
      * @Date 10:30 2020/2/27
      **/
-    List<UserEntity> listUserByInput(String inputContent);
+    List<UserEntity> listUserByInput(@Param("inputContent") String inputContent);
 }
