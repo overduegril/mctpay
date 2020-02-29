@@ -1,0 +1,2 @@
+[com.mctpay.manager.job]
+TestJob.run = */1 * * * *

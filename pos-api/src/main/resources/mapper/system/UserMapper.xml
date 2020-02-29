@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mctpay.manager.mapper.system.UserMapper">
+<mapper namespace="com.mctpay.pos.mapper.system.UserMapper">
 
 
     <sql id="Base_Column_List">
@@ -36,7 +36,7 @@
     </update>
 
 
-    <select id="get" resultType="com.mctpay.manager.model.entity.system.UserEntity">
+    <select id="get" resultType="com.mctpay.pos.model.entity.system.UserEntity">
         select
         <include refid="Base_Column_List"/>
         from manager_user where id = #{value}
@@ -64,14 +64,14 @@
     </select>
 
     <!-- 根据账号获取用户 -->
-    <select id="getByUserName" resultType="com.mctpay.manager.model.entity.system.UserEntity">
+    <select id="getByUserName" resultType="com.mctpay.pos.model.entity.system.UserEntity">
         SELECT id, username, nickname, password, phone_number, email, remark, status
         FROM manager_user
         WHERE username = #{username}
     </select>
 
     <!-- 差选会员列表 -->
-    <select id="listUser" resultType="com.mctpay.manager.model.entity.system.UserEntity">
+    <select id="listUser" resultType="com.mctpay.pos.model.entity.system.UserEntity">
         SELECT
         <include refid="Base_Column_List"/>
         FROM manager_user
@@ -79,7 +79,7 @@
     </select>
 
     <!-- 根据输入查询管理员信息 -->
-    <select id="listUserByInput" resultType="com.mctpay.manager.model.entity.system.UserEntity">
+    <select id="listUserByInput" resultType="com.mctpay.pos.model.entity.system.UserEntity">
       SELECT
       <include refid="Base_Column_List"/>
       FROM (SELECT id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time, CONCAT(username, nickname, remark) AS content

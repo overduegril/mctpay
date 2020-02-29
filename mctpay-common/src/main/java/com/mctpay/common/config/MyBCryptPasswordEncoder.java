@@ -1,4 +1,4 @@
-package com.mctpay.manager.config;
+package com.mctpay.common.config;
 
 import com.mctpay.common.uitl.SecureUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;

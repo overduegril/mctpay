@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.manager.mapper.template.ReserveTemplateMapper">
+
+    <sql id="Base_Column_List">
+	    id, field_name, field_value, need_deposit, need_picture, status, create_time, update_time</sql>
+
+    <select id="get" resultType="com.mctpay.manager.model.entity.template.ReserveTemplateEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from mct_reserve_template where id = #{value}
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="fieldName != null">
+            and field_name = #{fieldName}
+        </if>
+        <if test="fieldValue != null">
+            and field_value = #{fieldValue}
+        </if>
+        <if test="needDeposit != null">
+            and need_deposit = #{needDeposit}
+        </if>
+        <if test="needPicture != null">
+            and need_picture = #{needPicture}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>

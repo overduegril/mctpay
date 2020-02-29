@@ -22,15 +22,10 @@ spring:
     url: jdbc:mysql://47.112.186.155:3306/payPlatform?setUnicode=true&characterEncoding=utf8
     username: root
     password: 123456
+
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-  multipart:
-    enabled: true
-    # 单个文件的大小
-    max-file-size: 10MB
-    # 总文件的大小
-    max-request-size: 50MB
 # 日志
 logging:
   config: classpath:logback.xml

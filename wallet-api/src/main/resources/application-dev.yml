@@ -19,24 +19,25 @@ spring:
       read-only: false
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.112.186.155:3306/payPlatform?setUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql:///mctpay_platform?setUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
-    password: 123456
+    password: root
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-  multipart:
-    enabled: true
-    # 单个文件的大小
-    max-file-size: 10MB
-    # 总文件的大小
-    max-request-size: 50MB
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
 # 日志
 logging:
   config: classpath:logback.xml
 
 server:
-  port: 9101
+  port: 9102
+  servlet:
+     session:
+       timeout: 3600
 # 分页
 pagehelper:
   helperDialect: mysql
@@ -52,3 +53,7 @@ mybatis:
     call-setters-on-nulls: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   executor-type: simple
+
+aliyun-oss:
+  bucketName: wosz
+  keyPrefix: mctpay/merchant/

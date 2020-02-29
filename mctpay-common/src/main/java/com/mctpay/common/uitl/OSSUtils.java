@@ -28,7 +28,7 @@ public class OSSUtils {
     }
 
     public static String uploadFile(String bucketName, String srcFile, String dstFile) {
-        //判断源文件是否存在
+        // 判断源文件是否存在
         File file = new File(srcFile);
         if (!file.exists()) {
             log.debug(srcFile + ":文件未找到");
@@ -46,11 +46,12 @@ public class OSSUtils {
             client.putObject(bucketName, dstFile, is, thuObjectMeta);
             return bucketName + "@" + dstFile;
         } catch (IOException e) {
-            e.printStackTrace();
             log.debug(e.getMessage(), e);
         } finally {
             try {
-                is.close();
+                if (is != null) {
+                    is.close();
+                }
             } catch (IOException e) {
                 log.debug(e.getMessage(), e);
             }
@@ -67,7 +68,7 @@ public class OSSUtils {
             client.putObject(bucketName, objectName, inputStream);
             return bucketName + "@" + objectName;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.getMessage(), e);
             return "";
         }
 
@@ -77,39 +78,39 @@ public class OSSUtils {
      * @Description 判断OSS服务文件上传时文件的contentType
      * @Date 16:38 2020/2/27
      **/
-    public static String getcontentType(String FilenameExtension) {
-        if (FilenameExtension.equalsIgnoreCase(".bmp")) {
+    public static String getcontentType(String filenameExtension) {
+        if (filenameExtension.equalsIgnoreCase(".bmp")) {
             return "image/bmp";
         }
-        if (FilenameExtension.equalsIgnoreCase(".gif")) {
+        if (filenameExtension.equalsIgnoreCase(".gif")) {
             return "image/gif";
         }
-        if (FilenameExtension.equalsIgnoreCase(".jpeg") ||
-                FilenameExtension.equalsIgnoreCase(".jpg") ||
-                FilenameExtension.equalsIgnoreCase(".png")) {
+        if (filenameExtension.equalsIgnoreCase(".jpeg") ||
+                filenameExtension.equalsIgnoreCase(".jpg") ||
+                filenameExtension.equalsIgnoreCase(".png")) {
             return "image/jpeg";
         }
-        if (FilenameExtension.equalsIgnoreCase(".html")) {
+        if (filenameExtension.equalsIgnoreCase(".html")) {
             return "text/html";
         }
-        if (FilenameExtension.equalsIgnoreCase(".txt")) {
+        if (filenameExtension.equalsIgnoreCase(".txt")) {
             return "text/plain";
         }
-        if (FilenameExtension.equalsIgnoreCase(".vsd")) {
+        if (filenameExtension.equalsIgnoreCase(".vsd")) {
             return "application/vnd.visio";
         }
-        if (FilenameExtension.equalsIgnoreCase(".pptx") ||
-                FilenameExtension.equalsIgnoreCase(".ppt")) {
+        if (filenameExtension.equalsIgnoreCase(".pptx") ||
+                filenameExtension.equalsIgnoreCase(".ppt")) {
             return "application/vnd.ms-powerpoint";
         }
-        if (FilenameExtension.equalsIgnoreCase(".docx") ||
-                FilenameExtension.equalsIgnoreCase(".doc")) {
+        if (filenameExtension.equalsIgnoreCase(".docx") ||
+                filenameExtension.equalsIgnoreCase(".doc")) {
             return "application/msword";
         }
-        if (FilenameExtension.equalsIgnoreCase(".xml")) {
+        if (filenameExtension.equalsIgnoreCase(".xml")) {
             return "text/xml";
         }
-        if (FilenameExtension.equalsIgnoreCase(".json")) {
+        if (filenameExtension.equalsIgnoreCase(".json")) {
             return "application/json;charset=utf-8";
         }
         return "application/octet-stream";
@@ -123,7 +124,7 @@ public class OSSUtils {
         try {
             client.deleteObject(bucketName, dstFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.getMessage(), e);
         }
     }
 

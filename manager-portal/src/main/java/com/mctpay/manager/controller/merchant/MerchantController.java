@@ -1,24 +1,17 @@
 package com.mctpay.manager.controller.merchant;
 
+import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.uitl.OSSUtils;
 import com.mctpay.manager.config.OSSProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.FileInputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: guodongwei
@@ -33,13 +26,14 @@ public class MerchantController {
     @Autowired
     private OSSProperties oSSProperties;
 
-    @ApiOperation(value = "测试图片上传", notes = "测试图片上传", httpMethod = "POST")
-    @PostMapping(value = "/testFileUpload")
-    public String uploadSalesEnterpriseInfos(MultipartFile file) throws Exception {
+    @ApiOperation(value = "门头照图片上传", notes = "门头照图片上传", httpMethod = "POST")
+    @PostMapping(value = "/uploadShopPhoto")
+    public ResponseData<String> uploadShopPhoto(MultipartFile file) throws Exception {
         InputStream inputStream = file.getInputStream();
-        String wosz = OSSUtils.uploadFileInputStream(oSSProperties.getBucketName(), oSSProperties.getKeyPrefix() + file.getOriginalFilename(), inputStream);
-        return wosz;
+        // TODO 文件存储路径需要优化
+        String shopPhotoUrl = OSSUtils.uploadFileInputStream(oSSProperties.getBucketName(), oSSProperties.getKeyPrefix() + file.getOriginalFilename(), inputStream);
+        // 将图片地址回传，最后统一入库
+        return new ResponseData<String>().success(shopPhotoUrl);
     }
-
 
 }
