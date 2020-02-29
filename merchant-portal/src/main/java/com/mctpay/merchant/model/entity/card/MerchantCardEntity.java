@@ -1,6 +1,6 @@
 package com.mctpay.merchant.model.entity.card;
 
-import com.xtpay.common.base.entity.BaseEntity;
+import com.mctpay.common.base.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

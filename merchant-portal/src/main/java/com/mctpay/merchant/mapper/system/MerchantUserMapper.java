@@ -1,7 +1,7 @@
 package com.mctpay.merchant.mapper.system;
 
 import com.mctpay.common.base.mapper.BaseMapper;
-import com.mctpay.manager.model.entity.MerchantUserEntity;
+import com.mctpay.merchant.model.entity.system.MerchantUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
