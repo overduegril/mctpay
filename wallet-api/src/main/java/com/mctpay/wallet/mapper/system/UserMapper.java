@@ -49,7 +49,13 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Description 根据账号获取用户
      * @Date 10:12 2020/2/26
      **/
-    UserEntity getByUserName(String userName);
+    UserEntity getByPhoneNumber(String userName);
+
+    /**
+     * @Description 根据账号获取用户
+     * @Date 10:12 2020/2/26
+     **/
+    UserEntity getByEmail(String userName);
 
     /**
      * @Description 分页查询管理员列表

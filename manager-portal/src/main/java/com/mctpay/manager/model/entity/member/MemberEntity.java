@@ -15,33 +15,29 @@ import java.io.Serializable;
 @ApiModel(value = "会员")
 public class MemberEntity  extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@ApiModelProperty(value = "")
 	private Long id;
 	/**
-	 * 会员昵称
-     */
-	@ApiModelProperty(value = "会员昵称")
+	 * 昵称
+	 */
+	@ApiModelProperty(value = "昵称")
 	private String nickname;
 	/**
-	 * 会员手机号
-     */
-	@ApiModelProperty(value = "会员手机号")
+	 * 手机号
+	 */
+	@ApiModelProperty(value = "手机号")
 	private String phoneNumber;
 	/**
 	 * 邮箱
-     */
+	 */
 	@ApiModelProperty(value = "邮箱")
 	private String email;
+
 	/**
-	 * 银行卡
-     */
-	@ApiModelProperty(value = "银行卡")
-	private String bankCard;
-	/**
-	 * 信用等级
-     */
-	@ApiModelProperty(value = "信用等级")
-	private String creditLevel;
+	 * 邮箱
+	 */
+	@ApiModelProperty(value = "积分")
+	private Integer point;
 
 }

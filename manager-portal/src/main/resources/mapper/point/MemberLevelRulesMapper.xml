@@ -5,21 +5,65 @@
 
 
     <sql id="Base_Column_List">
-	    id, member_level_name, member_level_code, point, last_operator, status, create_time, update_time</sql>
+	    id, member_level_name, point, last_operator, status, create_time, update_time</sql>
+
+    <!-- 插入会员等级积分设置 -->
+    <insert id="insertMemberLevelRules">
+        INSERT INTO manager_member_level_rules(member_level_name, point, last_operator, status, create_time, update_time)
+        VALUES (
+          #{memberLevelName},
+          #{point},
+          #{lastOperator},
+          #{status},
+          #{createTime},
+          #{updateTime}
+        )
+    </insert>
+
+    <!-- 激活，冻结会员积分等级设置 -->
+    <update id="switchMemberLevelRules">
+        UPDATE manager_member_level_rules
+        SET status = #{state}
+        WHERE id = #{id}
+    </update>
 
     <select id="get" resultType="com.mctpay.manager.model.entity.point.MemberLevelRulesEntity">
         select
         <include refid="Base_Column_List"/>
         from manager_member_level_rules where id = #{value}
-    </select
-    >
+    </select>
 
     <!-- 获取积分等级设置列表 -->
     <select id="listMemberLevelRules"
             resultType="com.mctpay.manager.model.entity.point.MemberLevelRulesEntity">
         SELECT  <include refid="Base_Column_List"/>
         FROM manager_member_level_rules
-        WHERE status = 1
+        WHERE status != 0
+    </select>
+
+    <!-- 查看会员等级名称是否已经存在 -->
+    <select id="countMemberLevelName" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM manager_member_level_rules
+        WHERE status != 0
+        AND member_level_name = #{memberLevelName}
+    </select>
+
+    <!-- 查看会员等级积分是否已经存在 -->
+    <select id="countPoint" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM manager_member_level_rules
+        WHERE status != 0
+        AND point = #{point}
+    </select>
+
+    <!-- 根据积分获取会员等级 -->
+    <select id="getLevelByPoint" resultType="java.lang.String">
+       SELECT member_level_name
+       FROM manager_member_level_rules
+       WHERE point > #{point}
+       ORDER BY point ASC
+       LIMIT 0,1
     </select>
 
     <sql id="where">

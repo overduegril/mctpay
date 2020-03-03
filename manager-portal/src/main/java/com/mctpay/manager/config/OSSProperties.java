@@ -18,4 +18,6 @@ public class OSSProperties {
 
     private String keyPrefix;
 
+    private String qrcodePath;
+
 }

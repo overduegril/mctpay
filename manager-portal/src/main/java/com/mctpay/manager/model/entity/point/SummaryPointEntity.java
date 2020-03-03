@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Data
 @ApiModel(value = "汇总积分，用于划分会员等级")
-public class ManagerSummaryPointEntity  extends BaseEntity implements Serializable {
+public class SummaryPointEntity extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "")
@@ -22,7 +22,7 @@ public class ManagerSummaryPointEntity  extends BaseEntity implements Serializab
 	 * 会员ID
      */
 	@ApiModelProperty(value = "会员ID")
-	private Long memberId;
+	private Long userId;
 	/**
 	 * 积分
      */

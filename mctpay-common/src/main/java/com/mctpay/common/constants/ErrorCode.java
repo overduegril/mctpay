@@ -27,7 +27,23 @@ public enum ErrorCode {
     /**
      * 用户名已经被使用
      */
-    USERNAME_HAS_BEEN_USED(3005, " username_has_been_used");
+    USERNAME_HAS_BEEN_USED(3005, " username_has_been_used"),
+
+    /**
+     * 会员等级名称已经被使用
+     */
+    LEVELNAME_HAS_BEEN_USED(3006, " levelname_has_been_used"),
+    /**
+     * 积分已经被设置
+     */
+    POINT_HAS_BEEN_USED(3007, " point_has_been_used"),
+
+    /**
+     * 验证码输入错误
+     */
+    EMAILCODE_NOT_CORRECT(3008, "emailcode_not_correct"),
+
+    EMAILCODE_HAS_EXPIRED(3009, "emailcode_has_expired");
 
     private int code;
     private String message;

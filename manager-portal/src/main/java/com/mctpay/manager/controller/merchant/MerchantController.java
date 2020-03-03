@@ -13,12 +13,13 @@ import com.mctpay.manager.model.param.MerchantParam;
 import com.mctpay.manager.service.merchant.MerchantService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -29,11 +30,13 @@ import java.util.List;
  */
 @Api(value = "商户相关", tags = "商户")
 @RestController
-@RequestMapping("manager-merchant")
+@RequestMapping("merchant")
 public class MerchantController {
 
     @Autowired
     private OSSProperties oSSProperties;
+
+    @Autowired
     private MerchantService merchantService;
 
     @ApiOperation(value = "添加商户", notes = "添加商户",  httpMethod = "POST", consumes = "application/json")
@@ -51,7 +54,7 @@ public class MerchantController {
     @ApiOperation(value = "修改商户", notes = "修改商户",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/updateMerchant")
     public ResponseData updateMerchant(MerchantParam merchantParam){
-        merchantParam.setUpdateTime(new Date());
+        merchantParam.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         return merchantService.updateMerchant(merchantParam);
     }
 

@@ -1,7 +1,11 @@
 package com.mctpay.manager.service.point;
 
+import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.manager.model.dto.point.MemberLevelRulesDTO;
+import com.mctpay.manager.model.param.MemberLevelRulesParam;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author: guodongwei
@@ -15,6 +19,17 @@ public interface MemberLevelRulesService {
      * @Description 积分等级设置
      * @Date 15:49 2020/2/24
      **/
-    MemberLevelRulesDTO listMemberLevelRules();
+    List<MemberLevelRulesDTO> listMemberLevelRules();
 
+    /**
+     * @Description 插入会员等级积分设置
+     * @Date 10:36 2020/3/2
+     **/
+    ResponseData<Object> insertMemberLevelRules(MemberLevelRulesParam memberLevelRulesParam);
+
+    /**
+     * @Description 冻结，激活会员积分等级设置
+     * @Date 11:12 2020/3/2
+     **/
+    void switchMemberLevelRules(Long id, Integer state);
 }

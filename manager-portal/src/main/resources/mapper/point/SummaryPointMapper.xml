@@ -6,7 +6,7 @@
     <sql id="Base_Column_List">
 	    id, member_id, point, status, create_time, update_time</sql>
 
-    <select id="get" resultType="com.mctpay.manager.model.entity.point.ManagerSummaryPointEntity">
+    <select id="get" resultType="com.mctpay.manager.model.entity.point.SummaryPointEntity">
         select
         <include refid="Base_Column_List"/>
         from manager_summary_point where id = #{value}

@@ -9,19 +9,16 @@
 
     <!-- 注册管理员 -->
     <insert id="insertUser">
-        INSERT INTO manager_user(
-        id, username, nickname, password, phone_number, email, remark, status, create_time, update_time
+        INSERT INTO wallet_user(
+        id, nickname, password, email, status, create_time, update_time
         )
         VALUES (
         #{id},
-        #{username},
         #{nickname},
         #{password},
         <!-- 保留字段 -->
         <!-- #{gender}, -->
-        #{phoneNumber},
         #{email},
-        #{remark},
         #{status},
         #{createTime},
         #{updateTime}
@@ -39,56 +36,63 @@
     <select id="get" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
         select
         <include refid="Base_Column_List"/>
-        from manager_user where id = #{value}
+        from wallet_user where id = #{value}
     </select>
 
     <!-- 判断邮箱是否被使用 -->
     <select id="countEmail" resultType="java.lang.Integer">
         SELECT count(*)
-        FROM manager_user
+        FROM wallet_user
         WHERE email = #{email}
     </select>
 
     <!-- 判断手机号是否被使用 -->
     <select id="countPhoneNumber" resultType="java.lang.Integer">
         SELECT count(*)
-        FROM manager_user
+        FROM wallet_user
         WHERE phone_number = #{phoneNumber}
     </select>
 
     <!-- 判断用户名是否被使用 -->
     <select id="countUserName" resultType="java.lang.Integer">
         SELECT count(*)
-        FROM manager_user
+        FROM wallet_user
         WHERE username = #{userName}
     </select>
 
     <!-- 根据账号获取用户 -->
-    <select id="getByUserName" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
+    <select id="getByPhoneNumber" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
         SELECT id, username, nickname, password, phone_number, email, remark, status
-        FROM manager_user
-        WHERE username = #{username}
+        FROM wallet_user
+        WHERE phone_number = #{username}
     </select>
 
     <!-- 差选会员列表 -->
     <select id="listUser" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM manager_user
+        FROM wallet_user
         WHERE status != 0
     </select>
 
     <!-- 根据输入查询管理员信息 -->
     <select id="listUserByInput" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
-      SELECT
-      <include refid="Base_Column_List"/>
-      FROM (SELECT id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time, CONCAT(username, nickname, remark) AS content
-              FROM manager_user ) t0
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM (SELECT id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time, CONCAT(username, nickname, remark) AS content
+              FROM wallet_user ) t0
               WHERE status != 0
               <if test="inputContent != null and inputContent != ''">
                   AND content LIKE CONCAT('%', #{inputContent}, '%')
               </if>
 
+    </select>
+
+    <!-- 通过邮箱获取 -->
+    <select id="getByEmail" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
+        SELECT id, username, nickname, password, phone_number, email, remark, status
+        FROM wallet_user
+        WHERE email = #{username}
     </select>
 
     <sql id="where">

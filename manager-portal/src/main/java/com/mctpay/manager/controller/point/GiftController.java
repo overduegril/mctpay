@@ -7,7 +7,6 @@ import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.manager.model.dto.point.GiftDTO;
-import com.mctpay.manager.model.dto.system.UserDTO;
 import com.mctpay.manager.model.param.GiftParam;
 import com.mctpay.manager.service.point.GiftService;
 import io.swagger.annotations.Api;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.mctpay.manager.mapper.point;
 
 import com.mctpay.common.base.mapper.BaseMapper;
-import com.mctpay.manager.model.entity.point.MemberUseabelPointEntity;
+import com.mctpay.manager.model.entity.point.UseabelPointEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,6 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2020-02-23 18:23:00
  */
 @Mapper
-public interface UseabelPointMapper extends BaseMapper<MemberUseabelPointEntity> {
+public interface UseabelPointMapper extends BaseMapper<UseabelPointEntity> {
 	
 }

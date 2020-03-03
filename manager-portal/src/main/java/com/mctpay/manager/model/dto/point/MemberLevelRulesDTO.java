@@ -18,13 +18,14 @@ public class MemberLevelRulesDTO {
     @ApiModelProperty(value = "会员等级名称")
     private String memberLevelName;
     /**
-     * 会员等级名称/
-     */
-    @ApiModelProperty(value = "会员等级code")
-    private String memberLevelCode;
-    /**
      * 对应积分
      */
     @ApiModelProperty(value = "对应积分")
     private Integer point;
+
+    /**
+     * 状态
+     */
+    @ApiModelProperty(value = "记录状态")
+    private Integer status;
 }
