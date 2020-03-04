@@ -37,7 +37,7 @@ public class GiftController {
     public ResponseData insertGift(GiftParam giftParam){
             Long id = UIdUtils.getUid();
             giftParam.setId(id);
-            giftParam.setStatus(2);
+            giftParam.setStatus(1);
             giftParam.setUpdateTime(new Date());
             giftParam.setCreateTime(new Date());
             return giftService.insertGift(giftParam);

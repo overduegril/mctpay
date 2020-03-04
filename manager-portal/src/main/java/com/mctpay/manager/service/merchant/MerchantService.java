@@ -33,4 +33,16 @@ public interface MerchantService {
      * @Date 10:36 2020/2/29
      **/
     ResponseData updateMerchant(MerchantParam merchantParam);
+
+    /**
+     * @Description 重置密码
+     * @Date 23:23 2020/3/3
+     **/
+    void resetPassword(Long merchantId);
+
+    /**
+     * @Description 保存营业执照
+     * @Date 14:16 2020/3/4
+     **/
+    void insertBusinessLicense(String businessLicenseUrl,Long merchantId);
 }

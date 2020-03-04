@@ -19,7 +19,7 @@ import java.util.Date;
 public class GiftParam extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "", hidden = true)
     private Long id;
     /**
      * 商品名称
@@ -35,12 +35,12 @@ public class GiftParam extends BaseEntity implements Serializable {
     /**
      * 商品类型码
      */
-    @ApiModelProperty(value = "商品类型码 A是卡券  B实物")
+    @ApiModelProperty(value = "商品类型码 CARD是卡券  PHYSICAL实物")
     private String goodsTypeCode;
     /**
      * 商品类型名称
      */
-    @ApiModelProperty(value = "商品类型名称 A是卡券  B实物")
+    @ApiModelProperty(value = "商品类型名称 卡券，实物")
     private String goodsTypeName;
     /**
      * 商品价值
@@ -56,13 +56,13 @@ public class GiftParam extends BaseEntity implements Serializable {
     /**
      * 兑换所需积分
      */
-    @ApiModelProperty(value = "开始时间")
+    @ApiModelProperty(value = "开始时间，格式为2020-03-06")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
     /**
      * 兑换所需积分
      */
-    @ApiModelProperty(value = "结束时间")
+    @ApiModelProperty(value = "结束时间，格式为2020-03-06")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 

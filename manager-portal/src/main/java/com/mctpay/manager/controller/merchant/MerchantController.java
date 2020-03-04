@@ -79,12 +79,27 @@ public class MerchantController {
 
     @ApiOperation(value = "门头照图片上传", notes = "门头照图片上传", httpMethod = "POST")
     @PostMapping(value = "/uploadShopPhoto")
-    public ResponseData<String> uploadShopPhoto(MultipartFile file) throws Exception {
+    public ResponseData<String> uploadShopPhoto(MultipartFile file, String fileType) throws Exception {
         InputStream inputStream = file.getInputStream();
-        // TODO 文件存储路径需要优化
-        String shopPhotoUrl = OSSUtils.uploadFileInputStream(oSSProperties.getBucketName(), oSSProperties.getKeyPrefix() + file.getOriginalFilename(), inputStream);
+        String shopPhotoUrl = OSSUtils.uploadFileInputStream(oSSProperties.getBucketName(), oSSProperties.getShopPhotoKeyPrefix() + file.getOriginalFilename(), inputStream);
         // 将图片地址回传，最后统一入库
         return new ResponseData<String>().success(shopPhotoUrl);
     }
 
+    @ApiOperation(value = "商户重置密码", notes = "商户重置密码", httpMethod = "POST")
+    @PostMapping(value = "/resetPassword")
+    public ResponseData resetPassword(Long mrchantId) throws Exception {
+        merchantService.resetPassword(mrchantId);
+        return new ResponseData<String>().success(null);
+    }
+
+    @ApiOperation(value = "营业执照上传", notes = "营业执照上传", httpMethod = "POST")
+    @PostMapping(value = "/uploadBusinessLicense")
+    public ResponseData<String> uploadBusinessLicense(@RequestParam MultipartFile file,@RequestParam Long merchantId) throws Exception {
+        InputStream inputStream = file.getInputStream();
+        String businessLicenseUrl = OSSUtils.uploadFileInputStream(oSSProperties.getBucketName(), oSSProperties.getBusinessLicenseKeyPrefix() + file.getOriginalFilename(), inputStream);
+        // 将文件路径保存
+        merchantService.insertBusinessLicense(businessLicenseUrl, merchantId);
+        return new ResponseData<String>().success(businessLicenseUrl);
+    }
 }

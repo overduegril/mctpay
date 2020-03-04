@@ -43,6 +43,13 @@ public class MerchantEntity extends BaseEntity implements Serializable {
      */
 	@ApiModelProperty(value = "邮箱")
 	private String email;
+
+	/**
+	 * 邮箱
+	 */
+	@ApiModelProperty(value = "邮编")
+	private String postcode;
+
 	/**
 	 * 注册地址
      */

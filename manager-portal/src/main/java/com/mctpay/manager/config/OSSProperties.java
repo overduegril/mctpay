@@ -14,10 +14,21 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "aliyun-oss")
 public class OSSProperties {
 
+    /**
+     * bucket名字
+     */
     private String bucketName;
-
-    private String keyPrefix;
-
+    /**
+     * 门头照路径
+     */
+    private String shopPhotoKeyPrefix;
+    /**
+     * 营业执照路径
+     */
+    private String businessLicenseKeyPrefix;
+    /**
+     * 二维码路径
+     */
     private String qrcodePath;
 
 }

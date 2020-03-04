@@ -34,7 +34,7 @@ logging:
   config: classpath:logback.xml
 
 server:
-  port: 9100
+  port: 9101
   servlet:
      session:
        timeout: 3600
@@ -56,5 +56,6 @@ mybatis:
 
 aliyun-oss:
   bucketName: wosz
-  keyPrefix: mctpay/merchant/
+  shopPhotoKeyPrefix: mctpay/merchant/shopPhoto/
+  businessLicenseKeyPrefix: mctpay/merchant/businessLicense/
   qrcodePath: mctpay/merchant/qrcode

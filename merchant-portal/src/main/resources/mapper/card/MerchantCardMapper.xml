@@ -6,7 +6,7 @@
     <sql id="Base_Column_List">
 	    id, card_name, type_code, type_name, reduced_type, reduce_amount, min_amount, reduce_rate, deadline, require_member_level_code, inventory_count, update_time, status, create_time</sql>
 
-    <select id="get" resultType="com.mctpay.manager.model.entity.MerchantCardEntity">
+    <select id="get" resultType="com.mctpay.merchant.model.entity.card.MerchantCardEntity">
         select
         <include refid="Base_Column_List"/>
         from merchant_card where id = #{value}

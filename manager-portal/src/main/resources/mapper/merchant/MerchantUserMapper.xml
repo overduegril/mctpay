@@ -1,15 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mctpay.merchant.mapper.system.MerchantUserMapper">
+<mapper namespace="com.mctpay.manager.mapper.merchant.MerchantUserMapper">
 
     <sql id="Base_Column_List">
 	    id, username, nickname, password, gender, phone_number, email, min_discount_rate, remark, status, create_time, update_time</sql>
 
-    <select id="get" resultType="com.mctpay.manager.model.entity.MerchantUserEntity">
+    <!-- 注册管理员 -->
+    <insert id="insertUser">
+        INSERT INTO merchant_user(
+        id, nickname, password, phone_number, email, remark, status, create_time, update_time
+        )
+        VALUES (
+        #{id},
+        #{nickname},
+        #{password},
+        <!-- 保留字段 -->
+        <!-- #{gender}, -->
+        #{phoneNumber},
+        #{email},
+        #{remark},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <!-- 激活，冻结用户 -->
+    <update id="updateSwitchUser">
+        UPDATE merchant_user
+        SET status = #{state}
+        WHERE id = #{userId}
+    </update>
+
+    <!-- 更新昵称 -->
+    <update id="updateUserNickName">
+        UPDATE merchant_user
+        SET nickname = #{nickName}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 修改密码 -->
+    <update id="updatePassword">
+        UPDATE merchant_user
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="get" resultType="com.mctpay.manager.model.entity.merchant.MerchantUserEntity">
         select
         <include refid="Base_Column_List"/>
         from merchant_user where id = #{value}
+    </select>
+
+    <!-- 判断邮箱是否被使用 -->
+    <select id="countEmail" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM merchant_user
+        WHERE email = #{email}
+    </select>
+
+    <!-- 判断手机号是否被使用 -->
+    <select id="countPhoneNumber" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM merchant_user
+        WHERE phone_number = #{phoneNumber}
     </select>
 
     <sql id="where">
@@ -56,6 +112,5 @@
             and update_time = #{updateTime}
         </if>
     </sql>
-
 
 </mapper>

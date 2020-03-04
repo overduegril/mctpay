@@ -33,9 +33,9 @@
             <if test="businessTime != null">
                  business_time = #{businessTime},
             </if>
-            <if test="industry != null">
-                 industry = #{industry},
-            </if>
+            <!--<if test="industry != null">-->
+                 <!--industry = #{industry},-->
+            <!--</if>-->
             <if test="dataDictionary != null">
                  data_dictionary = #{dataDictionary},
             </if>
@@ -45,21 +45,15 @@
             <if test="businessContent != null">
                  business_content = #{businessContent},
             </if>
-            <if test="businessLicense != null">
-                 business_license = #{businessLicense},
-            </if>
-            <if test="memberQrcodeUrl != null">
-                 member_qrcode_url = #{memberQrcodeUrl},
-            </if>
             <if test="shopPhoto != null">
                  shop_photo = #{shopPhoto},
             </if>
             <if test="creator != null">
                  creator = #{creator},
             </if>
-            <if test="businessStatus != null">
-                 business_status = #{businessStatus},
-            </if>
+            <!--<if test="businessStatus != null">-->
+                 <!--business_status = #{businessStatus},-->
+            <!--</if>-->
             <if test="status != null">
                  status = #{status},
             </if>
@@ -93,10 +87,10 @@
     </select>
 
     <!--
-     插入商户
+     插入商户(不包含营业执照)
      -->
     <insert id="insertMerchant">
-        INSERT INTO mct_merchant(<include refid="Base_Column_List"/>)
+        INSERT INTO mct_merchant(id, merchant_name, legal_person, id_last_number, phone_number, email, postcode, registered_address, business_address, business_time, industry,data_dictionary, explain_content, business_content, member_qrcode_url, shop_photo, creator, status, create_time, update_time)
         VALUES (
         #{id},
         #{merchantName},
@@ -104,6 +98,7 @@
         #{idLastNumber},
         #{phoneNumber},
         #{email},
+        #{postcode},
         #{registeredAddress},
         #{businessAddress},
         #{businessTime},
@@ -111,18 +106,24 @@
         #{dataDictionary},
         #{explainContent},
         #{businessContent},
-        #{businessLicense},
         #{memberQrcodeUrl},
         #{shopPhoto},
         #{creator},
-        #{businessStatus},
         #{status},
         #{createTime},
         #{updateTime}
         )
     </insert>
+
+    <!-- 保存营业执照 -->
+    <insert id="insertBusinessLicense">
+        UPDATE mct_merchant
+        SET business_license = #{businessLicenseUrl}
+        WHERE id = #{merchantId}
+    </insert>
+
     <sql id="Base_Column_List">
-        id, merchant_name, legal_person, id_last_number, phone_number, email, registered_address, business_address, business_time, industry,data_dictionary, explain_content, business_content, business_license, member_qrcode_url, shop_photo, creator, business_status, status, create_time, update_time</sql>
+        id, merchant_name, legal_person, id_last_number, phone_number, email, postcode, registered_address, business_address, business_time, industry,data_dictionary, explain_content, business_content, business_license, member_qrcode_url, shop_photo, creator, business_status, status, create_time, update_time</sql>
 
     <select id="get" resultType="com.mctpay.manager.model.entity.merchant.MerchantEntity">
         select

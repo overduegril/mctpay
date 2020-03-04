@@ -37,4 +37,10 @@ public interface MerchantMapper extends BaseMapper<MerchantEntity> {
      * @Date 10:47  2020/2/29
      **/
     void updateMerchant(MerchantParam merchantParam);
+
+    /**
+     * @Description 保存营业执照
+     * @Date 14:16 2020/3/4
+     **/
+    void insertBusinessLicense(@Param("businessLicenseUrl") String businessLicenseUrl,@Param("merchantId") Long merchantId);
 }
