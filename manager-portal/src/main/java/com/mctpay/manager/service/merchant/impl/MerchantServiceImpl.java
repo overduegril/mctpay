@@ -5,6 +5,7 @@ import com.mctpay.manager.mapper.merchant.MerchantMapper;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
 import com.mctpay.manager.model.entity.merchant.MerchantEntity;
 import com.mctpay.manager.model.param.MerchantParam;
+import com.mctpay.manager.model.param.UpdateMerchantParam;
 import com.mctpay.manager.service.merchant.MerchantService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,8 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public ResponseData updateMerchant(MerchantParam merchantParam) {
-        merchantMapper.updateMerchant(merchantParam);
+    public ResponseData updateMerchant(UpdateMerchantParam updateMerchantParam) {
+        merchantMapper.updateMerchant(updateMerchantParam);
         return new ResponseData().success(null);
     }
 }

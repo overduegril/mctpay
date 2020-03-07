@@ -10,6 +10,7 @@ import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.manager.config.OSSProperties;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
 import com.mctpay.manager.model.param.MerchantParam;
+import com.mctpay.manager.model.param.UpdateMerchantParam;
 import com.mctpay.manager.service.merchant.MerchantService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,9 +51,9 @@ public class MerchantController {
 
     @ApiOperation(value = "修改商户", notes = "修改商户",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/updateMerchant")
-    public ResponseData updateMerchant(MerchantParam merchantParam){
-        merchantParam.setUpdateTime(new Date());
-        return merchantService.updateMerchant(merchantParam);
+    public ResponseData updateMerchant(@RequestBody UpdateMerchantParam updateMerchantParam){
+        updateMerchantParam.setUpdateTime(new Date());
+        return merchantService.updateMerchant(updateMerchantParam);
     }
 
 

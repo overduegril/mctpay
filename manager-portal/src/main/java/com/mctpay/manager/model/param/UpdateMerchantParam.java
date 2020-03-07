@@ -12,9 +12,9 @@ import java.io.Serializable;
  * @Date: 2020-02-28  22:22:01
  */
 @Data
-public class MerchantParam extends BaseEntity implements Serializable {
+public class UpdateMerchantParam extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty(value = "", hidden = true)
+    @ApiModelProperty(value = "")
     private Long id;
     /**
      * 商户名

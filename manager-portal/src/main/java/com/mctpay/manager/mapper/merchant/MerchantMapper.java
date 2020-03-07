@@ -4,6 +4,7 @@ import com.mctpay.common.base.mapper.BaseMapper;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.manager.model.entity.merchant.MerchantEntity;
 import com.mctpay.manager.model.param.MerchantParam;
+import com.mctpay.manager.model.param.UpdateMerchantParam;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,5 +36,5 @@ public interface MerchantMapper extends BaseMapper<MerchantEntity> {
      * @Description 修改商户
      * @Date 10:47  2020/2/29
      **/
-    void updateMerchant(MerchantParam merchantParam);
+    void updateMerchant(UpdateMerchantParam updateMerchantParam);
 }
