@@ -94,7 +94,7 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     @Transactional
-    public ResponseData switchMerchant(Long merchantId, Integer state) {
+    public ResponseData switchMerchant(String merchantId, Integer state) {
         merchantMapper.updateSwitchMerchant(merchantId,state);
         // 同时冻结商户的的登陆账户
         merchantUserMapper.updateSwitchUser(merchantId, state);
@@ -117,7 +117,7 @@ public class MerchantServiceImpl implements MerchantService {
      * @Date 23:23 2020/3/3
      **/
     @Override
-    public void resetPassword(Long merchantId) {
+    public void resetPassword(String merchantId) {
         String password = SecureUtils.MD5Encrypt("123456");
         merchantUserMapper.updatePassword(password, merchantId);
     }
@@ -127,7 +127,7 @@ public class MerchantServiceImpl implements MerchantService {
      * @Date 14:16 2020/3/4
      **/
     @Override
-    public void insertBusinessLicense(String businessLicenseUrl, Long merchantId) {
+    public void insertBusinessLicense(String businessLicenseUrl, String merchantId) {
         merchantMapper.insertBusinessLicense(businessLicenseUrl, merchantId);
     }
 }

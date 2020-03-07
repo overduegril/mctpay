@@ -43,7 +43,15 @@ public enum ErrorCode {
      */
     EMAILCODE_NOT_CORRECT(3008, "emailcode_not_correct"),
 
-    EMAILCODE_HAS_EXPIRED(3009, "emailcode_has_expired");
+    /**
+     * 验证码已过期
+     */
+    EMAILCODE_HAS_EXPIRED(3009, "emailcode_has_expired"),
+
+    /**
+     * 文件格式不支持
+     */
+    FILE_FORMAT_NOT_CORRECT(3010, "file_format_not_correct");
 
     private int code;
     private String message;

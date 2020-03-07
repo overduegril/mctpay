@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class MerchantParam extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "新增时，不传此参数，修改时传递")
-    private Long id;
+    private String id;
     /**
      * 商户名
      */

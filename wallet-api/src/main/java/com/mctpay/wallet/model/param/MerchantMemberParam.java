@@ -16,17 +16,17 @@ public class MerchantMemberParam extends BaseEntity {
      * 商铺得到的会员虚拟ID
      */
     @ApiModelProperty(value = "商铺得到的会员虚拟ID", hidden = true)
-    private Long id;
+    private String id;
     /**
      * 商铺ID
      */
     @ApiModelProperty(value = "商铺ID")
-    private Long merchantId;
+    private String merchantId;
     /**
      * 会员ID
      */
     @ApiModelProperty(value = "会员ID", hidden = true)
-    private Long memberId;
+    private String memberId;
 
 
 }

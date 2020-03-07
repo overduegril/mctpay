@@ -90,7 +90,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();
                     UserEntity userEntity = (UserEntity) authentication.getPrincipal();
-                    ResponseData<Object> responseData = new ResponseData<>();
+                    ResponseData responseData = new ResponseData<>();
                     // TODO 抽取部分数据进行返回
                     String s = new ObjectMapper().writeValueAsString(responseData.success(null));
                     out.write(s);

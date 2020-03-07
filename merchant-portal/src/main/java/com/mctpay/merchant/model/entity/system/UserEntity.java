@@ -23,7 +23,7 @@ public class UserEntity extends BaseEntity implements Serializable, UserDetails 
 	private static final long serialVersionUID = 1L;
 	
 	@ApiModelProperty(value = "")
-	private Long id;
+	private String id;
 	/**
 	 * 用户名
 	 */

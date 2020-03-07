@@ -32,7 +32,10 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        UserEntity userEntity = userMapper.getByUserName(userName);
+        UserEntity userEntity = userMapper.getByEmail(userName);
+        if (userEntity == null) {
+            userEntity = userMapper.getByPhoneNumber(userName);
+        }
         // 验证账户为username的用户是否存在
         if (null == userEntity){
             throw new UsernameNotFoundException("username:  " + userName + "is not exist!");

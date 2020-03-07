@@ -22,7 +22,7 @@ public class UserRoleEntity extends BaseEntity implements Serializable {
 	 * 用户ID
 	 */
 	@ApiModelProperty(value = "用户ID")
-	private Long userId;
+	private String userId;
 	/**
 	 * 角色ID
 	 */

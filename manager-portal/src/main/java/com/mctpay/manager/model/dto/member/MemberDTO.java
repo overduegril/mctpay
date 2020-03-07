@@ -13,7 +13,7 @@ public class MemberDTO {
 
 
     @ApiModelProperty(value = "")
-    private Long id;
+    private String id;
     /**
      * 昵称
      */

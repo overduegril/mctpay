@@ -32,7 +32,7 @@ public class MerchantMemberController {
     @ApiOperation(value = "扫码成为会员", notes = "扫码成为会员", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertMember")
     public ResponseData insertMember(@RequestBody MerchantMemberParam merchantMemberParam) {
-        Long id = UIdUtils.getUid();
+        String id = UIdUtils.getUid().toString();
         merchantMemberParam.setId(id);
         merchantMemberParam.setStatus(1);
         merchantMemberParam.setCreateTime(new Date());

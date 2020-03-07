@@ -35,7 +35,7 @@ public class GiftController {
     @ApiOperation(value = "添加积分礼品", notes = "积分礼品",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertGift")
     public ResponseData insertGift(GiftParam giftParam){
-            Long id = UIdUtils.getUid();
+            String id = UIdUtils.getUid().toString();
             giftParam.setId(id);
             giftParam.setStatus(1);
             giftParam.setUpdateTime(new Date());
@@ -43,9 +43,9 @@ public class GiftController {
             return giftService.insertGift(giftParam);
     }
 
-    @ApiOperation(value = "分页查询积分礼品", notes = "分页查询积分礼品 ;status值为1||2，表示激活积分商品，-1||-2为冻结积分商品",  httpMethod = "POST", consumes = "application/json")
+    @ApiOperation(value = "分页查询积分礼品", notes = "分页查询积分礼品 ;status值为1|，表示激活积分商品，-1为冻结积分商品",  httpMethod = "POST", consumes = "application/json")
     @RequestMapping("/listGiftByInput")
-    public ResponseData listGiftByInput(@RequestParam(required = false) String inputContent, @RequestBody PageParam pageParam){
+    public ResponseData<List<GiftDTO>> listGiftByInput(@RequestParam(required = false) String inputContent, @RequestBody PageParam pageParam){
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
             PageHelper.orderBy(pageParam.getOrder());
@@ -56,7 +56,7 @@ public class GiftController {
 
     @ApiOperation(value = "冻结/激活积分产品", notes = "冻结/激活积分产品；status传值为正数则是激活的状态，负数为冻结状态，传该积分产品status的相反数", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/switchGift")
-    public ResponseData switchGift(@RequestParam Long giftId, @RequestParam Integer state){
+    public ResponseData switchGift(@RequestParam String giftId, @RequestParam Integer state){
         return giftService.switchGift(giftId, state);
     }
 

@@ -58,7 +58,7 @@ public class ManagerUserServiceImpl implements UserService {
      * @Date 21:31 2020/2/25
      **/
     @Override
-    public ResponseData switchUser(Long userId, Integer state) {
+    public ResponseData switchUser(String userId, Integer state) {
         userMapper.updateSwitchUser(userId, state);
         return new ResponseData().success(null);
     }

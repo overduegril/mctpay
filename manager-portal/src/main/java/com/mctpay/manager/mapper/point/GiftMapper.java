@@ -23,10 +23,10 @@ public interface GiftMapper extends BaseMapper<GiftEntity> {
      * @Description  列表积分商品
      * @Date 16:02  2020/2/27
      **/
-    List<GiftEntity> listGiftByInput(String inputContent);
+    List<GiftEntity> listGiftByInput(@Param("inputContent") String inputContent);
     /**
      * @Description  冻结激活积分商品
      * @Date 16:40  2020/2/27
      **/
-    void updateSwitchGift(@Param("giftId") Long giftId , @Param("state") Integer  state);
+    void updateSwitchGift(@Param("giftId") String giftId , @Param("state") Integer  state);
 }

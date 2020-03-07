@@ -62,11 +62,18 @@
         WHERE username = #{userName}
     </select>
 
-    <!-- 根据账号获取用户 -->
-    <select id="getByUserName" resultType="com.mctpay.merchant.model.entity.system.UserEntity">
+    <!-- 根据手机号获取用户 -->
+    <select id="getByPhoneNumber" resultType="com.mctpay.merchant.model.entity.system.UserEntity">
         SELECT id, username, nickname, password, phone_number, email, remark, status
         FROM merchant_user
-        WHERE username = #{username}
+        WHERE phone_number = #{username}
+    </select>
+
+    <!-- 根据邮箱获取用户 -->
+    <select id="getByEmail" resultType="com.mctpay.merchant.model.entity.system.UserEntity">
+        SELECT id, username, nickname, password, phone_number, email, remark, status
+        FROM merchant_user
+        WHERE email = #{username}
     </select>
 
     <!-- 差选会员列表 -->

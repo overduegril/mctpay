@@ -11,6 +11,10 @@ import lombok.Data;
 @Data
 public class UserDTO {
 
+
+    @ApiModelProperty(value = "")
+    private String id;
+
     /**
      * 用户名
      */

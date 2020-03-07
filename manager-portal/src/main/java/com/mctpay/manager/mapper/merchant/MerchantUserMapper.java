@@ -39,17 +39,17 @@ public interface MerchantUserMapper extends BaseMapper<MerchantUserEntity> {
      * @Description 激活冻结用户
      * @Date 21:34 2020/2/25
      **/
-    void updateSwitchUser(@Param("userId") Long userId, @Param("state") Integer state);
+    void updateSwitchUser(@Param("userId") String userId, @Param("state") Integer state);
 
     /**
      * @Description 跟新用户昵称
      * @Date 23:10 2020/3/3
      **/
-    void updateUserNickName(@Param("nickName") String nickName, @Param("id") Long id);
+    void updateUserNickName(@Param("nickName") String nickName, @Param("id") String id);
 
     /**
      * @Description 充值密码
      * @Date 23:10 2020/3/3
      **/
-    void updatePassword(@Param("password") String password, @Param("id") Long id);
+    void updatePassword(@Param("password") String password, @Param("id") String id);
 }

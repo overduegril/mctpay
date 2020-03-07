@@ -23,6 +23,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import static com.mctpay.common.constants.ErrorCode.FILE_FORMAT_NOT_CORRECT;
+
 /**
  * @Author: guodongwei
  * @Description: 商户控制层
@@ -43,7 +45,7 @@ public class MerchantController {
     @PostMapping("/insertMerchant")
     public ResponseData insertMerchant(MerchantParam merchantParam){
 
-        Long id = UIdUtils.getUid();
+        String id = UIdUtils.getUid().toString();
         merchantParam.setId(id);
         merchantParam.setStatus(2);
         merchantParam.setCreateTime(new Date());
@@ -61,7 +63,7 @@ public class MerchantController {
 
     @ApiOperation(value = "分页查询商户", notes = "分页查询商户 ;status值为1||2，表示激活商户，-1||-2为冻结商户",  httpMethod = "POST", consumes = "application/json")
     @RequestMapping("/listMerchanttByInput")
-    public ResponseData listMerchanttByInput(@RequestParam(required = false) String inputContent, @RequestBody PageParam pageParam){
+    public ResponseData<List<MerchantDtO>> listMerchanttByInput(@RequestParam(required = false) String inputContent, @RequestBody PageParam pageParam){
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
             PageHelper.orderBy(pageParam.getOrder());
@@ -72,14 +74,14 @@ public class MerchantController {
 
     @ApiOperation(value = "冻结/激活商户", notes = "冻结/激活商户；status传值为正数则是激活的状态，负数为冻结状态，传该管理原status的相反数", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/switchMerchant")
-    public ResponseData switchMerchant(@RequestParam Long merchantId, @RequestParam Integer state) {
+    public ResponseData switchMerchant(@RequestParam String merchantId, @RequestParam Integer state) {
         return merchantService.switchMerchant(merchantId, state);
     }
 
 
     @ApiOperation(value = "门头照图片上传", notes = "门头照图片上传", httpMethod = "POST")
     @PostMapping(value = "/uploadShopPhoto")
-    public ResponseData<String> uploadShopPhoto(MultipartFile file, String fileType) throws Exception {
+    public ResponseData<String> uploadShopPhoto(MultipartFile file) throws Exception {
         InputStream inputStream = file.getInputStream();
         String shopPhotoUrl = OSSUtils.uploadFileInputStream(oSSProperties.getBucketName(), oSSProperties.getShopPhotoKeyPrefix() + file.getOriginalFilename(), inputStream);
         // 将图片地址回传，最后统一入库
@@ -88,14 +90,17 @@ public class MerchantController {
 
     @ApiOperation(value = "商户重置密码", notes = "商户重置密码", httpMethod = "POST")
     @PostMapping(value = "/resetPassword")
-    public ResponseData resetPassword(Long mrchantId) throws Exception {
+    public ResponseData resetPassword(String mrchantId) throws Exception {
         merchantService.resetPassword(mrchantId);
         return new ResponseData<String>().success(null);
     }
 
     @ApiOperation(value = "营业执照上传", notes = "营业执照上传", httpMethod = "POST")
     @PostMapping(value = "/uploadBusinessLicense")
-    public ResponseData<String> uploadBusinessLicense(@RequestParam MultipartFile file,@RequestParam Long merchantId) throws Exception {
+    public ResponseData<String> uploadBusinessLicense(@RequestParam MultipartFile file,@RequestParam String merchantId) throws Exception {
+        if (!file.getOriginalFilename().endsWith(".pdf")) {
+            return new ResponseData<String>().fail(FILE_FORMAT_NOT_CORRECT.getCode(), FILE_FORMAT_NOT_CORRECT.getMessage());
+        }
         InputStream inputStream = file.getInputStream();
         String businessLicenseUrl = OSSUtils.uploadFileInputStream(oSSProperties.getBucketName(), oSSProperties.getBusinessLicenseKeyPrefix() + file.getOriginalFilename(), inputStream);
         // 将文件路径保存

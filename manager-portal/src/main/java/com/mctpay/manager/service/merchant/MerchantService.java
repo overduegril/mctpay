@@ -27,7 +27,7 @@ public interface MerchantService {
      * @Description 冻结/解冻商户
      * @Date 10:36 2020/2/29
      **/
-    ResponseData switchMerchant(Long merchantId, Integer state);
+    ResponseData switchMerchant(String merchantId, Integer state);
     /**
      * @Description 修改商户
      * @Date 10:36 2020/2/29
@@ -38,11 +38,11 @@ public interface MerchantService {
      * @Description 重置密码
      * @Date 23:23 2020/3/3
      **/
-    void resetPassword(Long merchantId);
+    void resetPassword(String merchantId);
 
     /**
      * @Description 保存营业执照
      * @Date 14:16 2020/3/4
      **/
-    void insertBusinessLicense(String businessLicenseUrl,Long merchantId);
+    void insertBusinessLicense(String businessLicenseUrl,String merchantId);
 }

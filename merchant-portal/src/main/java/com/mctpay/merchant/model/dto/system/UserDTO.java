@@ -14,6 +14,12 @@ public class UserDTO {
     /**
      * 用户名
      */
+    @ApiModelProperty(value = "id")
+    private String id;
+
+    /**
+     * 用户名
+     */
     @ApiModelProperty(value = "用户名")
     private String username;
     /**

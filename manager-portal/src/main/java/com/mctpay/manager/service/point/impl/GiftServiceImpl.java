@@ -49,7 +49,7 @@ public class GiftServiceImpl implements GiftService {
      * @Date 16:38  2020/2/27
      **/
     @Override
-    public ResponseData switchGift(Long giftId, Integer state) {
+    public ResponseData switchGift(String giftId, Integer state) {
         giftMapper.updateSwitchGift(giftId, state);
         return new ResponseData().success(null);
     }

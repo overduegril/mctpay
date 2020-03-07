@@ -1,27 +1,22 @@
-package com.mctpay.pos.model.dto.system;
+package com.mctpay.manager.model.dto.system;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Author: guodongwei
- * @Description: 管理员
- * @Date: 2020/2/26 19:46
+ * @Description: 已经登录用户信息
+ * @Date: 2020/3/7 10:44
  */
 @Data
-public class UserDTO {
+public class LoginedUserDTO {
 
-    /**
-     * ID
-     */
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "")
     private String id;
 
-    /**
-     * 用户名
-     */
-    @ApiModelProperty(value = "用户名")
-    private String username;
     /**
      * 昵称
      */
@@ -29,14 +24,15 @@ public class UserDTO {
     private String nickname;
 
     /**
-     * 备注
-     */
-    @ApiModelProperty(value = "备注")
-    private String remark;
-
-    /**
      * 该记录状态
      */
     @ApiModelProperty(value = "记录状态,1，2为激活管理员（2是有账号但是没有登录过系统管理员）;-1，-2为冻结管理员;")
     private Integer status;
+
+    /**
+     * 属于的角色
+     */
+    @ApiModelProperty(value = "属于的角色")
+    private List<String> roles;
+
 }

@@ -36,7 +36,7 @@ public class UserController {
     @PostMapping("/insertUser")
     public ResponseData insertUser(@RequestBody UserParam userParam) {
         // 设置会员ID
-        Long id = UIdUtils.getUid();
+        String id = UIdUtils.getUid().toString();
         userParam.setId(id);
         userParam.setStatus(2);
         userParam.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -46,7 +46,7 @@ public class UserController {
 
     @ApiOperation(value = "冻结/激活管理员", notes = "冻结/激活管理员；status传值为正数则是激活的状态，负数为冻结状态，传该管理原status的相反数", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/switchUser")
-    public ResponseData switchUser(@RequestParam Long userId, @RequestParam Integer state) {
+    public ResponseData switchUser(@RequestParam String userId, @RequestParam Integer state) {
         return userService.switchUser(userId, state);
     }
 
