@@ -24,7 +24,7 @@ public interface UserService {
      * @Description 激活冻结用户
      * @Date 21:30 2020/2/25
      **/
-    ResponseData switchUser(Long userId, Integer state);
+    ResponseData switchUser(String userId, Integer state);
 
     /**
      * @Description 分页查询会员

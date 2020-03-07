@@ -3,7 +3,6 @@
 
 <mapper namespace="com.mctpay.pos.mapper.system.UserMapper">
 
-
     <sql id="Base_Column_List">
 	    id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time</sql>
 

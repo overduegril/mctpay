@@ -26,5 +26,5 @@ public interface GiftService {
      * @Description  冻结激活积分商品
      * @Date 16:38  2020/2/27
      **/
-    ResponseData switchGift(Long giftId, Integer state);
+    ResponseData switchGift(String giftId, Integer state);
 }

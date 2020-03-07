@@ -41,6 +41,13 @@ public class MerchantParam extends BaseEntity implements Serializable {
      */
     @ApiModelProperty(value = "邮箱")
     private String email;
+
+    /**
+     * 邮箱
+     */
+    @ApiModelProperty(value = "邮编")
+    private String postcode;
+
     /**
      * 注册地址
      */
@@ -76,15 +83,11 @@ public class MerchantParam extends BaseEntity implements Serializable {
      */
     @ApiModelProperty(value = "经营业务")
     private String businessContent;
-    /**
-     * 营业执照
-     */
-    @ApiModelProperty(value = "营业执照")
-    private String businessLicense;
+
     /**
      * 会员码地址
      */
-    @ApiModelProperty(value = "会员码地址")
+    @ApiModelProperty(value = "会员码地址", hidden = true)
     private String memberQrcodeUrl;
     /**
      * 门头照
@@ -94,11 +97,6 @@ public class MerchantParam extends BaseEntity implements Serializable {
     /**
      * 创建人
      */
-    @ApiModelProperty(value = "创建人")
+    @ApiModelProperty(value = "创建人", hidden = true)
     private String creator;
-    /**
-     * 营业状态
-     */
-    @ApiModelProperty(value = "营业状态")
-    private Integer businessStatus;
 }

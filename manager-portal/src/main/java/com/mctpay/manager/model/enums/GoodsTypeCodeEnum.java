@@ -2,8 +2,8 @@ package com.mctpay.manager.model.enums;
 
 
 public enum GoodsTypeCodeEnum {
-    A("卡券"),
-    B("实物");
+    CARD("卡券"),
+    PHYSICAL("实物");
     GoodsTypeCodeEnum(String name){
         this.name = name;
     }

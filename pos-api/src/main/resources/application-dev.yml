@@ -57,3 +57,4 @@ mybatis:
 aliyun-oss:
   bucketName: wosz
   keyPrefix: mctpay/merchant/
+  qrcodePath: merchant/qrcode/

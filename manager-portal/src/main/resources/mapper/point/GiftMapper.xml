@@ -28,8 +28,14 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM
+        (SELECT
+        <include refid="Base_Column_List"/>, concat(goods_name,goods_type_name,start_date,end_date) content
+        FROM
         manager_gift
-        WHERE goods_name LIKE CONCAT('%', #{inputContent}, '%') AND status != 0
+        ) t0 WHERE status != 0
+        <if test="inputContent != null and inputContent != ''">
+            AND content LIKE CONCAT('%', #{inputContent} , '%')
+        </if>
     </select>
 
     <!-- 激活，冻结积分产品 -->
@@ -49,15 +55,15 @@
     </sql>
 
     <select id="get" resultType="com.mctpay.manager.model.entity.point.GiftEntity">
-      select
-      <include refid="Base_Column_List"/>
-      from manager_gift where id = #{value}
+        select
+        <include refid="Base_Column_List"/>
+        from manager_gift where id = #{value}
     </select>
 
     <sql id="where">
-      <where>
-          <include refid="baseWhere"></include>
-      </where>
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
     </sql>
 
     <sql id="baseWhere">
@@ -92,7 +98,6 @@
             and update_time = #{updateTime}
         </if>
     </sql>
-
 
 
 </mapper>

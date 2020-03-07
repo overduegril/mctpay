@@ -31,18 +31,18 @@ public class PageParam {
     private String order;
 
     public Integer getPageSize() {
+        if (pageSize == null || pageSize == 0) {
+            this.pageSize = 5;
+        }
         return pageSize;
     }
 
     public void setPageSize(Integer pageSize) {
-        if (pageSize == null) {
-            this.pageSize = 5;
-        }
         this.pageSize = pageSize;
     }
 
     public Integer getPageNum() {
-        if (pageNum == null) {
+        if (pageNum == null || pageNum == 0) {
             this.pageNum = 1;
         }
 

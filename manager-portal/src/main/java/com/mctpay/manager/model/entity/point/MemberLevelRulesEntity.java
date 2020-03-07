@@ -19,15 +19,10 @@ public class MemberLevelRulesEntity extends BaseEntity implements Serializable {
 	@ApiModelProperty(value = "")
 	private Long id;
 	/**
-	 * 会员等级code
-     */
-	@ApiModelProperty(value = "会员等级code")
-	private String memberLevelName;
-	/**
 	 * 会员等级名称/
      */
 	@ApiModelProperty(value = "会员等级名称")
-	private String memberLevelCode;
+	private String memberLevelName;
 	/**
 	 * 对应积分
      */

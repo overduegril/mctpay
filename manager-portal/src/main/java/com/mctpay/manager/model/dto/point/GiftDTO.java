@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class GiftDTO {
 
     @ApiModelProperty(value = "")
-    private Long id;
+    private String id;
     /**
      * 商品名称
      */

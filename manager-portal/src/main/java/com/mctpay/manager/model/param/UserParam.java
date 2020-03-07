@@ -15,7 +15,7 @@ import lombok.Data;
 public class UserParam extends BaseEntity {
 
     @ApiModelProperty(value = "id", hidden = true)
-    private Long id;
+    private String id;
     /**
      * 用户名
      */

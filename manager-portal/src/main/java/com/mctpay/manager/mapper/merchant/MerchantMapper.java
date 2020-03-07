@@ -7,6 +7,7 @@ import com.mctpay.manager.model.param.MerchantParam;
 import com.mctpay.manager.model.param.UpdateMerchantParam;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -31,10 +32,17 @@ public interface MerchantMapper extends BaseMapper<MerchantEntity> {
      * @Description 冻结/取消冻结用户
      * @Date 10:47  2020/2/29
      **/
-    void updateSwitchMerchant(@Param("merchantId") Long merchantId , @Param("state") Integer  state);
+    void updateSwitchMerchant(@Param("merchantId") String merchantId , @Param("state") Integer  state);
     /**
      * @Description 修改商户
      * @Date 10:47  2020/2/29
      **/
     void updateMerchant(UpdateMerchantParam updateMerchantParam);
+
+    /**
+     * @Description 保存营业执照
+     * @Date 14:16 2020/3/4
+     **/
+    void insertBusinessLicense(@Param("businessLicenseUrl") String businessLicenseUrl,@Param("merchantId") String merchantId);
+
 }

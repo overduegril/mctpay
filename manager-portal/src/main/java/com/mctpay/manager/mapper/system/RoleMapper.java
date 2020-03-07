@@ -18,5 +18,5 @@ public interface RoleMapper extends BaseMapper<RoleEntity> {
      * @Description 获取用户角色
      * @Date 10:46 2020/2/26
      **/
-    List<RoleEntity> getByUserId(Long userId);
+    List<RoleEntity> getByUserId(String userId);
 }

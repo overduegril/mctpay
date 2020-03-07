@@ -59,7 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/login.html", "/login", "/logout").permitAll().anyRequest().authenticated()
+                .antMatchers("/login.html", "/login", "/logout", "/user/*").permitAll().anyRequest().authenticated()
                 .and()
                 // 支持表单提交
                 .formLogin()

@@ -57,3 +57,6 @@ mybatis:
 aliyun-oss:
   bucketName: wosz
   keyPrefix: mctpay/merchant/
+
+email-properties:
+  registChineseSubject: mctPay钱包注册

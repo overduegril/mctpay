@@ -14,8 +14,8 @@ import java.util.List;
 public interface UserService {
 
     /**
-     * @Description 注册管理员
-     * @Date 20:45 2020/2/24
+     * @Description 注册用户
+     * @Date 15:03 2020/3/2
      **/
     ResponseData insertUser(UserParam userParam);
 
@@ -36,4 +36,10 @@ public interface UserService {
      * @Date 10:29 2020/2/27
      **/
     List<UserDTO> listUserByInput(String inputContent);
+
+    /**
+     * @Description 验证邮箱是否重复
+     * @Date 19:30 2020/3/2
+     **/
+    Integer countEmail(String email);
 }

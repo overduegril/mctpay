@@ -20,16 +20,16 @@ public class MerchantMemberEntity extends BaseEntity implements Serializable {
 	 * 商铺得到的会员虚拟ID
 	 */
 	@ApiModelProperty(value = "商铺得到的会员虚拟ID")
-	private Long id;
+	private String id;
 	/**
 	 * 商铺ID
 	 */
 	@ApiModelProperty(value = "商铺ID")
-	private Long merchantId;
+	private String merchantId;
 	/**
 	 * 会员ID
 	 */
 	@ApiModelProperty(value = "会员ID")
-	private Long memberId;
+	private String memberId;
 
 }

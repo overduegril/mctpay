@@ -36,8 +36,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("mctpay管理平台")
-                .description("mctpay管理平台")
+                .title("管理平台")
+                .description("管理平台")
                 .termsOfServiceUrl("http://localhost:9100/")
                 .contact("mctpay")
                 .version("1.0")

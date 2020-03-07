@@ -17,7 +17,7 @@ public class MerchantEntity extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@ApiModelProperty(value = "")
-	private Long id;
+	private String id;
 	/**
 	 * 商户名
      */
@@ -43,6 +43,13 @@ public class MerchantEntity extends BaseEntity implements Serializable {
      */
 	@ApiModelProperty(value = "邮箱")
 	private String email;
+
+	/**
+	 * 邮箱
+	 */
+	@ApiModelProperty(value = "邮编")
+	private String postcode;
+
 	/**
 	 * 注册地址
      */

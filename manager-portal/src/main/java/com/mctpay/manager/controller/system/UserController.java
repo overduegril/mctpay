@@ -2,22 +2,20 @@ package com.mctpay.manager.controller.system;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.mctpay.common.base.model.PageParam;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.common.uitl.UIdUtils;
-import com.mctpay.common.base.model.PageParam;
 import com.mctpay.manager.model.dto.system.UserDTO;
 import com.mctpay.manager.model.param.UserParam;
 import com.mctpay.manager.service.system.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -38,17 +36,17 @@ public class UserController {
     @PostMapping("/insertUser")
     public ResponseData insertUser(@RequestBody UserParam userParam) {
         // 设置会员ID
-        Long id = UIdUtils.getUid();
+        String id = UIdUtils.getUid().toString();
         userParam.setId(id);
         userParam.setStatus(2);
-        userParam.setCreateTime(new Date());
-        userParam.setUpdateTime(new Date());
+        userParam.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        userParam.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         return userService.insertUser(userParam);
     }
 
     @ApiOperation(value = "冻结/激活管理员", notes = "冻结/激活管理员；status传值为正数则是激活的状态，负数为冻结状态，传该管理原status的相反数", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/switchUser")
-    public ResponseData switchUser(@RequestParam Long userId, @RequestParam Integer state) {
+    public ResponseData switchUser(@RequestParam String userId, @RequestParam Integer state) {
         return userService.switchUser(userId, state);
     }
 

@@ -17,14 +17,9 @@ public class UserParam extends BaseEntity {
     @ApiModelProperty(value = "id", hidden = true)
     private Long id;
     /**
-     * 用户名
-     */
-    @ApiModelProperty(value = "用户名")
-    private String username;
-    /**
      * 昵称
      */
-    @ApiModelProperty(value = "昵称")
+    @ApiModelProperty(value = "昵称", hidden = true)
     private String nickname;
     /**
      * 密码
@@ -33,22 +28,10 @@ public class UserParam extends BaseEntity {
     private String password;
 
     /**
-     * 手机号
-     */
-    @ApiModelProperty(value = "手机号")
-    private String phoneNumber;
-
-    /**
      * 邮箱
      */
     @ApiModelProperty(value = "邮箱")
     private String email;
-
-    /**
-     * 备注
-     */
-    @ApiModelProperty(value = "备注")
-    private String remark;
 
     /**
      * 状态

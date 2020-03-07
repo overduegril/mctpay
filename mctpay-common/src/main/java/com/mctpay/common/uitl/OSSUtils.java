@@ -113,6 +113,9 @@ public class OSSUtils {
         if (filenameExtension.equalsIgnoreCase(".json")) {
             return "application/json;charset=utf-8";
         }
+        if (filenameExtension.equalsIgnoreCase(".pdf")) {
+            return "application/pdf;charset=utf-8";
+        }
         return "application/octet-stream";
     }
 
