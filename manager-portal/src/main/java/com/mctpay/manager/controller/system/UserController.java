@@ -5,11 +5,14 @@ import com.github.pagehelper.PageHelper;
 import com.mctpay.common.base.model.PageParam;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
+import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.manager.model.dto.system.UserDTO;
 import com.mctpay.manager.model.param.UserParam;
 import com.mctpay.manager.service.system.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -50,17 +53,6 @@ public class UserController {
         return userService.switchUser(userId, state);
     }
 
-    @ApiOperation(value = "分页查询管理员", notes = "分页查询管理员;status值为1||2，表示激活管理员，-1||-2为冻结管理员", httpMethod = "POST", consumes = "application/json")
-    @PostMapping("/listUser")
-    public ResponsePageInfo<List<UserDTO>> listUser(@RequestBody PageParam pageParam) {
-        Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
-        if (!StringUtils.isEmpty(pageParam.getOrder())) {
-            PageHelper.orderBy(pageParam.getOrder());
-        }
-        List<UserDTO> userDTOs = userService.listUser();
-        return new ResponsePageInfo<List<UserDTO>>().success(userDTOs, pageInfo);
-    }
-
     @ApiOperation(value = "根据输入内容查询管理员", notes = "冻结/激活管理员；status传值为正数则是激活的状态，负数为冻结状态，传该管理原status的相反数", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/listUserByInput")
     public ResponseData<List<UserDTO>> listUserByInput(String inputContent, @RequestBody PageParam pageParam) {
@@ -70,5 +62,34 @@ public class UserController {
         }
         List<UserDTO> userDTOs = userService.listUserByInput(inputContent);
         return new ResponsePageInfo<List<UserDTO>>().success(userDTOs, pageInfo);
+    }
+
+    @ApiOperation(value = "修改密码", notes = "首次登陆时修改密码", httpMethod = "POST", consumes = "application/json")
+    @ApiImplicitParams({@ApiImplicitParam(
+            name = "newPasswrod",
+            value = "新密码",
+            required = true,
+            paramType = "update",
+            dataType = "String"
+    )})
+    @PostMapping("/updatePassword")
+    public ResponseData<List<UserDTO>> updatePassword(String newPasswrod) {
+        newPasswrod = SecureUtils.MD5Encrypt(newPasswrod);
+        userService.updatePassword(newPasswrod);
+        return new ResponsePageInfo<List<UserDTO>>().success(null);
+    }
+
+    @ApiOperation(value = "密码重置", notes = "管理员密码重置", httpMethod = "POST", consumes = "application/json")
+    @ApiImplicitParams({@ApiImplicitParam(
+            name = "userId",
+            value = "用户Id",
+            required = true,
+            paramType = "update",
+            dataType = "String"
+    )})
+    @PostMapping("/resetPassword")
+    public ResponseData<List<UserDTO>> resetPassword(String userId) {
+        userService.resetPassword(userId);
+        return new ResponsePageInfo<List<UserDTO>>().success(null);
     }
 }

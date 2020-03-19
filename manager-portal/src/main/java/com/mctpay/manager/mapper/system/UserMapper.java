@@ -68,4 +68,12 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Date 10:30 2020/2/27
      **/
     List<UserEntity> listUserByInput(@Param("inputContent") String inputContent);
+
+    /**
+     * @Description 修改密码
+     * @Date 17:06 2020/3/7
+     **/
+    void updatePassword(@Param("password") String password, @Param("id") String id);
+
 }
+

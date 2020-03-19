@@ -3,7 +3,6 @@ package com.mctpay.manager.service.merchant;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
 import com.mctpay.manager.model.param.MerchantParam;
-import com.mctpay.manager.model.param.UpdateMerchantParam;
 
 import java.util.List;
 
@@ -33,7 +32,6 @@ public interface MerchantService {
      * @Description 修改商户
      * @Date 10:36 2020/2/29
      **/
-    ResponseData updateMerchant(UpdateMerchantParam updateMerchantParam);
     ResponseData updateMerchant(MerchantParam merchantParam);
 
     /**

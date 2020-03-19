@@ -5,6 +5,7 @@ import com.mctpay.manager.model.entity.template.ShowPictureEntity;
 import com.mctpay.manager.model.param.ShowPicturerParam;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @author dongwei_guo
  * @date 2020-02-23 18:23:00
  */
-@Mapper
+@Repository
 public interface ShowPictureMapper extends BaseMapper<ShowPictureEntity> {
     /**
      * @Description 插入轮播广告

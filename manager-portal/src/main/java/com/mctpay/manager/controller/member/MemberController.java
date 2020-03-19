@@ -11,10 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,10 +28,9 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-
     @ApiOperation(value = "分页查询会员", notes = "分页查询会员",  httpMethod = "POST", consumes = "application/json")
-    @RequestMapping("/listMemberByInput")
-    public ResponseData<List<MemberDTO>> listMemberByInput(@RequestParam(required = false) String inputContent, @RequestBody PageParam pageParam){
+    @PostMapping(value = "/listMemberByInput", consumes = "application/json")
+    public ResponseData<List<MemberDTO>> listMemberByInput(String inputContent, @RequestBody PageParam pageParam){
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
             PageHelper.orderBy(pageParam.getOrder());

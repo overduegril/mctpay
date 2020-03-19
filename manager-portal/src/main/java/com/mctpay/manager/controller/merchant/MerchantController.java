@@ -9,10 +9,12 @@ import com.mctpay.common.uitl.OSSUtils;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.manager.config.OSSProperties;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
+import com.mctpay.manager.model.enums.FileUseTypeEnum;
 import com.mctpay.manager.model.param.MerchantParam;
-import com.mctpay.manager.model.param.UpdateMerchantParam;
 import com.mctpay.manager.service.merchant.MerchantService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -22,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+
+import static com.mctpay.common.constants.ErrorCode.FILE_FORMAT_NOT_CORRECT;
 
 /**
  * @Author: guodongwei
@@ -35,13 +39,15 @@ public class MerchantController {
 
     @Autowired
     private OSSProperties oSSProperties;
+
+    @Autowired
     private MerchantService merchantService;
 
     @ApiOperation(value = "添加商户", notes = "添加商户",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertMerchant")
     public ResponseData insertMerchant(MerchantParam merchantParam){
 
-        Long id = UIdUtils.getUid();
+        String id = UIdUtils.getUid().toString();
         merchantParam.setId(id);
         merchantParam.setStatus(2);
         merchantParam.setCreateTime(new Date());
@@ -51,7 +57,7 @@ public class MerchantController {
 
     @ApiOperation(value = "修改商户", notes = "修改商户",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/updateMerchant")
-    public ResponseData updateMerchant(@RequestBody UpdateMerchantParam updateMerchantParam){
+    public ResponseData updateMerchant(@RequestBody MerchantParam updateMerchantParam){
         updateMerchantParam.setUpdateTime(new Date());
         return merchantService.updateMerchant(updateMerchantParam);
     }
@@ -72,16 +78,6 @@ public class MerchantController {
     @PostMapping("/switchMerchant")
     public ResponseData switchMerchant(@RequestParam String merchantId, @RequestParam Integer state) {
         return merchantService.switchMerchant(merchantId, state);
-    }
-
-
-    @ApiOperation(value = "门头照图片上传", notes = "门头照图片上传", httpMethod = "POST")
-    @PostMapping(value = "/uploadShopPhoto")
-    public ResponseData<String> uploadShopPhoto(MultipartFile file) throws Exception {
-        InputStream inputStream = file.getInputStream();
-        String shopPhotoUrl = OSSUtils.uploadFileInputStream(oSSProperties.getBucketName(), oSSProperties.getShopPhotoKeyPrefix() + file.getOriginalFilename(), inputStream);
-        // 将图片地址回传，最后统一入库
-        return new ResponseData<String>().success(shopPhotoUrl);
     }
 
     @ApiOperation(value = "商户重置密码", notes = "商户重置密码", httpMethod = "POST")

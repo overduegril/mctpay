@@ -1,10 +1,8 @@
 package com.mctpay.manager.mapper.merchant;
 
 import com.mctpay.common.base.mapper.BaseMapper;
-import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.manager.model.entity.merchant.MerchantEntity;
 import com.mctpay.manager.model.param.MerchantParam;
-import com.mctpay.manager.model.param.UpdateMerchantParam;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -15,7 +13,7 @@ import java.util.List;
  * @author dongwei_guo
  * @date 2020-02-23 18:23:02
  */
-@Mapper
+@Repository
 public interface MerchantMapper extends BaseMapper<MerchantEntity> {
 
     /**
@@ -27,7 +25,7 @@ public interface MerchantMapper extends BaseMapper<MerchantEntity> {
      * @Description 获取商户集合
      * @Date 22:31  2020/2/28
      **/
-    List<MerchantEntity> listMerchantByInput(String inputContent);
+    List<MerchantEntity> listMerchantByInput(@Param("inputContent") String inputContent);
     /**
      * @Description 冻结/取消冻结用户
      * @Date 10:47  2020/2/29
@@ -37,7 +35,7 @@ public interface MerchantMapper extends BaseMapper<MerchantEntity> {
      * @Description 修改商户
      * @Date 10:47  2020/2/29
      **/
-    void updateMerchant(UpdateMerchantParam updateMerchantParam);
+    void updateMerchant(MerchantParam updateMerchantParam);
 
     /**
      * @Description 保存营业执照

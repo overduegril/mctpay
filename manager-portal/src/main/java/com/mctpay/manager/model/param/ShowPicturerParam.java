@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Data
 public class ShowPicturerParam extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "", hidden = true)
     private Long id;
     /**
      * 图片用途类型码
@@ -18,7 +18,7 @@ public class ShowPicturerParam extends BaseEntity implements Serializable {
     /**
      * 图片用户态名称
      */
-    @ApiModelProperty(value = "图片用户态名称")
+    @ApiModelProperty(value = "图片用户类型名称")
     private String useTypeName;
     /**
      * 图片地址

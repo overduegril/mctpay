@@ -4,14 +4,16 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @Author: guodongwei
  * @Description: 分页参数
  * @Date: 2020/2/26 20:01
  */
 @ApiModel(value = "分页查询类")
-public class PageParam {
-
+public class PageParam implements Serializable{
+    private static final long serialVersionUID = 1L;
     /**
      * 每页记录数
      */

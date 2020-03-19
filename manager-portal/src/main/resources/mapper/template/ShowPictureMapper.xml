@@ -22,7 +22,6 @@
     <!--
         插入轮播广告
     -->
-
     <insert id="insertShowPicturer">
         INSERT INTO mct_show_picture(<include refid="Base_Column_List"/>)
         VALUES (

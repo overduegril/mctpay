@@ -35,6 +35,12 @@
         WHERE id = #{userId}
     </update>
 
+    <!-- 更新密码 -->
+    <update id="updatePassword">
+        UPDATE manager_user
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
 
     <select id="get" resultType="com.mctpay.manager.model.entity.system.UserEntity">
         select
@@ -70,7 +76,7 @@
         WHERE username = #{username}
     </select>
 
-    <!-- 差选会员列表 -->
+    <!-- 筛选会员列表 -->
     <select id="listUser" resultType="com.mctpay.manager.model.entity.system.UserEntity">
         SELECT
         <include refid="Base_Column_List"/>

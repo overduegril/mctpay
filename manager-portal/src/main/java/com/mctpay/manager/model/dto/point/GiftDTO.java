@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @Author: guodongwei
@@ -48,6 +49,16 @@ public class GiftDTO {
     @ApiModelProperty(value = "兑换所需积分")
     private Integer exchangePoint;
 
+    /**
+     * 兑换结束时间
+     */
+    @ApiModelProperty(value = "兑换结束时间")
+    private Date endDate;
 
+    /**
+     * 兑换结束时间
+     */
+    @ApiModelProperty(value = "记录状态，-1为冻结，1为未冻结")
+    private Integer status;
 
 }

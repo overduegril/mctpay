@@ -19,9 +19,10 @@ spring:
       read-only: false
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql:///mctpay_platform?setUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://39.96.29.99:3306/mctpay_platform?setUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
-    password: root
+    #uAiqwVwjJ8-i
+    password: uAiqwVwjJ8-i
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8

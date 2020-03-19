@@ -22,6 +22,7 @@ import java.util.List;
 public class ShowPictureServiceImpl implements ShowPictureService {
     @Autowired
     private ShowPictureMapper showPictureMapper;
+
     @Override
     public ResponseData insertShowPicturer(ShowPicturerParam showPicturerParam) {
         showPictureMapper.insertShowPicturer(showPicturerParam);

@@ -1,11 +1,12 @@
 package com.mctpay.manager.service.merchant.impl;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.manager.mapper.merchant.MerchantMapper;
+import com.mctpay.manager.mapper.merchant.MerchantUserMapper;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
 import com.mctpay.manager.model.entity.merchant.MerchantEntity;
 import com.mctpay.manager.model.param.MerchantParam;
-import com.mctpay.manager.model.param.UpdateMerchantParam;
 import com.mctpay.manager.service.merchant.MerchantService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,10 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Autowired
     private MerchantMapper merchantMapper;
+
+    @Autowired
+    private MerchantUserMapper merchantUserMapper;
+
     @Override
     public ResponseData insertMerchant(MerchantParam merchantParam) {
         merchantMapper.insertMerchant(merchantParam);

@@ -9,6 +9,7 @@ import com.mctpay.manager.model.param.UserParam;
 import com.mctpay.manager.service.system.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -64,23 +65,7 @@ public class ManagerUserServiceImpl implements UserService {
     }
 
     /**
-     * @Description 分页查询会员列表
-     * @Date 19:58 2020/2/26
-     **/
-    @Override
-    public List<UserDTO> listUser() {
-        List<UserEntity> userEntities = userMapper.listUser();
-        List<UserDTO> userDTOs = new ArrayList<>();
-        for (UserEntity userEntity : userEntities) {
-            UserDTO userDTO = new UserDTO();
-            BeanUtils.copyProperties(userEntity, userDTO);
-            userDTOs.add(userDTO);
-        }
-        return userDTOs;
-    }
-
-    /**
-     * @Description 根据输入内容查询会员
+     * @Description 根据输入内容查询管理员
      * @Date 10:29 2020/2/27
      **/
     @Override
@@ -93,5 +78,24 @@ public class ManagerUserServiceImpl implements UserService {
             userDTOs.add(userDTO);
         }
         return userDTOs;
+    }
+
+    /**
+     * @Description 修改密码
+     * @Date 17:03 2020/3/7
+     **/
+    @Override
+    public void updatePassword(String newPassword) {
+        UserEntity userEntity = (UserEntity)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userMapper.updatePassword(newPassword, userEntity.getId());
+    }
+
+    /**
+     * @Description 重置用户密码
+     * @Date 17:23 2020/3/7
+     **/
+    public void resetPassword(String userId){
+        String password = SecureUtils.MD5Encrypt("123456");
+        userMapper.updatePassword(password, userId);
     }
 }

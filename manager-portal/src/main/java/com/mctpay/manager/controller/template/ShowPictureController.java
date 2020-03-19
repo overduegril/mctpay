@@ -33,21 +33,18 @@ public class ShowPictureController {
     @Autowired
     private ShowPictureService showPictureService;
 
-    // @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "添加轮播广告", notes = "添加轮播广告", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertShowPicturer")
     public ResponseData insertShowPicturer(@RequestBody ShowPicturerParam showPicturerParam) {
-        // 设置会员ID
-        Long id = UIdUtils.getUid();
-        showPicturerParam.setId(id);
-        showPicturerParam.setStatus(2);
+        // TODO 格式待确认
+        showPicturerParam.setStatus(1);
         showPicturerParam.setCreateTime(new Date());
         showPicturerParam.setUpdateTime(new Date());
         return showPictureService.insertShowPicturer(showPicturerParam);
     }
 
-    @ApiOperation(value = "分页查询轮播图", notes = "分页查询轮播图", httpMethod = "POST", consumes = "application/json")
-    @PostMapping("/listShowPicturer")
+    @ApiOperation(value = "分页查询轮播图", notes = "分页查询轮播图", httpMethod = "GET", consumes = "application/json")
+    @GetMapping("/listShowPicturer")
     public ResponseData listShowPicturer() {
         List<ShowPicturerDTO> showPicturerDTOs = showPictureService.listShowPicturer();
         return new ResponseData().success(showPicturerDTOs);

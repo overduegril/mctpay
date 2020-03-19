@@ -83,7 +83,10 @@
         <include refid="Base_Column_List"/>
         FROM
         mct_merchant
-        WHERE merchant_name LIKE CONCAT('%', #{inputContent}, '%') AND status != 0
+        WHERE  status != 0
+        <if test="inputContent != null and inputContent != ''">
+            AND merchant_name LIKE CONCAT('%', #{inputContent}, '%')
+        </if>
     </select>
 
     <!--
