@@ -87,7 +87,7 @@ public class ManagerUserServiceImpl implements UserService {
     @Override
     public void updatePassword(String newPassword) {
         UserEntity userEntity = (UserEntity)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        userMapper.updatePassword(newPassword, userEntity.getId());
+        userMapper.updatePassword(newPassword, userEntity.getId(), 1);
     }
 
     /**
@@ -96,6 +96,6 @@ public class ManagerUserServiceImpl implements UserService {
      **/
     public void resetPassword(String userId){
         String password = SecureUtils.MD5Encrypt("123456");
-        userMapper.updatePassword(password, userId);
+        userMapper.updatePassword(password, userId, 2);
     }
 }

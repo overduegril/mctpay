@@ -1,5 +1,7 @@
 package com.mctpay.manager.service.merchant.impl;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.manager.mapper.merchant.MerchantMapper;
@@ -14,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,13 +44,41 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     public List<MerchantDtO> listMerchantByInput(String inputContent) {
         List<MerchantEntity> merchantEntities = merchantMapper.listMerchantByInput(inputContent);
-        List<MerchantDtO> merchantDtOS = new ArrayList<>();
+        // 计算商户的营业时间
+        Integer businessStatus = 1;
+        for (MerchantEntity merchantEntity : merchantEntities) {
+            String businessTime = merchantEntity.getBusinessTime();
+            if (!StringUtils.isEmpty(businessTime)) {
+                String[] businessTimes = businessTime.split(";");
+                String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                for (String time : businessTimes) {
+                    boolean inRange = false;
+                    try {
+                        String startTime = time.substring(0, time.indexOf("-"));
+                        String endTime = time.substring(time.indexOf("-") + 1);
+                        Date startDate = DateUtil.parseDateTime(date + " " + startTime + ":00");
+                        Date endDate = DateUtil.parseDateTime(date + " " + endTime + ":00");
+                        inRange = DateUtil.isIn(new Date(), startDate, endDate);
+                        // 防止输错影响到整个列表的查询
+                    } catch (Exception e) {
+                        businessStatus = -1;
+                    }
+                    if (inRange && businessStatus != -1) {
+                        businessStatus = 1;
+                    }else if (!inRange && businessStatus != -1){
+                        businessStatus = 0;
+                    }
+                }
+            }
+                merchantEntity.setBusinessStatus(businessStatus);
+        }
+        List<MerchantDtO> merchantDtOs = new ArrayList<>();
         for(MerchantEntity merchantEntity : merchantEntities){
             MerchantDtO merchantDtO = new MerchantDtO();
             BeanUtils.copyProperties(merchantEntity,merchantDtO);
-            merchantDtOS.add(merchantDtO);
+            merchantDtOs.add(merchantDtO);
         }
-        return merchantDtOS;
+        return merchantDtOs;
     }
 
     @Override

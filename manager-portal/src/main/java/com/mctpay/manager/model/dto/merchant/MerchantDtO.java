@@ -76,4 +76,10 @@ public class MerchantDtO implements Serializable {
      */
     @ApiModelProperty(value = "商户状态，-1为登陆过冻结状态，-2位未登陆冻结，1为正常已登录，2未未登录")
     private String status;
+
+    /**
+     * 营业状态
+     */
+    @ApiModelProperty(value = "营业状态 1为在营业种，0为休息中，-1为输入格式错误")
+    private Integer businessStatus;
 }

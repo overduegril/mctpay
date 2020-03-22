@@ -73,7 +73,7 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Description 修改密码
      * @Date 17:06 2020/3/7
      **/
-    void updatePassword(@Param("password") String password, @Param("id") String id);
+    void updatePassword(@Param("password") String password, @Param("id") String id, @Param("status") Integer status);
 
 }
 
