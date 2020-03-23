@@ -27,6 +27,15 @@
             <if test="registeredAddress != null">
                  registered_address = #{registeredAddress},
             </if>
+
+            <if test="longitude != null">
+                longitude = #{longitude},
+            </if>
+
+            <if test="latitude != null">
+                latitude = #{latitude},
+            </if>
+
             <if test="businessAddress != null">
                  business_address = #{businessAddress},
             </if>
@@ -93,7 +102,7 @@
      插入商户(不包含营业执照)
      -->
     <insert id="insertMerchant">
-        INSERT INTO mct_merchant(id, merchant_name, legal_person, id_last_number, phone_number, email, postcode, registered_address, business_address, business_time, industry,data_dictionary, explain_content, business_content, member_qrcode_url, shop_photo, creator, status, create_time, update_time)
+        INSERT INTO mct_merchant(id, merchant_name, legal_person, id_last_number, phone_number, email, postcode, registered_address, longitude, latitude,business_address, business_time, industry,data_dictionary, explain_content, business_content, member_qrcode_url, shop_photo, creator, status, create_time, update_time)
         VALUES (
         #{id},
         #{merchantName},
@@ -103,6 +112,8 @@
         #{email},
         #{postcode},
         #{registeredAddress},
+        #{longitude},
+        #{latitude},
         #{businessAddress},
         #{businessTime},
         #{industry},

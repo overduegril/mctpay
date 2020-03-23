@@ -29,7 +29,7 @@ public class UserParam extends BaseEntity {
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "密码", hidden = true)
     private String password;
 
     /**

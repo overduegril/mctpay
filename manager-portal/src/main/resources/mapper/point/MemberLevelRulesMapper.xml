@@ -27,6 +27,13 @@
         WHERE id = #{id}
     </update>
 
+    <!-- 更新积分等级规则 -->
+    <update id="updateMemberLevelRules">
+        UPDATE manager_member_level_rules
+        SET member_level_name = #{memberLevelName}, point = #{point}, last_operator = #{lastOperator}, update_time = #{updateTime}
+        WHERE id = #{id}
+    </update>
+
     <select id="get" resultType="com.mctpay.manager.model.entity.point.MemberLevelRulesEntity">
         select
         <include refid="Base_Column_List"/>

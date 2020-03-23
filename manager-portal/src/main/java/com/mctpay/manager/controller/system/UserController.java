@@ -8,6 +8,7 @@ import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.manager.model.dto.system.UserDTO;
+import com.mctpay.manager.model.param.NewPasswrod;
 import com.mctpay.manager.model.param.UserParam;
 import com.mctpay.manager.service.system.UserService;
 import io.swagger.annotations.Api;
@@ -73,9 +74,9 @@ public class UserController {
             dataType = "String"
     )})
     @PostMapping("/updatePassword")
-    public ResponseData<List<UserDTO>> updatePassword(String newPasswrod) {
-        newPasswrod = SecureUtils.MD5Encrypt(newPasswrod);
-        userService.updatePassword(newPasswrod);
+    public ResponseData<List<UserDTO>> updatePassword(@RequestBody NewPasswrod newPasswrod) {
+        String newPwd = SecureUtils.MD5Encrypt(newPasswrod.getNewPassword());
+        userService.updatePassword(newPwd);
         return new ResponsePageInfo<List<UserDTO>>().success(null);
     }
 

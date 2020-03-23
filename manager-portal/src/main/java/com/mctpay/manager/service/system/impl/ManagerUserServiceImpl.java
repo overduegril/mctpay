@@ -49,7 +49,7 @@ public class ManagerUserServiceImpl implements UserService {
         if (userName != 0) {
             return new ResponseData<>().fail(USERNAME_HAS_BEEN_USED.getCode(), USERNAME_HAS_BEEN_USED.getMessage());
         }
-        userParam.setPassword(SecureUtils.MD5Encrypt(userParam.getPassword()));
+        userParam.setPassword(SecureUtils.MD5Encrypt("123456"));
         userMapper.insertUser(userParam);
         return new ResponseData().success(null);
     }

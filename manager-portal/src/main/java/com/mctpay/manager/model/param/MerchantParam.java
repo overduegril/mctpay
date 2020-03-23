@@ -58,6 +58,13 @@ public class MerchantParam extends BaseEntity implements Serializable {
      */
     @ApiModelProperty(value = "营业地址")
     private String businessAddress;
+
+    @ApiModelProperty(value = "地理位置经度")
+    private String longitude;
+
+    @ApiModelProperty(value = "地理位置纬度")
+    private String latitude;
+
     /**
      * 营业时间
      */

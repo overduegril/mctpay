@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class MemberLevelRulesParam extends BaseEntity{
 
-    @ApiModelProperty(value = "",  hidden = true)
+    @ApiModelProperty(value = "新增数据时，不传此参数，修改时传入此参数")
     private Long id;
     /**
      * 会员等级名称/

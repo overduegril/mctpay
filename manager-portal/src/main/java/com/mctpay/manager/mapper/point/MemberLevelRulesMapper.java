@@ -51,4 +51,10 @@ public interface MemberLevelRulesMapper extends BaseMapper<MemberLevelRulesEntit
      * @Date 13:52 2020/3/3
      **/
     String getLevelByPoint(Integer point);
+
+    /**
+     * @Description 更新积分等级规则
+     * @Date 19:37 2020/3/23
+     **/
+    void updateMemberLevelRules(MemberLevelRulesParam memberLevelRulesParam);
 }

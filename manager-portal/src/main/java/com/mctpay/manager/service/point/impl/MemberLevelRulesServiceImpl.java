@@ -52,13 +52,11 @@ public class MemberLevelRulesServiceImpl implements MemberLevelRulesService {
         // 判断该积分以及等级名称是否存在
         Integer nameCount = memberLevelRulesMapper.countMemberLevelName(memberLevelRulesParam.getMemberLevelName());
         if (nameCount != 0) {
-            return
-            new ResponseData<>().fail(LEVELNAME_HAS_BEEN_USED.getCode(), LEVELNAME_HAS_BEEN_USED.getMessage());
+            return new ResponseData<>().fail(LEVELNAME_HAS_BEEN_USED.getCode(), LEVELNAME_HAS_BEEN_USED.getMessage());
         }
         Integer pointCount = memberLevelRulesMapper.countPoint(memberLevelRulesParam.getPoint());
         if (pointCount != 0) {
-            return
-            new ResponseData<>().fail(POINT_HAS_BEEN_USED.getCode(), POINT_HAS_BEEN_USED.getMessage());
+            return new ResponseData<>().fail(POINT_HAS_BEEN_USED.getCode(), POINT_HAS_BEEN_USED.getMessage());
         }
         memberLevelRulesMapper.insertMemberLevelRules(memberLevelRulesParam);
         return new ResponseData<>().success(null);
@@ -71,5 +69,24 @@ public class MemberLevelRulesServiceImpl implements MemberLevelRulesService {
     @Override
     public void switchMemberLevelRules(Long id, Integer state) {
         memberLevelRulesMapper.switchMemberLevelRules(id, state);
+    }
+
+    /**
+     * @Description 更新积分等级规则
+     * @Date 19:37 2020/3/23
+     **/
+    @Override
+    public ResponseData updateMemberLevelRules(MemberLevelRulesParam memberLevelRulesParam) {
+        // 判断该积分以及等级名称是否存在
+        Integer nameCount = memberLevelRulesMapper.countMemberLevelName(memberLevelRulesParam.getMemberLevelName());
+        if (nameCount != 0) {
+            return new ResponseData<>().fail(LEVELNAME_HAS_BEEN_USED.getCode(), LEVELNAME_HAS_BEEN_USED.getMessage());
+        }
+        Integer pointCount = memberLevelRulesMapper.countPoint(memberLevelRulesParam.getPoint());
+        if (pointCount != 0) {
+            return new ResponseData<>().fail(POINT_HAS_BEEN_USED.getCode(), POINT_HAS_BEEN_USED.getMessage());
+        }
+        memberLevelRulesMapper.updateMemberLevelRules(memberLevelRulesParam);
+        return new ResponseData();
     }
 }

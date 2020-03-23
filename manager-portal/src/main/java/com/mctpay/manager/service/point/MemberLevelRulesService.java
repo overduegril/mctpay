@@ -32,4 +32,10 @@ public interface MemberLevelRulesService {
      * @Date 11:12 2020/3/2
      **/
     void switchMemberLevelRules(Long id, Integer state);
+
+    /**
+     * @Description 更新积分等级规则
+     * @Date 19:37 2020/3/23
+     **/
+    ResponseData updateMemberLevelRules(MemberLevelRulesParam memberLevelRulesParam);
 }

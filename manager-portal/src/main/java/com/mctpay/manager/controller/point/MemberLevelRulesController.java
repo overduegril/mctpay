@@ -49,6 +49,16 @@ public class MemberLevelRulesController {
         return responseData;
     }
 
+    @ApiOperation(value = "修改积分等级规则", notes = "修改积分等级规则", httpMethod = "POST")
+    @RequestMapping("/updateMemberLevelRules")
+    public ResponseData updateMemberLevelRules(@RequestBody MemberLevelRulesParam memberLevelRulesParam) {
+        memberLevelRulesParam.setUpdateTime(new Date());
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        memberLevelRulesParam.setLastOperator(userEntity.getUsername());
+        ResponseData responseData = memberLevelRulesService.updateMemberLevelRules(memberLevelRulesParam);
+        return responseData;
+    }
+
     @ApiOperation(value = "冻结，激活会员积分等级设置", notes = "冻结，激活会员积分等级设置", httpMethod = "POST")
     @RequestMapping("/switchMemberLevelRules")
     public ResponseData switchMemberLevelRules(@RequestParam Long id, @RequestParam Integer state) {

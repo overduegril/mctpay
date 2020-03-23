@@ -65,6 +65,7 @@ public class MerchantServiceImpl implements MerchantService {
                     }
                     if (inRange && businessStatus != -1) {
                         businessStatus = 1;
+                        break;
                     }else if (!inRange && businessStatus != -1){
                         businessStatus = 0;
                     }
