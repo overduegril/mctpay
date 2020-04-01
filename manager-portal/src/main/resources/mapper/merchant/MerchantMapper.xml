@@ -91,10 +91,13 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM
+        (SELECT
+        <include refid="Base_Column_List"/>, concat(merchant_name,phone_number,email) content
+        FROM
         mct_merchant
-        WHERE  status != 0
+        ) t0 WHERE status != 0
         <if test="inputContent != null and inputContent != ''">
-            AND merchant_name LIKE CONCAT('%', #{inputContent}, '%')
+            AND content LIKE CONCAT('%', #{inputContent} , '%')
         </if>
     </select>
 

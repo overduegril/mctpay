@@ -30,8 +30,8 @@ public class ShowPictureServiceImpl implements ShowPictureService {
     }
 
     @Override
-    public List<ShowPicturerDTO> listShowPicturer() {
-        List<ShowPictureEntity> showPictureEntities = showPictureMapper.listShowPicturer();
+    public List<ShowPicturerDTO> listShowPicturer(String useTypeCode) {
+        List<ShowPictureEntity> showPictureEntities = showPictureMapper.listShowPicturer(useTypeCode);
         List<ShowPicturerDTO> showPicturerDTOS = new ArrayList<>();
         for(ShowPictureEntity showPictureEntitie : showPictureEntities){
             ShowPicturerDTO showPicturerDTO = new ShowPicturerDTO();

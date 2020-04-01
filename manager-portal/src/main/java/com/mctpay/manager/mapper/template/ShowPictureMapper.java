@@ -24,7 +24,7 @@ public interface ShowPictureMapper extends BaseMapper<ShowPictureEntity> {
      * @Description 插入轮播广告
      * @Date 23:49 2020/2/29
      **/
-    List<ShowPictureEntity> listShowPicturer();
+    List<ShowPictureEntity> listShowPicturer(String useTypeCode);
     /**
      * @Description  修改轮播图状态
      * @Date  00:03 2020/3/1

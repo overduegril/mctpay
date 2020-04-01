@@ -29,6 +29,6 @@ public class ShowPicturerParam extends BaseEntity implements Serializable {
      * sdk类型
      */
     @ApiModelProperty(value = "sdk类型")
-    private String sdkType;
+    private Integer sdkType;
 
 }

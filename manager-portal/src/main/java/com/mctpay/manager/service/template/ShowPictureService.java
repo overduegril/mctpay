@@ -21,7 +21,7 @@ public interface ShowPictureService {
      * @Description  获取所有轮播图
      * @Date  23:29 2020/2/29
      **/
-    List<ShowPicturerDTO> listShowPicturer();
+    List<ShowPicturerDTO> listShowPicturer(String useTypeCode);
     /**
      * @Description  修改轮播图状态
      * @Date  00:00 2020/3/1

@@ -17,6 +17,7 @@
         <include refid="Base_Column_List"/>
         FROM mct_show_picture
         WHERE status != 0
+        AND use_type_code = #{useTypeCode}
     </select>
 
     <!--
