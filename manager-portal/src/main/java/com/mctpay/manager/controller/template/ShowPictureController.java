@@ -36,7 +36,6 @@ public class ShowPictureController {
     @ApiOperation(value = "添加轮播广告", notes = "添加轮播广告", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertShowPicturer")
     public ResponseData insertShowPicturer(@RequestBody ShowPicturerParam showPicturerParam) {
-        // TODO 格式待确认
         showPicturerParam.setStatus(1);
         showPicturerParam.setCreateTime(new Date());
         showPicturerParam.setUpdateTime(new Date());
@@ -45,8 +44,8 @@ public class ShowPictureController {
 
     @ApiOperation(value = "分页查询轮播图", notes = "分页查询轮播图", httpMethod = "GET", consumes = "application/json")
     @GetMapping("/listShowPicturer")
-    public ResponseData listShowPicturer() {
-        List<ShowPicturerDTO> showPicturerDTOs = showPictureService.listShowPicturer();
+    public ResponseData listShowPicturer(String useTypeCode) {
+        List<ShowPicturerDTO> showPicturerDTOs = showPictureService.listShowPicturer(useTypeCode);
         return new ResponseData().success(showPicturerDTOs);
     }
 

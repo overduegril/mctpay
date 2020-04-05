@@ -42,9 +42,9 @@
             <if test="businessTime != null">
                  business_time = #{businessTime},
             </if>
-            <!--<if test="industry != null">-->
-                 <!--industry = #{industry},-->
-            <!--</if>-->
+            <if test="industry != null">
+                 industry = #{industry},
+            </if>
             <if test="dataDictionary != null">
                  data_dictionary = #{dataDictionary},
             </if>

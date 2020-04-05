@@ -8,7 +8,7 @@ import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.manager.model.dto.system.UserDTO;
-import com.mctpay.manager.model.param.NewPasswrod;
+import com.mctpay.manager.model.param.NewPassword;
 import com.mctpay.manager.model.param.UserParam;
 import com.mctpay.manager.service.system.UserService;
 import io.swagger.annotations.Api;
@@ -66,16 +66,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改密码", notes = "首次登陆时修改密码", httpMethod = "POST", consumes = "application/json")
-    @ApiImplicitParams({@ApiImplicitParam(
-            name = "newPasswrod",
-            value = "新密码",
-            required = true,
-            paramType = "update",
-            dataType = "String"
-    )})
     @PostMapping("/updatePassword")
-    public ResponseData<List<UserDTO>> updatePassword(@RequestBody NewPasswrod newPasswrod) {
-        String newPwd = SecureUtils.MD5Encrypt(newPasswrod.getNewPassword());
+    public ResponseData<List<UserDTO>> updatePassword(@RequestBody NewPassword NewPassword) {
+        String newPwd = SecureUtils.MD5Encrypt(NewPassword.getNewPassword());
         userService.updatePassword(newPwd);
         return new ResponsePageInfo<List<UserDTO>>().success(null);
     }

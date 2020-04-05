@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,5 +30,5 @@ public interface ShowPictureMapper extends BaseMapper<ShowPictureEntity> {
      * @Description  修改轮播图状态
      * @Date  00:03 2020/3/1
      **/
-    void updateSwitchShowPicturer(@Param("showPicturerId") Long showPicturerId , @Param("status") Integer  status);
+    void updateSwitchShowPicturer(@Param("showPicturerId") Long showPicturerId , @Param("status") Integer  status, @Param("updateTime") Date updateTime);
 }

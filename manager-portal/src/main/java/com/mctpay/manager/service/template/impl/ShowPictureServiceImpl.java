@@ -11,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * @Author: chenshubiao
- * @Description:  轮播图
+ * @Description: 轮播图
  * @Date: 2020/2/29 23:29
  */
 @Service
@@ -33,9 +34,9 @@ public class ShowPictureServiceImpl implements ShowPictureService {
     public List<ShowPicturerDTO> listShowPicturer(String useTypeCode) {
         List<ShowPictureEntity> showPictureEntities = showPictureMapper.listShowPicturer(useTypeCode);
         List<ShowPicturerDTO> showPicturerDTOS = new ArrayList<>();
-        for(ShowPictureEntity showPictureEntitie : showPictureEntities){
+        for (ShowPictureEntity showPictureEntitie : showPictureEntities) {
             ShowPicturerDTO showPicturerDTO = new ShowPicturerDTO();
-            BeanUtils.copyProperties(showPictureEntitie,showPicturerDTO);
+            BeanUtils.copyProperties(showPictureEntitie, showPicturerDTO);
             showPicturerDTOS.add(showPicturerDTO);
         }
         return showPicturerDTOS;
@@ -43,7 +44,8 @@ public class ShowPictureServiceImpl implements ShowPictureService {
 
     @Override
     public ResponseData updateSwitchShowPicturer(long showPicturerId, Integer status) {
-        showPictureMapper.updateSwitchShowPicturer(showPicturerId,status);
+        Date updateTime = new Date();
+        showPictureMapper.updateSwitchShowPicturer(showPicturerId, status, updateTime);
         return new ResponseData().success(null);
     }
 }

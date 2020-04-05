@@ -9,6 +9,7 @@ import com.mctpay.common.uitl.OSSUtils;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.manager.config.OSSProperties;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
+import com.mctpay.manager.model.entity.system.UserEntity;
 import com.mctpay.manager.model.enums.FileUseTypeEnum;
 import com.mctpay.manager.model.param.MerchantParam;
 import com.mctpay.manager.service.merchant.MerchantService;
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,22 +48,24 @@ public class MerchantController {
     @ApiOperation(value = "添加商户", notes = "添加商户",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertMerchant")
     public ResponseData insertMerchant(MerchantParam merchantParam){
-
         String id = UIdUtils.getUid().toString();
         merchantParam.setId(id);
         merchantParam.setStatus(2);
         merchantParam.setCreateTime(new Date());
         merchantParam.setUpdateTime(new Date());
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        merchantParam.setCreator(userEntity.getUsername());
         return merchantService.insertMerchant(merchantParam);
     }
 
     @ApiOperation(value = "修改商户", notes = "修改商户",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/updateMerchant")
-    public ResponseData updateMerchant(@RequestBody MerchantParam updateMerchantParam){
+    public ResponseData updateMerchant(MerchantParam updateMerchantParam){
         updateMerchantParam.setUpdateTime(new Date());
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        updateMerchantParam.setCreator(userEntity.getUsername());
         return merchantService.updateMerchant(updateMerchantParam);
     }
-
 
     @ApiOperation(value = "分页查询商户", notes = "分页查询商户 ;status值为1||2，表示激活商户，-1||-2为冻结商户",  httpMethod = "POST", consumes = "application/json")
     @RequestMapping("/listMerchanttByInput")

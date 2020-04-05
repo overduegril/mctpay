@@ -7,7 +7,7 @@
     <!-- 修改状态 -->
     <update id="updateSwitchShowPicturer">
         UPDATE mct_show_picture
-        SET status = #{status}
+        SET status = #{status}, update_time = #{updateTime}
         WHERE id = #{showPicturerId}
     </update>
 

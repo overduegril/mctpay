@@ -10,6 +10,7 @@ import com.mctpay.manager.model.dto.merchant.MerchantDtO;
 import com.mctpay.manager.model.entity.merchant.MerchantEntity;
 import com.mctpay.manager.model.param.MerchantParam;
 import com.mctpay.manager.service.merchant.MerchantService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.List;
  * @Date: 2020/2/24 10:27
  */
 @Service
+@Slf4j
 public class MerchantServiceImpl implements MerchantService {
 
     @Autowired
@@ -45,8 +47,8 @@ public class MerchantServiceImpl implements MerchantService {
     public List<MerchantDtO> listMerchantByInput(String inputContent) {
         List<MerchantEntity> merchantEntities = merchantMapper.listMerchantByInput(inputContent);
         // 计算商户的营业时间
-        Integer businessStatus = 1;
         for (MerchantEntity merchantEntity : merchantEntities) {
+            Integer businessStatus = 1;
             String businessTime = merchantEntity.getBusinessTime();
             if (!StringUtils.isEmpty(businessTime)) {
                 String[] businessTimes = businessTime.split(";");
@@ -61,6 +63,7 @@ public class MerchantServiceImpl implements MerchantService {
                         inRange = DateUtil.isIn(new Date(), startDate, endDate);
                         // 防止输错影响到整个列表的查询
                     } catch (Exception e) {
+                        log.debug(e.toString());
                         businessStatus = -1;
                     }
                     if (inRange && businessStatus != -1) {

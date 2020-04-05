@@ -80,6 +80,29 @@ public class MerchantDtO implements Serializable {
     /**
      * 营业状态
      */
-    @ApiModelProperty(value = "营业状态 1为在营业种，0为休息中，-1为输入格式错误")
+    @ApiModelProperty(value = "营业状态 1为营业中，0为休息中，-1为输入格式错误")
     private Integer businessStatus;
+
+    /**
+     * 数据字典
+     */
+    @ApiModelProperty(value = "数据字典")
+    private String dataDictionary;
+    /**
+     * 解释内容
+     */
+    @ApiModelProperty(value = "解释内容")
+    private String explainContent;
+
+    /**
+     * 邮箱
+     */
+    @ApiModelProperty(value = "邮编")
+    private String postcode;
+
+    /**
+     * 行业
+     */
+    @ApiModelProperty(value = "行业")
+    private String industry;
 }

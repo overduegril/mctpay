@@ -87,6 +87,6 @@ public class MemberLevelRulesServiceImpl implements MemberLevelRulesService {
             return new ResponseData<>().fail(POINT_HAS_BEEN_USED.getCode(), POINT_HAS_BEEN_USED.getMessage());
         }
         memberLevelRulesMapper.updateMemberLevelRules(memberLevelRulesParam);
-        return new ResponseData();
+        return new ResponseData().success(null);
     }
 }
