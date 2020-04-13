@@ -31,7 +31,6 @@ public class BaseEntity {
     /**
      * 更新时间
      */
-    @JsonIgnore
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新时间", hidden = true)
     private Date updateTime;

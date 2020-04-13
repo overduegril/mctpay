@@ -60,9 +60,9 @@
             <if test="creator != null">
                  creator = #{creator},
             </if>
-            <!--<if test="businessStatus != null">-->
-                 <!--business_status = #{businessStatus},-->
-            <!--</if>-->
+            <if test="postcode != null">
+                 postcode = #{postcode},
+            </if>
             <if test="status != null">
                  status = #{status},
             </if>
