@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.manager.mapper.point.GiftMapper">
+    <!--
+    插入积分产品
+    -->
+    <insert id="insertGift">
+        INSERT INTO manager_gift(<include refid="Base_Column_List"/>)
+        VALUES (
+        #{id},
+        #{goodsName},
+        #{maxExchangeCount},
+        #{goodsTypeCode},
+        #{goodsTypeName},
+        #{goodsAmount},
+        #{exchangePoint},
+        #{status},
+        #{startDate},
+        #{endDate},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <!-- 根据输入查询积分产品信息 -->
+    <select id="listGiftByInput" resultType="com.mctpay.manager.model.entity.point.GiftEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        (SELECT
+        <include refid="Base_Column_List"/>, concat(goods_name,goods_type_name,start_date,end_date) content
+        FROM
+        manager_gift
+        ) t0 WHERE status != 0
+        <if test="inputContent != null and inputContent != ''">
+            AND content LIKE CONCAT('%', #{inputContent} , '%')
+        </if>
+    </select>
+
+    <!-- 激活，冻结积分产品 -->
+    <update id="updateSwitchGift">
+        UPDATE manager_gift
+        SET status = #{state}
+        WHERE id = #{giftId}
+    </update>
+
+    <sql id="Base_Column_List">
+	  id, goods_name, max_exchange_count, goods_type_code, goods_type_name, goods_amount ,exchange_point ,
+	  status,
+	  start_date,
+	  end_date,
+	  create_time,
+	  update_time
+    </sql>
+
+    <select id="get" resultType="com.mctpay.manager.model.entity.point.GiftEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from manager_gift where id = #{value}
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="goodsName != null">
+            and goods_name = #{goodsName}
+        </if>
+        <if test="maxExchangeCount != null">
+            and max_exchange_count = #{maxExchangeCount}
+        </if>
+        <if test="goodsTypeCode != null">
+            and goods_type_code = #{goodsTypeCode}
+        </if>
+        <if test="goodsTypeName != null">
+            and goods_type_name = #{goodsTypeName}
+        </if>
+        <if test="goodsAmount != null">
+            and goods_amount = #{goodsAmount}
+        </if>
+        <if test="exchangePoint != null">
+            and exchange_point = #{exchangePoint}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+
+</mapper>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.manager.mapper.merchant.MerchantMapper">
+
+    <!--
+        修改商户
+    -->
+    <update id="updateMerchant" >
+        update mct_merchant
+        <set>
+            <if test="merchantName != null">
+                 merchant_name = #{merchantName},
+            </if>
+            <if test="legalPerson != null">
+                 legal_person = #{legalPerson},
+            </if>
+            <if test="idLastNumber != null">
+                 id_last_number = #{idLastNumber},
+            </if>
+            <if test="phoneNumber != null">
+                 phone_number = #{phoneNumber},
+            </if>
+            <if test="email != null">
+                 email = #{email},
+            </if>
+            <if test="registeredAddress != null">
+                 registered_address = #{registeredAddress},
+            </if>
+
+            <if test="longitude != null">
+                longitude = #{longitude},
+            </if>
+
+            <if test="latitude != null">
+                latitude = #{latitude},
+            </if>
+
+            <if test="businessAddress != null">
+                 business_address = #{businessAddress},
+            </if>
+            <if test="businessTime != null">
+                 business_time = #{businessTime},
+            </if>
+            <if test="industry != null">
+                 industry = #{industry},
+            </if>
+            <if test="dataDictionary != null">
+                 data_dictionary = #{dataDictionary},
+            </if>
+            <if test="explainContent != null">
+                 explain_content = #{explainContent},
+            </if>
+            <if test="businessContent != null">
+                 business_content = #{businessContent},
+            </if>
+            <if test="shopPhoto != null">
+                 shop_photo = #{shopPhoto},
+            </if>
+            <if test="creator != null">
+                 creator = #{creator},
+            </if>
+            <if test="postcode != null">
+                 postcode = #{postcode},
+            </if>
+            <if test="status != null">
+                 status = #{status},
+            </if>
+            <if test="createTime != null">
+                 create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                 update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 激活，冻结商户 -->
+    <update id="updateSwitchMerchant">
+        UPDATE mct_merchant
+        SET status = #{state}
+        WHERE id = #{merchantId}
+    </update>
+
+
+    <!--
+       获取商户集合
+    -->
+    <select id="listMerchantByInput" resultType="com.mctpay.manager.model.entity.merchant.MerchantEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        (SELECT
+        <include refid="Base_Column_List"/>, concat(merchant_name,phone_number,email) content
+        FROM
+        mct_merchant
+        ) t0 WHERE status != 0
+        <if test="inputContent != null and inputContent != ''">
+            AND content LIKE CONCAT('%', #{inputContent} , '%')
+        </if>
+    </select>
+
+    <!--
+     插入商户(不包含营业执照)
+     -->
+    <insert id="insertMerchant">
+        INSERT INTO mct_merchant(id, merchant_name, legal_person, id_last_number, phone_number, email, postcode, registered_address, longitude, latitude,business_address, business_time, industry,data_dictionary, explain_content, business_content, member_qrcode_url, shop_photo, creator, status, create_time, update_time)
+        VALUES (
+        #{id},
+        #{merchantName},
+        #{legalPerson},
+        #{idLastNumber},
+        #{phoneNumber},
+        #{email},
+        #{postcode},
+        #{registeredAddress},
+        #{longitude},
+        #{latitude},
+        #{businessAddress},
+        #{businessTime},
+        #{industry},
+        #{dataDictionary},
+        #{explainContent},
+        #{businessContent},
+        #{memberQrcodeUrl},
+        #{shopPhoto},
+        #{creator},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <!-- 保存营业执照 -->
+    <insert id="insertBusinessLicense">
+        UPDATE mct_merchant
+        SET business_license = #{businessLicenseUrl}
+        WHERE id = #{merchantId}
+    </insert>
+
+    <sql id="Base_Column_List">
+        id, merchant_name, legal_person, id_last_number, phone_number, email, postcode, registered_address, business_address, business_time, industry,data_dictionary, explain_content, business_content, business_license, member_qrcode_url, shop_photo, creator, business_status, status, create_time, update_time</sql>
+
+    <select id="get" resultType="com.mctpay.manager.model.entity.merchant.MerchantEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from mct_merchant where id = #{value}
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="merchantName != null">
+            and merchant_name = #{merchantName}
+        </if>
+        <if test="legalPerson != null">
+            and legal_person = #{legalPerson}
+        </if>
+        <if test="idLastNumber != null">
+            and id_last_number = #{idLastNumber}
+        </if>
+        <if test="phoneNumber != null">
+            and phone_number = #{phoneNumber}
+        </if>
+        <if test="email != null">
+            and email = #{email}
+        </if>
+        <if test="registeredAddress != null">
+            and registered_address = #{registeredAddress}
+        </if>
+        <if test="businessAddress != null">
+            and business_address = #{businessAddress}
+        </if>
+        <if test="businessTime != null">
+            and business_time = #{businessTime}
+        </if>
+        <if test="industry != null">
+            and industry = #{industry}
+        </if>
+        <if test="dataDictionary != null">
+            and data_dictionary = #{dataDictionary}
+        </if>
+        <if test="explainContent != null">
+            and explain_content = #{explainContent}
+        </if>
+        <if test="businessContent != null">
+            and business_content = #{businessContent}
+        </if>
+        <if test="businessLicense != null">
+            and business_license = #{businessLicense}
+        </if>
+        <if test="memberQrcodeUrl != null">
+            and member_qrcode_url = #{memberQrcodeUrl}
+        </if>
+        <if test="shopPhoto != null">
+            and shop_photo = #{shopPhoto}
+        </if>
+        <if test="creator != null">
+            and creator = #{creator}
+        </if>
+        <if test="businessStatus != null">
+            and business_status = #{businessStatus}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>

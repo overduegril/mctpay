@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.wallet.com.mctpay.manager.mapper.system.UserMapper">
+
+
+    <sql id="Base_Column_List">
+	    id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time</sql>
+
+    <!-- 注册管理员 -->
+    <insert id="insertUser">
+        INSERT INTO wallet_user(
+        id, nickname, password, email, status, create_time, update_time
+        )
+        VALUES (
+        #{id},
+        #{nickname},
+        #{password},
+        <!-- 保留字段 -->
+        <!-- #{gender}, -->
+        #{email},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <!-- 激活，冻结用户 -->
+    <update id="updateSwitchUser">
+        UPDATE manager_user
+        SET status = #{state}
+        WHERE id = #{userId}
+    </update>
+
+
+    <select id="get" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from wallet_user where id = #{value}
+    </select>
+
+    <!-- 判断邮箱是否被使用 -->
+    <select id="countEmail" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM wallet_user
+        WHERE email = #{email}
+    </select>
+
+    <!-- 判断手机号是否被使用 -->
+    <select id="countPhoneNumber" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM wallet_user
+        WHERE phone_number = #{phoneNumber}
+    </select>
+
+    <!-- 判断用户名是否被使用 -->
+    <select id="countUserName" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM wallet_user
+        WHERE username = #{userName}
+    </select>
+
+    <!-- 根据账号获取用户 -->
+    <select id="getByPhoneNumber" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
+        SELECT id, username, nickname, password, phone_number, email, remark, status
+        FROM wallet_user
+        WHERE phone_number = #{username}
+    </select>
+
+    <!-- 差选会员列表 -->
+    <select id="listUser" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM wallet_user
+        WHERE status != 0
+    </select>
+
+    <!-- 根据输入查询管理员信息 -->
+    <select id="listUserByInput" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM (SELECT id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time, CONCAT(username, nickname, remark) AS content
+              FROM wallet_user ) t0
+              WHERE status != 0
+              <if test="inputContent != null and inputContent != ''">
+                  AND content LIKE CONCAT('%', #{inputContent}, '%')
+              </if>
+
+    </select>
+
+    <!-- 通过邮箱获取 -->
+    <select id="getByEmail" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
+        SELECT id, username, nickname, password, phone_number, email, remark, status
+        FROM wallet_user
+        WHERE email = #{username}
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="username != null">
+            and username = #{username}
+        </if>
+        <if test="nickname != null">
+            and nickname = #{nickname}
+        </if>
+        <if test="password != null">
+            and password = #{password}
+        </if>
+        <if test="gender != null">
+            and gender = #{gender}
+        </if>
+        <if test="phoneNumber != null">
+            and phone_number = #{phoneNumber}
+        </if>
+        <if test="email != null">
+            and email = #{email}
+        </if>
+        <if test="remark != null">
+            and remark = #{remark}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>
