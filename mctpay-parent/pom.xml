@@ -10,7 +10,12 @@
     <packaging>pom</packaging>
 
     <name>mctpay-parent</name>
-
+<modules>
+    <module>manager-portal</module>
+    <module>mctpay-common</module>
+    <module>merchant-portal</module>
+    <module>mctpay-service</module>
+</modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
