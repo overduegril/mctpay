@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserDetailsService {
     @Autowired
     private RoleMapper roleMapper;
 
-    @Autowired
+    @Autowired()
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override

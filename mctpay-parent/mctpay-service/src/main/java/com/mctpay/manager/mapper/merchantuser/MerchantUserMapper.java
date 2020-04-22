@@ -1,10 +1,14 @@
-package com.mctpay.manager.mapper.merchant;
+package com.mctpay.manager.mapper.merchantuser;
 
 import com.mctpay.common.base.mapper.BaseMapper;
-import com.mctpay.manager.model.entity.merchant.MerchantUserEntity;
+import com.mctpay.manager.model.dto.merchantuser.ListMerchantUserByInputReqDtO;
+import com.mctpay.manager.model.entity.merchantuser.MerchantUserEntity;
 import com.mctpay.manager.model.param.MerchantUserParam;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 /**
  * @Author: guodongwei
@@ -12,7 +16,7 @@ import org.springframework.stereotype.Repository;
  * @Date: 2020/3/3 16:35
  */
 @Repository
-public interface MerchantUserMapper extends BaseMapper<MerchantUserEntity> {
+public interface MerchantUserMapper extends BaseMapper<MerchantUserEntity> , Mapper<MerchantUserEntity> {
 
     /**
      * @Description 注册管理员
@@ -49,4 +53,11 @@ public interface MerchantUserMapper extends BaseMapper<MerchantUserEntity> {
      * @Date 23:10 2020/3/3
      **/
     void updatePassword(@Param("password") String password, @Param("id") String id);
+
+     /**
+      * 查询指定商户管理员信息
+      * @param listMerchantUserByInputReqDtO
+      * @return
+      */
+     public List<MerchantUserEntity> findPageByMerchantId(ListMerchantUserByInputReqDtO listMerchantUserByInputReqDtO);
 }

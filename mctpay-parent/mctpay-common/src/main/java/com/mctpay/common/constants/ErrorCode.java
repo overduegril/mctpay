@@ -51,7 +51,16 @@ public enum ErrorCode {
     /**
      * 文件格式不支持
      */
-    FILE_FORMAT_NOT_CORRECT(3010, "file_format_not_correct");
+    FILE_FORMAT_NOT_CORRECT(3010, "file_format_not_correct"),
+
+    //商户限制超级管理员
+    ONLY_SUPPER_ADMIN(3011,"仅限超级管理员可登陆"),
+    //用户类型不能为空
+    USER_TYPE_IS_NOT_NULL(3012,"用户类型不能为空"),
+    //密码不能为空
+    PASSWORD_IS_NOT_NULL(3013,"密码不能为空"),
+    //密码不能为空
+    PASSWORD_WRONGFUL(3014,"密码格式不合法");
 
     private int code;
     private String message;

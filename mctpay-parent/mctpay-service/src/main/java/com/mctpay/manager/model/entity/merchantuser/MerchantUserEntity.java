@@ -1,16 +1,16 @@
-package com.mctpay.manager.model.entity.merchant;
+package com.mctpay.manager.model.entity.merchantuser;
 
 import com.mctpay.common.base.entity.BaseEntity;
-import com.mctpay.manager.model.entity.system.RoleEntity;
+import com.mctpay.manager.keyvalue.MerchantUserTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author dongwei_guo
@@ -18,26 +18,26 @@ import java.util.List;
  */
 @Data
 @ApiModel(value = "商户平台用户")
+@Table(name = "merchant_user")
 public class MerchantUserEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "")
-    private Long id;
+    @Id
+    private String id;
+    @ApiModelProperty(value = "商户密码")
+    private String password;
+    @ApiModelProperty(value = "登录名")
+    private String loginName;
     /**
-     * 用户名
+     * 姓名
      */
-    @ApiModelProperty(value = "用户名")
-    private String username;
+    @ApiModelProperty(value = "姓名")
+    private String name;
     /**
      * 昵称
      */
     @ApiModelProperty(value = "昵称")
     private String nickname;
-    /**
-     * 密码
-     */
-    @ApiModelProperty(value = "密码")
-    private String password;
     /**
      * 性别
      */
@@ -58,11 +58,14 @@ public class MerchantUserEntity extends BaseEntity implements Serializable {
      */
     @ApiModelProperty(value = "备注")
     private String remark;
-
+    @ApiModelProperty(value = "折扣比例")
+    private Double minDiscountRate;
+    @ApiModelProperty(value = "所属商户")
+    private String merchantId;
     /**
-     * 角色
+     * 账号类型
      */
-    @ApiModelProperty(value = "角色")
-    private List<RoleEntity> roles;
+    private MerchantUserTypeEnum merchantUserType;
+
 
 }

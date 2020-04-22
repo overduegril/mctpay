@@ -1,6 +1,7 @@
 package com.mctpay.manager.service.merchant;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.manager.model.dto.merchantuser.FindByEmailDtO;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
 import com.mctpay.manager.model.param.MerchantParam;
 
@@ -39,6 +40,7 @@ public interface MerchantService {
      * @Date 23:23 2020/3/3
      **/
     void resetPassword(String merchantId);
+
 
     /**
      * @Description 保存营业执照

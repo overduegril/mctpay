@@ -26,6 +26,7 @@ import java.util.List;
 @Api(value = "兑换礼物", tags = "积分")
 @RestController
 @RequestMapping("manager-gift")
+
 public class GiftController {
 
     @Autowired

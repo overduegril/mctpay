@@ -54,9 +54,12 @@ mybatis:
     call-setters-on-nulls: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   executor-type: simple
-
+  type-handlers-package: com.mctpay.manager.keyvalue
 aliyun-oss:
   bucketName: wosz
   shopPhotoKeyPrefix: mctpay/merchant/shopPhoto/
   businessLicenseKeyPrefix: mctpay/merchant/businessLicense/
   qrcodePath: mctpay/merchant/qrcode
+mapper:
+  use-simple-type: true
+  enum-as-simple-type: true

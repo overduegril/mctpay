@@ -3,9 +3,10 @@ package com.mctpay.manager.mapper.merchant;
 import com.mctpay.common.base.mapper.BaseMapper;
 import com.mctpay.manager.model.entity.merchant.MerchantEntity;
 import com.mctpay.manager.model.param.MerchantParam;
-import org.apache.ibatis.annotations.Mapper;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @date 2020-02-23 18:23:02
  */
 @Repository
-public interface MerchantMapper extends BaseMapper<MerchantEntity> {
+public interface MerchantMapper extends BaseMapper<MerchantEntity> , Mapper<MerchantEntity> {
 
     /**
      * @Description 插入商户

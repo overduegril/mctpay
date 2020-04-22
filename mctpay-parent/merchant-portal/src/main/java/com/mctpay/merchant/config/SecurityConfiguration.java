@@ -2,9 +2,13 @@ package com.mctpay.merchant.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.config.GlobalConstant;
 import com.mctpay.common.config.MyBCryptPasswordEncoder;
-import com.mctpay.merchant.model.entity.system.UserEntity;
-import com.mctpay.merchant.service.system.impl.UserServiceImpl;
+
+import com.mctpay.manager.convert.merchantuser.MerchantUserConvert;
+import com.mctpay.manager.model.dto.merchantuser.FindByEmailDtO;
+import com.mctpay.manager.model.vo.merchant.LoginedResVo;
+import com.mctpay.manager.service.merchantuser.impl.MerchantUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -40,12 +44,14 @@ import static com.mctpay.common.constants.ErrorCode.*;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserServiceImpl userService;
+    private MerchantUserServiceImpl userService;
 
     @Autowired
     @Qualifier("myBCryptPasswordEncoder")
     private MyBCryptPasswordEncoder myBCryptPasswordEncoder;
 
+    @Autowired
+    private MerchantUserConvert merchantUserConvert;
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(myBCryptPasswordEncoder);
@@ -89,10 +95,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .successHandler((req, resp, authentication) -> {
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();
-                    UserEntity userEntity = (UserEntity) authentication.getPrincipal();
+                    FindByEmailDtO findByEmailDtO = (FindByEmailDtO) authentication.getPrincipal();
                     ResponseData responseData = new ResponseData<>();
                     // TODO 抽取部分数据进行返回
-                    String s = new ObjectMapper().writeValueAsString(responseData.success(null));
+                    LoginedResVo loginedResVo=merchantUserConvert.findByEmailDtOToLoginedResVo(findByEmailDtO);
+                    String s = new ObjectMapper().writeValueAsString(responseData.success(loginedResVo));
                     out.write(s);
                     out.flush();
                     out.close();

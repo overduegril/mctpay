@@ -52,8 +52,13 @@ public class MCTGlobalExceptionHandler {
             code = ErrorCode.NON_AUTHENTICATION;
         } else if (className.contains("DisabledException")) {
             // -- TODO 如果有其它错误在这里解析。设置规定格式让前端进行规则处理
+        }else if(ex instanceof  BusinessException){
+            BusinessException businessException=(BusinessException)ex;
+            responseData.fail(businessException.getCode(), businessException.getDescription());
+            return responseData;
         }
         log.debug("bug-happen---------------------------------" + ex);
+        log.error("systemExcetpionn",ex);
         responseData.fail(code.getCode(), code.getMessage());
         return responseData;
     }

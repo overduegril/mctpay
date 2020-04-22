@@ -1,11 +1,11 @@
 package com.mctpay.manager.service.merchant.impl;
 
-import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.uitl.SecureUtils;
+import com.mctpay.manager.convert.merchant.MerchantConvert;
 import com.mctpay.manager.mapper.merchant.MerchantMapper;
-import com.mctpay.manager.mapper.merchant.MerchantUserMapper;
+import com.mctpay.manager.mapper.merchantuser.MerchantUserMapper;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
 import com.mctpay.manager.model.entity.merchant.MerchantEntity;
 import com.mctpay.manager.model.param.MerchantParam;
@@ -31,11 +31,16 @@ import java.util.List;
 @Slf4j
 public class MerchantServiceImpl implements MerchantService {
 
+
     @Autowired
     private MerchantMapper merchantMapper;
 
     @Autowired
     private MerchantUserMapper merchantUserMapper;
+
+    @Autowired
+    private MerchantConvert merchantConvert;
+
 
     @Override
     public ResponseData insertMerchant(MerchantParam merchantParam) {
@@ -86,13 +91,13 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResponseData switchMerchant(String merchantId, Integer state) {
         merchantMapper.updateSwitchMerchant(merchantId,state);
         return new ResponseData().success(null);
     }
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResponseData updateMerchant(MerchantParam merchantParam) {
         merchantMapper.updateMerchant(merchantParam);
         // 如果更新的是法人。同时修改商户昵称
@@ -112,6 +117,7 @@ public class MerchantServiceImpl implements MerchantService {
         merchantUserMapper.updatePassword(password, merchantId);
     }
 
+
     /**
      * @Description 保存营业执照
      * @Date 14:16 2020/3/4
@@ -120,4 +126,6 @@ public class MerchantServiceImpl implements MerchantService {
     public void insertBusinessLicense(String businessLicenseUrl, String merchantId) {
         merchantMapper.insertBusinessLicense(businessLicenseUrl, merchantId);
     }
+
+
 }
