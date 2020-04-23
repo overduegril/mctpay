@@ -2,20 +2,26 @@ package com.mctpay.manager.service.merchant.impl;
 
 import cn.hutool.core.date.DateUtil;
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.exception.BusinessException;
 import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.manager.convert.merchant.MerchantConvert;
+import com.mctpay.manager.keyvalue.MerchantUserTypeEnum;
 import com.mctpay.manager.mapper.merchant.MerchantMapper;
 import com.mctpay.manager.mapper.merchantuser.MerchantUserMapper;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
+import com.mctpay.manager.model.dto.merchantuser.EditReqDtO;
 import com.mctpay.manager.model.entity.merchant.MerchantEntity;
+import com.mctpay.manager.model.entity.merchantuser.MerchantUserEntity;
 import com.mctpay.manager.model.param.MerchantParam;
 import com.mctpay.manager.service.merchant.MerchantService;
+import com.mctpay.manager.service.merchantuser.MerchantUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,14 +45,23 @@ public class MerchantServiceImpl implements MerchantService {
     private MerchantUserMapper merchantUserMapper;
 
     @Autowired
+    private MerchantUserService merchantUserService;
+
+    @Autowired
     private MerchantConvert merchantConvert;
 
 
     @Override
-    public ResponseData insertMerchant(MerchantParam merchantParam) {
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseData insertMerchant(MerchantParam merchantParam) throws BusinessException {
         merchantMapper.insertMerchant(merchantParam);
+        EditReqDtO editReqDtO= merchantConvert.merchantParamToEditReqDtO(merchantParam);
+        //商户登录账户设置 默认为超级管理员
+        editReqDtO.setMerchantUserType(MerchantUserTypeEnum.system);
+        merchantUserService.insert(editReqDtO);
         return new ResponseData().success(null);
     }
+
 
     @Override
     public List<MerchantDtO> listMerchantByInput(String inputContent) {
@@ -100,10 +115,17 @@ public class MerchantServiceImpl implements MerchantService {
     @Transactional(rollbackFor = Exception.class)
     public ResponseData updateMerchant(MerchantParam merchantParam) {
         merchantMapper.updateMerchant(merchantParam);
-        // 如果更新的是法人。同时修改商户昵称
-        if (! StringUtils.isEmpty(merchantParam.getLegalPerson())){
-            merchantUserMapper.updateUserNickName(merchantParam.getLegalPerson(), merchantParam.getId());
+        /**
+         * 修改商户对应的管理账号对应登录信息
+         */
+        MerchantUserEntity merchantUserEntity= merchantUserMapper.selectByPrimaryKey(merchantParam.getId());
+        if(merchantUserEntity!=null) {
+            merchantUserEntity.setEmail(merchantParam.getEmail());
+            merchantUserEntity.setLoginName(merchantParam.getEmail());
+            merchantUserEntity.setNickName(merchantParam.getLegalPerson());
+            merchantUserMapper.updateByPrimaryKey(merchantUserEntity);
         }
+
         return new ResponseData().success(null);
     }
 

@@ -19,10 +19,14 @@ import java.util.Collection;
  */
 @Data
 public class FindByLoginNameResDtO  implements Serializable, UserDetails {
+
     @Id
     private String id;
     @ApiModelProperty(value = "商户密码")
     private String password;
+    @ApiModelProperty(value = "是否默认密码登录")
+    private Boolean defaultPassword;
+
     @ApiModelProperty(value = "登录名")
     private String loginName;
     /**
@@ -34,7 +38,7 @@ public class FindByLoginNameResDtO  implements Serializable, UserDetails {
      * 昵称
      */
     @ApiModelProperty(value = "昵称")
-    private String nickname;
+    private String nickName;
     /**
      * 性别
      */
@@ -65,7 +69,6 @@ public class FindByLoginNameResDtO  implements Serializable, UserDetails {
      * 账号类型
      */
     private MerchantUserTypeEnum merchantUserType;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

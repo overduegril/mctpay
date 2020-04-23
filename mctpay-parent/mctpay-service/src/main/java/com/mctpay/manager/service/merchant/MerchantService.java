@@ -1,6 +1,7 @@
 package com.mctpay.manager.service.merchant;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.exception.BusinessException;
 import com.mctpay.manager.model.dto.merchantuser.FindByEmailDtO;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
 import com.mctpay.manager.model.param.MerchantParam;
@@ -18,7 +19,7 @@ public interface MerchantService {
      * @Description 插入积分商品
      * @Date 22:27  2020/2/28
      **/
-    ResponseData insertMerchant(MerchantParam merchantParam);
+    ResponseData insertMerchant(MerchantParam merchantParam) throws BusinessException;
     /**
      * @Description 商户集合
      * @Date 23:39 2020/2/28

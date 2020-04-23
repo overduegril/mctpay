@@ -76,7 +76,9 @@ public class MerchantUserController extends BaseController {
         //前端没有使用 暂时都是男性
         editReqDtO.setGender(1);
         //这个字段没有赋值 暂时跟名字一样
-        editReqDtO.setNickname(editReqVo.getName());
+        if(editReqDtO.getNickName()==null) {
+            editReqDtO.setNickName(editReqVo.getName());
+        }
         //商户绑定额账号 id和商户id一致
         if(editReqVo.getId()==null){
             //默认普通管理员

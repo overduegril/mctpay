@@ -1,10 +1,10 @@
 --控制商户email  登录名  手机号 唯一
-ALTER TABLE `merchant_user` ADD UNIQUE (`email`);
 
-ALTER TABLE `merchant_user` ADD UNIQUE (`login_name`);
+ALTER TABLE `merchant_user` ADD UNIQUE  merchant_id_email (merchant_id,`email`);
 
-ALTER TABLE `merchant_user` ADD UNIQUE (`phone_number`);
+ALTER TABLE `merchant_user` ADD UNIQUE merchant_id_login_name (merchant_id,`login_name`);
 
+ALTER TABLE `merchant_user` ADD UNIQUE merchant_id_phone_number (merchant_id,`phone_number`);
 --会员等级
 
 create table member_grade(

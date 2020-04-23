@@ -65,7 +65,7 @@ public interface MerchantUserService {
      * @param editReqDtO
      * @return
      */
-    public boolean insert(EditReqDtO editReqDtO);
+    public boolean insert(EditReqDtO editReqDtO) throws BusinessException;
 
     /**
      * 修改管理员

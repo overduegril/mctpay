@@ -35,6 +35,7 @@ public interface MerchantUserConvert {
     public FindByLoginNameResDtO entityToFindByLoginNameResDtO(MerchantUserEntity entity);
 
     public LoginedResVo findByEmailDtOToLoginedResVo(FindByEmailDtO findByEmailDtO);
+    public LoginedResVo findByLoginNameResDtOToLoginedResVo(FindByLoginNameResDtO findByLoginNameResDtO);
 
     public EditReqDtO editReqVoToEditReqDtO(EditReqVo editReqVo);
 

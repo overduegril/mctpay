@@ -30,7 +30,7 @@ public class EditReqDtO implements Serializable {
      * 昵称
      */
     @ApiModelProperty(value = "昵称")
-    private String nickname;
+    private String nickName;
 
     /**
      * 手机号

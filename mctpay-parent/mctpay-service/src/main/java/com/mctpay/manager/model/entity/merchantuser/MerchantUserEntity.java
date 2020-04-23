@@ -6,8 +6,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -37,7 +35,7 @@ public class MerchantUserEntity extends BaseEntity implements Serializable {
      * 昵称
      */
     @ApiModelProperty(value = "昵称")
-    private String nickname;
+    private String nickName;
     /**
      * 性别
      */

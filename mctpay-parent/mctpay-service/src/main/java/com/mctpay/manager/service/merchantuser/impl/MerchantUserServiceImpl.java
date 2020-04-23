@@ -7,16 +7,19 @@ import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.manager.convert.merchantuser.MerchantUserConvert;
 import com.mctpay.manager.keyvalue.MerchantUserTypeEnum;
+import com.mctpay.manager.mapper.merchant.MerchantMapper;
 import com.mctpay.manager.mapper.merchantuser.MerchantUserMapper;
 import com.mctpay.manager.model.dto.merchantuser.EditReqDtO;
 import com.mctpay.manager.model.dto.merchantuser.FindByEmailDtO;
 import com.mctpay.manager.model.dto.merchantuser.FindByLoginNameResDtO;
 import com.mctpay.manager.model.dto.merchantuser.ListMerchantUserByInputReqDtO;
+import com.mctpay.manager.model.entity.merchant.MerchantEntity;
 import com.mctpay.manager.model.entity.merchantuser.MerchantUserEntity;
 import com.mctpay.manager.model.vo.merchantuser.ListMerchantUserByInputResVo;
 import com.mctpay.manager.service.merchantuser.MerchantUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,6 +43,8 @@ public class MerchantUserServiceImpl implements MerchantUserService, UserDetails
 
     @Autowired
     private MerchantUserMapper merchantUserMapper;
+    @Autowired
+    MerchantMapper merchantMapper;
     @Autowired
     MerchantUserConvert merchantUserConvert;
     @Autowired
@@ -70,11 +75,26 @@ public class MerchantUserServiceImpl implements MerchantUserService, UserDetails
      * @return
      */
     @Override
-    public boolean insert(EditReqDtO editReqDtO) {
+    public boolean insert(EditReqDtO editReqDtO) throws BusinessException {
         MerchantUserEntity merchantUserEntity = merchantUserConvert.editReqDtOToPo(editReqDtO);
         merchantUserEntity.setCreateTime(new java.util.Date());
         merchantUserEntity.setId(UIdUtils.getUid().toString());
-        merchantUserMapper.insert(merchantUserEntity);
+        //默认激活状态 并设置默认你密码
+        merchantUserEntity.setStatus(2);
+        merchantUserEntity.setPassword(GlobalConstant.defalutMd5Password);
+        try {
+            merchantUserMapper.insert(merchantUserEntity);
+        }catch (DuplicateKeyException  e){
+            String message=e.getMessage();
+            if(message.indexOf("for key 'merchant_id_login_name'")>=0){
+               throw new BusinessException(500,"登录名或者邮箱重复");
+            }else if(message.indexOf("for key 'merchant_id_email'")>=0){
+                throw new BusinessException(500,"邮箱重复");
+            }else if(message.indexOf("for key 'merchant_id_phone_number'")>=0){
+                throw new BusinessException(500,"手机号重复");
+            }
+            throw  e;
+        }
         return true;
     }
 
@@ -177,21 +197,24 @@ public class MerchantUserServiceImpl implements MerchantUserService, UserDetails
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        FindByEmailDtO findByEmailDtO = this.findByEmail(s);
+        FindByLoginNameResDtO findByLoginNameResDtO = this.findByLoginName(s);
         // 验证账户为username的用户是否存在
-        if (null == findByEmailDtO) {
+        if (null == findByLoginNameResDtO) {
             throw new UsernameNotFoundException("username:  " + s + "is not exist!");
         }
-        if (findByEmailDtO.getMerchantUserType() == null) {
+        if (findByLoginNameResDtO.getMerchantUserType() == null) {
             throw new UsernameNotFoundException(USER_TYPE_IS_NOT_NULL.getMessage());
         }
-        if (!findByEmailDtO.getMerchantUserType().equals(MerchantUserTypeEnum.system)) {
+        if (!findByLoginNameResDtO.getMerchantUserType().equals(MerchantUserTypeEnum.system)) {
             throw new UsernameNotFoundException(ONLY_SUPPER_ADMIN.getMessage());
         }
-        findByEmailDtO.setDefaultPassword(findByEmailDtO.getPassword().equals(GlobalConstant.defalutMd5Password));
-        findByEmailDtO.setPassword(myBCryptPasswordEncoder.encode(findByEmailDtO.getPassword()));
+        //根据商户端状态为准
+        MerchantEntity merchantEntity= merchantMapper.selectByPrimaryKey(findByLoginNameResDtO.getMerchantId());
+        findByLoginNameResDtO.setStatus(merchantEntity.getStatus());
+        findByLoginNameResDtO.setDefaultPassword(findByLoginNameResDtO.getPassword().equals(GlobalConstant.defalutMd5Password));
+        findByLoginNameResDtO.setPassword(myBCryptPasswordEncoder.encode(findByLoginNameResDtO.getPassword()));
         // 返回认证用户
-        return findByEmailDtO;
+        return findByLoginNameResDtO;
     }
 
     /**

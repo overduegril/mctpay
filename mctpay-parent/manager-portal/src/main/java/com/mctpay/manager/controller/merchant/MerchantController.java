@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.mctpay.common.base.model.PageParam;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
+import com.mctpay.common.exception.BusinessException;
 import com.mctpay.common.uitl.OSSUtils;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.manager.config.OSSProperties;
@@ -45,7 +46,7 @@ public class MerchantController {
 
     @ApiOperation(value = "添加商户", notes = "添加商户",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertMerchant")
-    public ResponseData insertMerchant(MerchantParam merchantParam){
+    public ResponseData insertMerchant(MerchantParam merchantParam) throws BusinessException {
         String id = UIdUtils.getUid().toString();
         merchantParam.setId(id);
         merchantParam.setStatus(2);

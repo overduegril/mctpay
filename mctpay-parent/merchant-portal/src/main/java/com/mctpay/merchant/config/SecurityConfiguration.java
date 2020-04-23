@@ -7,6 +7,7 @@ import com.mctpay.common.config.MyBCryptPasswordEncoder;
 
 import com.mctpay.manager.convert.merchantuser.MerchantUserConvert;
 import com.mctpay.manager.model.dto.merchantuser.FindByEmailDtO;
+import com.mctpay.manager.model.dto.merchantuser.FindByLoginNameResDtO;
 import com.mctpay.manager.model.vo.merchant.LoginedResVo;
 import com.mctpay.manager.service.merchantuser.impl.MerchantUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,10 +96,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .successHandler((req, resp, authentication) -> {
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();
-                    FindByEmailDtO findByEmailDtO = (FindByEmailDtO) authentication.getPrincipal();
+                    FindByLoginNameResDtO findByLoginNameResDtO = (FindByLoginNameResDtO) authentication.getPrincipal();
                     ResponseData responseData = new ResponseData<>();
                     // TODO 抽取部分数据进行返回
-                    LoginedResVo loginedResVo=merchantUserConvert.findByEmailDtOToLoginedResVo(findByEmailDtO);
+                    LoginedResVo loginedResVo=merchantUserConvert.findByLoginNameResDtOToLoginedResVo(findByLoginNameResDtO);
                     String s = new ObjectMapper().writeValueAsString(responseData.success(loginedResVo));
                     out.write(s);
                     out.flush();
