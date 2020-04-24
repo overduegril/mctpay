@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.mctpay.common.base.model.PageParam;
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.manager.model.dto.point.GiftExchangeRecordDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,7 +29,7 @@ public class GiftExchangeRecordController {
 
     @ApiOperation(value = "分页查询礼物兑换记录", notes = "分页查询礼物兑换记录",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/listGiftExchangeRecordByInput")
-    public ResponseData insertGift(@RequestParam(required = false) String inputContent, @RequestBody PageParam pageParam){
+    public ResponsePageInfo<List<GiftExchangeRecordDTO>> insertGift(@RequestParam(required = false) String inputContent, @RequestBody PageParam pageParam){
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
             PageHelper.orderBy(pageParam.getOrder());
@@ -48,7 +49,7 @@ public class GiftExchangeRecordController {
             giftExchangeRecordDTO.setSendStatus(0);
             giftExchangeRecordDTOs.add(giftExchangeRecordDTO);
         }
-        return new ResponseData< List<GiftExchangeRecordDTO>>().success(giftExchangeRecordDTOs);
+        return new ResponsePageInfo<List<GiftExchangeRecordDTO>>().success(giftExchangeRecordDTOs, pageInfo);
     }
 
 
