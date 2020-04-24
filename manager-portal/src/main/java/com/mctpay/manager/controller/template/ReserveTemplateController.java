@@ -1,5 +1,7 @@
 package com.mctpay.manager.controller.template;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.manager.model.param.ReserveTemplateParam;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author: guodongwei
@@ -39,11 +43,11 @@ public class ReserveTemplateController {
         reserveTemplateParam.setCreateTime(new Date());
         reserveTemplateParam.setUpdateTime(new Date());
         if (reserveTemplateParam.getDynamicFields() != null && !reserveTemplateParam.getDynamicFields().isEmpty()) {
-            String dynamicField = JSONUtil.toJsonStr(reserveTemplateParam);
-            reserveTemplateParam.setDynamicField(dynamicField);
+            System.out.println(reserveTemplateParam.getDynamicFields());
+            JSONObject dynamicFields = JSONUtil.parseObj(reserveTemplateParam.getDynamicFields());
+            reserveTemplateParam.setDynamicField(dynamicFields);
         }
         reserveTemplateService.insertReserveTemplate(reserveTemplateParam);
         return new ResponseData().success(null);
     }
-
 }

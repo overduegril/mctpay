@@ -1,5 +1,6 @@
 package com.mctpay.manager.model.param;
 
+import cn.hutool.json.JSONObject;
 import com.mctpay.common.base.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -43,9 +44,9 @@ public class ReserveTemplateParam extends BaseEntity {
     @ApiModelProperty(value = "是否需要图片（0不需要，1需要）")
     private Integer needPicture;
 
-    @ApiModelProperty(value = "其余映射字段（value 均为 String 类型）")
-    private List<Map<String, Object>> dynamicFields;
+    @ApiModelProperty(value = "其余映射字段key,value模式")
+    private Map<String, Object> dynamicFields;
 
     @ApiModelProperty(value = "其余映射字段(字符类型)", hidden = true)
-    private String dynamicField;
+    private JSONObject dynamicField;
 }

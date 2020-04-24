@@ -19,7 +19,7 @@
             #{needDeposit},
             #{depositAmount},
             #{needPicture},
-            #{dynamicField},
+            #{dynamicField, jdbcType=OTHER,typeHandler=com.mctpay.common.base.mapper.JsonTypeHandler},
             #{status},
             #{createTime},
             #{updateTime}
