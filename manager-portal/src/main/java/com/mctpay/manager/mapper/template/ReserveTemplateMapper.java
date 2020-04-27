@@ -17,5 +17,9 @@ public interface ReserveTemplateMapper extends BaseMapper<ReserveTemplateEntity>
      * @Date 16:12 2020/3/21
      **/
     void insert(ReserveTemplateParam reserveTemplateParam);
-
+    /**
+     * @Description 插入数据
+     * @Date 17:19 2020/04/26
+     **/
+    void updateReserveTemplate(ReserveTemplateParam reserveTemplateParam);
 }

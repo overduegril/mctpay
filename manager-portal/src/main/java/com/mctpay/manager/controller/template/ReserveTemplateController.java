@@ -4,11 +4,13 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.manager.model.entity.system.UserEntity;
 import com.mctpay.manager.model.param.ReserveTemplateParam;
 import com.mctpay.manager.service.template.ReserveTemplateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,4 +52,18 @@ public class ReserveTemplateController {
         reserveTemplateService.insertReserveTemplate(reserveTemplateParam);
         return new ResponseData().success(null);
     }
+
+    /**
+     * @Description 修改模板
+     * @Date 14:39 2020/4/27
+     **/
+    @ApiOperation(value = "修改模板", notes = "修改模板", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/updateReserveTemplate")
+    public ResponseData updateReserveTemplate(@RequestBody ReserveTemplateParam reserveTemplateParam){
+        reserveTemplateParam.setUpdateTime(new Date());
+        ResponseData responseData = reserveTemplateService.updateReserveTemplate(reserveTemplateParam);
+        return new ResponseData().success(null);
+    }
+
+
 }

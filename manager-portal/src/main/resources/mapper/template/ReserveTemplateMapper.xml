@@ -27,6 +27,22 @@
 
     </insert>
 
+    <update id="updateReserveTemplate">
+        UPDATE  mct_reserve_template SET
+            template_name =  #{templateName},
+            phone_nmuber = #{phoneNmuber},
+            reserve_time = #{reserveTime},
+            user_count = #{userCount},
+            comment = #{comment},
+            need_deposit = #{needDeposit},
+            deposit_amount = #{depositAmount},
+            need_picture = #{needPicture},
+            dynamic_field =  #{dynamicField, jdbcType=OTHER,typeHandler=com.mctpay.common.base.mapper.JsonTypeHandler},
+            update_time = #{updateTime}
+            WHERE id = #{id}
+
+    </update>
+
     <select id="get" resultType="com.mctpay.manager.model.entity.template.ReserveTemplateEntity">
         select
         <include refid="Base_Column_List"/>

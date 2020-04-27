@@ -19,7 +19,8 @@ import java.util.Map;
 @Data
 @ApiModel("预定模板参数")
 public class ReserveTemplateParam extends BaseEntity {
-
+    @ApiModelProperty(value = "新增数据时，不传此参数，修改时传入此参数")
+    private Integer id;
     @ApiModelProperty(value = "模板名字")
     private String templateName;
 

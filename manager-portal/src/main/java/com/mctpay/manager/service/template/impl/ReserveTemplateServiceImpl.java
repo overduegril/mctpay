@@ -1,5 +1,6 @@
 package com.mctpay.manager.service.template.impl;
 
+import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.manager.mapper.template.ReserveTemplateMapper;
 import com.mctpay.manager.model.param.ReserveTemplateParam;
 import com.mctpay.manager.service.template.ReserveTemplateService;
@@ -24,5 +25,14 @@ public class ReserveTemplateServiceImpl implements ReserveTemplateService {
     @Override
     public void insertReserveTemplate(ReserveTemplateParam reserveTemplateParam) {
         reserveTemplateMapper.insert(reserveTemplateParam);
+    }
+    /**
+     * @Description
+     * @Date 15:39 2020/04/26
+     **/
+    @Override
+    public ResponseData updateReserveTemplate(ReserveTemplateParam reserveTemplateParam) {
+        reserveTemplateMapper.updateReserveTemplate(reserveTemplateParam);
+        return new ResponseData().success(null);
     }
 }
