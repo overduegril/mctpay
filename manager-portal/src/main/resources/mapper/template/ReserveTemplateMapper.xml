@@ -26,7 +26,7 @@
         )
 
     </insert>
-
+    <!-- 修改模板 -->
     <update id="updateReserveTemplate">
         UPDATE  mct_reserve_template SET
             template_name =  #{templateName},
@@ -37,11 +37,29 @@
             need_deposit = #{needDeposit},
             deposit_amount = #{depositAmount},
             need_picture = #{needPicture},
-            dynamic_field =  #{dynamicField, jdbcType=OTHER,typeHandler=com.mctpay.common.base.mapper.JsonTypeHandler},
+            dynamic_field =  #{dynamicFields, jdbcType=OTHER,typeHandler=com.mctpay.common.base.mapper.JsonTypeHandler},
             update_time = #{updateTime}
             WHERE id = #{id}
 
     </update>
+
+    <!--删除模板-->
+    
+    <update id="deleteReserveTemplate">
+        UPDATE  mct_reserve_template SET
+            status = #{status},
+            update_time = #{updateTime}
+            WHERE id = #{reserveTemplateId}
+    </update>
+
+
+    <select id="listReserveTemplate" resultType="com.mctpay.manager.model.entity.template.ReserveTemplateEntity">
+
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM mct_reserve_template
+        WHERE status != 0
+    </select>
 
     <select id="get" resultType="com.mctpay.manager.model.entity.template.ReserveTemplateEntity">
         select
