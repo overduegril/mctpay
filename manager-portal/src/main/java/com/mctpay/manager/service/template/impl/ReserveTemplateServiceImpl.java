@@ -1,5 +1,7 @@
 package com.mctpay.manager.service.template.impl;
 
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.manager.mapper.template.ReserveTemplateMapper;
 import com.mctpay.manager.model.dto.template.ReserveTemplateDTO;
@@ -63,6 +65,8 @@ public class ReserveTemplateServiceImpl implements ReserveTemplateService {
         for(ReserveTemplateEntity reserveTemplateEntity : reserveTemplateEntityList){
             ReserveTemplateDTO reserveTemplateDTO = new ReserveTemplateDTO();
             BeanUtils.copyProperties(reserveTemplateEntity,reserveTemplateDTO);
+            JSONObject dynamicField = JSONUtil.parseObj(reserveTemplateEntity.getDynamicField());
+            reserveTemplateDTO.setDynamicField(dynamicField);
             reserveTemplateDTOs.add(reserveTemplateDTO);
         }
         return reserveTemplateDTOs;

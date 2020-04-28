@@ -1,10 +1,13 @@
 package com.mctpay.manager.model.dto.template;
+import cn.hutool.json.JSONObject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
+
 @Data
 @ApiModel(value = "预定模板DTO")
 public class ReserveTemplateDTO  implements Serializable  {
@@ -39,5 +42,5 @@ public class ReserveTemplateDTO  implements Serializable  {
     private Integer needPicture;
 
     @ApiModelProperty(value = "其余映射字段")
-    private String dynamicField;
+    private JSONObject dynamicField;
 }
