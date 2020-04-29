@@ -9,7 +9,7 @@
     <select id="get" resultType="com.mctpay.manager.model.entity.merchant.IndustryDictionaryEntity">
         select
         <include refid="Base_Column_List"/>
-        from industry_dictionary where id = #{value}
+        from mct_industry_dictionary where id = #{value}
     </select>
 
     <sql id="where">
@@ -35,5 +35,9 @@
             and update_time = #{updateTime}
         </if>
     </sql>
+    
+    <select id="listIndustryDictionary" resultType="com.mctpay.manager.model.entity.merchant.IndustryDictionaryEntity" >
+            SELECT <include refid="Base_Column_List"/> FROM  mct_industry_dictionary
+    </select>
 
 </mapper>
