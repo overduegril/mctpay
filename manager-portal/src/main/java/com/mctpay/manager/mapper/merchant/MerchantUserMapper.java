@@ -42,14 +42,15 @@ public interface MerchantUserMapper extends BaseMapper<MerchantUserEntity> {
     void updateSwitchUser(@Param("userId") String userId, @Param("state") Integer state);
 
     /**
-     * @Description 跟新用户昵称
+     * @Description 更新用户昵称
      * @Date 23:10 2020/3/3
      **/
     void updateUserNickName(@Param("nickName") String nickName, @Param("id") String id);
 
     /**
-     * @Description 充值密码
+     * @Description 重置密码
      * @Date 23:10 2020/3/3
      **/
     void updatePassword(@Param("password") String password, @Param("id") String id);
+
 }
