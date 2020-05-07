@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Api(value = "礼物兑换记录", tags = "积分")
 @RestController
-@RequestMapping(" gift-exchange-record")
+@RequestMapping("gift-exchange-record")
 public class GiftExchangeRecordController {
 
     @ApiOperation(value = "分页查询礼物兑换记录", notes = "分页查询礼物兑换记录",  httpMethod = "POST", consumes = "application/json")
