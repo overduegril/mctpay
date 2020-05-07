@@ -3,6 +3,25 @@
 
 <mapper namespace="com.mctpay.merchant.mapper.card.MerchantCardMapper">
 
+    <insert id="insertMerchantCard">
+        INSERT INTO merchant_card( id, card_name, type_code, type_name, reduced_type, reduce_amount, min_amount, reduce_rate, deadline, require_member_level_code, inventory_count, update_time, status, create_time)
+        VALUES (
+            #{id},
+            #{cardName},
+            #{typeCode},
+            #{typeName},
+            #{reducedType},
+            #{reduceAmount},
+            #{minAmount},
+            #{reduceRate},
+            #{deadline},
+            #{requireMemberLevelCode},
+            #{inventoryCount},
+            #{updateTime},
+            #{status},
+            #{createTime}
+    </insert>
+
     <sql id="Base_Column_List">
 	    id, card_name, type_code, type_name, reduced_type, reduce_amount, min_amount, reduce_rate, deadline, require_member_level_code, inventory_count, update_time, status, create_time</sql>
 
