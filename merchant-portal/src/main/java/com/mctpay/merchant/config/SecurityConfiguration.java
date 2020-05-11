@@ -3,6 +3,8 @@ package com.mctpay.merchant.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.config.MyBCryptPasswordEncoder;
+import com.mctpay.merchant.model.dto.system.LoginedUserDTO;
+import com.mctpay.merchant.model.entity.system.RoleEntity;
 import com.mctpay.merchant.model.entity.system.UserEntity;
 import com.mctpay.merchant.service.system.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.cors.CorsUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.mctpay.common.constants.ErrorCode.*;
 
@@ -58,8 +63,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests()
-                .antMatchers("/login.html", "/login", "/logout").permitAll().anyRequest().authenticated()
+        httpSecurity.cors().and().authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers("/login.html", "/login", "/logout", "/doc.html").permitAll().anyRequest().authenticated()
                 .and()
                 // 支持表单提交
                 .formLogin()
@@ -86,13 +92,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // 提交action  也就是form表单中的action  login会调用security的登录不用自己实现
                 .loginProcessingUrl("/login")
                 // 登录成功页面
-                .successHandler((req, resp, authentication) -> {
+                .successHandler((HttpServletRequest req, HttpServletResponse resp, Authentication authentication) -> {
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();
                     UserEntity userEntity = (UserEntity) authentication.getPrincipal();
-                    ResponseData responseData = new ResponseData<>();
-                    // TODO 抽取部分数据进行返回
-                    String s = new ObjectMapper().writeValueAsString(responseData.success(null));
+                    // 获取权限列表
+
+                    ResponseData<LoginedUserDTO> responseData = new ResponseData<>();
+                    // 抽取部分数据进行返回
+                    LoginedUserDTO loginedUserDTO = new LoginedUserDTO();
+                    loginedUserDTO.setId(userEntity.getId());
+                    loginedUserDTO.setNickname(userEntity.getNickname());
+                    loginedUserDTO.setStatus(userEntity.getStatus());
+                    // 获取用户权限列表
+                    List<RoleEntity> roles = userEntity.getRoles();
+                    // 传递权限参数
+                    loginedUserDTO.setRoles(new ArrayList<String>());
+                    for (RoleEntity role : roles) {
+                        loginedUserDTO.getRoles().add(role.getRoleName());
+                    }
+                    String s = new ObjectMapper().writeValueAsString(responseData.success(loginedUserDTO));
                     out.write(s);
                     out.flush();
                     out.close();
@@ -127,4 +146,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     out.close();
                 });
     }
+
 }

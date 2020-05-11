@@ -7,6 +7,8 @@
         <option value="$PROJECT_DIR$/mctpay-common/pom.xml" />
         <option value="$PROJECT_DIR$/mctpay-parent/pom.xml" />
         <option value="$PROJECT_DIR$/merchant-portal/pom.xml" />
+        <option value="$PROJECT_DIR$/pos-api/pom.xml" />
+        <option value="$PROJECT_DIR$/wallet-api/pom.xml" />
       </list>
     </option>
   </component>

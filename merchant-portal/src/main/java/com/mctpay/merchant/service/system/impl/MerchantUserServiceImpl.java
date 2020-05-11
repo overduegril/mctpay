@@ -9,6 +9,7 @@ import com.mctpay.merchant.model.param.UserParam;
 import com.mctpay.merchant.service.system.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class MerchantUserServiceImpl implements UserService {
      **/
     @Override
     public ResponseData insertUser(UserParam userParam) {
-        // 验证手机号，邮箱，用户名是否重复
+        // 验证手机号，邮箱是否重复
         Integer emailCount = userMapper.countEmail(userParam.getEmail());
         if (emailCount != 0) {
             return new ResponseData<>().fail(EMAIL_HAS_BEEN_USED.getCode(), EMAIL_HAS_BEEN_USED.getMessage());
@@ -46,7 +47,7 @@ public class MerchantUserServiceImpl implements UserService {
         if (userName != 0) {
             return new ResponseData<>().fail(USERNAME_HAS_BEEN_USED.getCode(), USERNAME_HAS_BEEN_USED.getMessage());
         }
-        userParam.setPassword(SecureUtils.MD5Encrypt(userParam.getPassword()));
+        userParam.setPassword(SecureUtils.MD5Encrypt("123456"));
         userMapper.insertUser(userParam);
         return new ResponseData().success(null);
     }
@@ -56,29 +57,13 @@ public class MerchantUserServiceImpl implements UserService {
      * @Date 21:31 2020/2/25
      **/
     @Override
-    public ResponseData switchUser(Long userId, Integer state) {
+    public ResponseData switchUser(String userId, Integer state) {
         userMapper.updateSwitchUser(userId, state);
         return new ResponseData().success(null);
     }
 
     /**
-     * @Description 分页查询会员列表
-     * @Date 19:58 2020/2/26
-     **/
-    @Override
-    public List<UserDTO> listUser() {
-        List<UserEntity> userEntities = userMapper.listUser();
-        List<UserDTO> userDTOs = new ArrayList<>();
-        for (UserEntity userEntity : userEntities) {
-            UserDTO userDTO = new UserDTO();
-            BeanUtils.copyProperties(userEntity, userDTO);
-            userDTOs.add(userDTO);
-        }
-        return userDTOs;
-    }
-
-    /**
-     * @Description 根据输入内容查询会员
+     * @Description 根据输入内容查询管理员
      * @Date 10:29 2020/2/27
      **/
     @Override
@@ -91,5 +76,24 @@ public class MerchantUserServiceImpl implements UserService {
             userDTOs.add(userDTO);
         }
         return userDTOs;
+    }
+
+    /**
+     * @Description 修改密码
+     * @Date 17:03 2020/3/7
+     **/
+    @Override
+    public void updatePassword(String newPassword) {
+        UserEntity userEntity = (UserEntity)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userMapper.updatePassword(newPassword, userEntity.getId(), 1);
+    }
+
+    /**
+     * @Description 重置用户密码
+     * @Date 17:23 2020/3/7
+     **/
+    public void resetPassword(String userId){
+        String password = SecureUtils.MD5Encrypt("123456");
+        userMapper.updatePassword(password, userId, 2);
     }
 }

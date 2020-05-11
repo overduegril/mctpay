@@ -43,7 +43,7 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Description 激活冻结用户
      * @Date 21:34 2020/2/25
      **/
-    void updateSwitchUser(@Param("userId") Long userId, @Param("state") Integer state);
+    void updateSwitchUser(@Param("userId") String userId, @Param("state") Integer state);
 
     /**
      * @Description 根据账号获取用户
@@ -69,4 +69,9 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      **/
     List<UserEntity> listUserByInput(@Param("inputContent") String inputContent);
 
+    /**
+     * @Description 修改密码
+     * @Date 17:06 2020/3/7
+     **/
+    void updatePassword(@Param("password") String password, @Param("id") String id, @Param("status") Integer status);
 }

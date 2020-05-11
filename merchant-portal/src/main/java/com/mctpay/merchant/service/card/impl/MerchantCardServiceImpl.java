@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 public class MerchantCardServiceImpl implements MerchantCardService {
     @Autowired
     private MerchantCardMapper merchantCardMapper;
+
     /**
-     * @Description 商户集合
-     * @Date 23:39 2020/5/6
+     * @Description 插入商户兑换码
+     * @Date 16:03 2020/5/11
      **/
     @Override
     public ResponseData insertMerchantCard(MerchantCardParam merchantCardParam) {

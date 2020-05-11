@@ -7,6 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/mctpay-common/mctpay-common.iml" filepath="$PROJECT_DIR$/mctpay-common/mctpay-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/mctpay-parent/mctpay-parent.iml" filepath="$PROJECT_DIR$/mctpay-parent/mctpay-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/merchant-portal/merchant-portal.iml" filepath="$PROJECT_DIR$/merchant-portal/merchant-portal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pos-api/pos-api.iml" filepath="$PROJECT_DIR$/pos-api/pos-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wallet-api/wallet-api.iml" filepath="$PROJECT_DIR$/wallet-api/wallet-api.iml" />
     </modules>
   </component>
 </project>

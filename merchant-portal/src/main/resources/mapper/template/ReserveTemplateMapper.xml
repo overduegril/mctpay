@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.merchant.mapper.template.ReserveTemplateMapper">
+
+
+    <sql id="Base_Column_List">
+	    id, template_name, phone_nmuber, reserve_time, user_count, comment, need_deposit, deposit_amount, need_picture, dynamic_field, status, create_time, update_time</sql>
+
+    <!-- 更新商户模板 -->
+    <update id="updateMerchantReserveTemplate">
+
+    </update>
+
+    <!-- 删除商户模板 -->
+    <update id="deleteMerchantReserveTemplate">
+        update  set  =  where ;
+    </update>
+
+    <select id="listReserveTemplate" resultType="com.mctpay.merchant.model.entity.template.ReserveTemplateEntity">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM mct_reserve_template
+        WHERE status != 0
+    </select>
+
+    <select id="get" resultType="com.mctpay.merchant.model.entity.template.ReserveTemplateEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from mct_reserve_template where id = #{value}
+    </select>
+
+    <!-- 商户预定模板列表 -->
+    <select id="listMerchantReserveTemplate"
+            resultType="com.mctpay.merchant.model.entity.template.ReserveTemplateEntity">
+        select
+        t0.id, t0.template_name, t0.phone_nmuber, t0.reserve_time, t0.user_count, t0.comment, t0.need_deposit, t0.deposit_amount, t0.need_picture, t0.dynamic_field, t0.status, t0.create_time, t0.update_time
+        from mct_reserve_template t0, merchant_reserve_template t1
+        where t0.status != 0
+        AND t1.status != 0
+        AND t0.id = t1.template_id
+        AND t1.merchant_id = #{merchantId}
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="templateName != null">
+            and template_name = #{templateName}
+        </if>
+        <if test="phoneNmuber != null">
+            and phone_nmuber = #{phoneNmuber}
+        </if>
+        <if test="reserveTime != null">
+            and reserve_time = #{reserveTime}
+        </if>
+        <if test="userCount != null">
+            and user_count = #{userCount}
+        </if>
+        <if test="comment != null">
+            and comment = #{comment}
+        </if>
+        <if test="needDeposit != null">
+            and need_deposit = #{needDeposit}
+        </if>
+        <if test="depositAmount != null">
+            and deposit_amount = #{depositAmount}
+        </if>
+        <if test="needPicture != null">
+            and need_picture = #{needPicture}
+        </if>
+        <if test="dynamicField != null">
+            and dynamic_field = #{dynamicField}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>

@@ -1,7 +1,6 @@
 package com.mctpay.common.uitl;
 
-import com.aliyun.oss.ClientConfiguration;
-import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.*;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.mctpay.common.config.OSSConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -16,15 +15,15 @@ import java.io.*;
 @Slf4j
 public class OSSUtils {
 
-    private static OSSClient client = null;
+    private static OSS client = null;
 
     static {
-        ClientConfiguration config = new ClientConfiguration();
+        ClientBuilderConfiguration config = new ClientBuilderConfiguration();
         config.setConnectionTimeout(30 * 1000);
         config.setMaxConnections(60);
         config.setMaxErrorRetry(3);
         config.setSocketTimeout(10 * 1000);
-        client = new OSSClient(OSSConfig.endpoint, OSSConfig.accessKeyId, OSSConfig.accessKeySecret, config);
+        client = new OSSClientBuilder().build(OSSConfig.endpoint, OSSConfig.accessKeyId, OSSConfig.accessKeySecret, config);
     }
 
     public static String uploadFile(String bucketName, String srcFile, String dstFile) {

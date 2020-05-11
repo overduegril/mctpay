@@ -14,6 +14,12 @@ import java.util.List;
 public interface UserService {
 
     /**
+     * @Description 修改密码
+     * @Date 17:03 2020/3/7
+     **/
+    void updatePassword(String newPassword);
+
+    /**
      * @Description 注册管理员
      * @Date 20:45 2020/2/24
      **/
@@ -23,17 +29,18 @@ public interface UserService {
      * @Description 激活冻结用户
      * @Date 21:30 2020/2/25
      **/
-    ResponseData switchUser(Long userId, Integer state);
-
-    /**
-     * @Description 分页查询会员
-     * @Date 19:45 2020/2/26
-     **/
-    List<UserDTO> listUser();
+    ResponseData switchUser(String userId, Integer state);
 
     /**
      * @Description 根据输入内容查询会员
      * @Date 10:29 2020/2/27
      **/
     List<UserDTO> listUserByInput(String inputContent);
+
+    /**
+     * @Description 重置用户密码
+     * @Date 17:23 2020/3/7
+     **/
+    void resetPassword(String userId);
+
 }

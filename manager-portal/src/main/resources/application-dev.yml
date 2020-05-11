@@ -35,6 +35,24 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 50MB
+
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: security_session
+  redis:
+      host: 39.96.29.99
+      port: 8085
+      password: gdw966471.0.
+      jedis:
+        pool:
+          maxIdle: 8
+          minIdle: 0
+          maxActive: 8
+          maxWait: -1
+      database: 1
+
 # 日志
 logging:
   config: classpath:logback.xml

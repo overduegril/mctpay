@@ -4,12 +4,17 @@ import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.constants.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.BindException;
+
+import static com.mctpay.common.constants.ErrorCode.ARGUMENTS_VALIDATE_FAIL;
 
 /**
  * @Author: guodongwei
@@ -25,9 +30,12 @@ public class MCTGlobalExceptionHandler {
      * @Description 认证异常处理
      * @Date 14:34 2020/2/24
      **/
-    @ExceptionHandler({AuthenticationException.class})
-    public static ResponseData authenticationException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
-        return resolveException(ex);
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public static ResponseData methodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request, HttpServletResponse response) {
+        BindingResult bindingResult = ex.getBindingResult();
+        System.out.println(bindingResult);
+        return null;
+        // return resolveException(ex);
     }
 
     /**
@@ -50,8 +58,8 @@ public class MCTGlobalExceptionHandler {
         String className = ex.getClass().getName();
         if (className.contains("AccessDeniedException")) {
             code = ErrorCode.NON_AUTHENTICATION;
-        } else if (className.contains("DisabledException")) {
-            // -- TODO 如果有其它错误在这里解析。设置规定格式让前端进行规则处理
+        } else if (className.contains("BindException")) {
+            code = ErrorCode.ARGUMENTS_VALIDATE_FAIL;
         }
         log.debug("bug-happen---------------------------------" + ex);
         responseData.fail(code.getCode(), code.getMessage());

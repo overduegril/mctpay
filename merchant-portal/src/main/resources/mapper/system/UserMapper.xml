@@ -34,6 +34,12 @@
         WHERE id = #{userId}
     </update>
 
+    <!-- 更新密码 -->
+    <update id="updatePassword">
+        UPDATE manager_user
+        SET password = #{password}, status = #{status}
+        WHERE id = #{id}
+    </update>
 
     <select id="get" resultType="com.mctpay.merchant.model.entity.system.UserEntity">
         select
@@ -64,14 +70,14 @@
 
     <!-- 根据手机号获取用户 -->
     <select id="getByPhoneNumber" resultType="com.mctpay.merchant.model.entity.system.UserEntity">
-        SELECT id, username, nickname, password, phone_number, email, remark, status
+        SELECT id, nickname, password, phone_number, email, remark, status
         FROM merchant_user
         WHERE phone_number = #{username}
     </select>
 
     <!-- 根据邮箱获取用户 -->
     <select id="getByEmail" resultType="com.mctpay.merchant.model.entity.system.UserEntity">
-        SELECT id, username, nickname, password, phone_number, email, remark, status
+        SELECT id, nickname, password, phone_number, email, remark, status
         FROM merchant_user
         WHERE email = #{username}
     </select>

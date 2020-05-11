@@ -1,5 +1,6 @@
 package com.mctpay.merchant.model.param;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mctpay.common.base.entity.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -52,6 +53,7 @@ public class MerchantCardParam extends BaseEntity implements Serializable {
      * 有效期（截止日期）
      */
     @ApiModelProperty(value = "有效期（截止日期） ")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date deadline;
     /**
      * 使用会员的等级code

@@ -51,7 +51,12 @@ public enum ErrorCode {
     /**
      * 文件格式不支持
      */
-    FILE_FORMAT_NOT_CORRECT(3010, "file_format_not_correct");
+    FILE_FORMAT_NOT_CORRECT(3010, "file_format_not_correct"),
+
+    /**
+     * 参数验证错误
+     */
+    ARGUMENTS_VALIDATE_FAIL(3011, "arguments_validate_fail");
 
     private int code;
     private String message;

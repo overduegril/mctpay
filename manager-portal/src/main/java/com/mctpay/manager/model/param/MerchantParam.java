@@ -4,6 +4,7 @@ import com.mctpay.common.base.entity.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -20,6 +21,7 @@ public class MerchantParam extends BaseEntity implements Serializable {
      * 商户名
      */
     @ApiModelProperty(value = "商户名")
+    @NotBlank
     private String merchantName;
     /**
      * 法人

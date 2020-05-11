@@ -20,6 +20,7 @@
             #{updateTime},
             #{status},
             #{createTime}
+            )
     </insert>
 
     <sql id="Base_Column_List">

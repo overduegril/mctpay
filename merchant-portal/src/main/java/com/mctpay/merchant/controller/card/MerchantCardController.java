@@ -9,9 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -29,7 +27,7 @@ public class MerchantCardController {
 
     @ApiOperation(value = "添加商家卡券", notes = "添加商家卡券",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertMerchantCard")
-    public ResponseData insertMerchantCard(MerchantCardParam merchantCardParam){
+    public ResponseData insertMerchantCard(@RequestBody MerchantCardParam merchantCardParam){
         String id = UIdUtils.getUid().toString();
         merchantCardParam.setId(id);
         merchantCardParam.setStatus(2);

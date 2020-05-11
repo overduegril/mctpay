@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -9,6 +10,8 @@
         <module name="manager-portal" />
         <module name="mctpay-common" />
         <module name="merchant-portal" />
+        <module name="pos-api" />
+        <module name="wallet-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
@@ -16,6 +19,8 @@
       <module name="mctpay-common" target="1.8" />
       <module name="mctpay-parent" target="1.8" />
       <module name="merchant-portal" target="1.8" />
+      <module name="pos-api" target="1.8" />
+      <module name="wallet-api" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
