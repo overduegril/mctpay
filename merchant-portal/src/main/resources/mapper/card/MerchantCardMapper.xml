@@ -3,6 +3,31 @@
 
 <mapper namespace="com.mctpay.merchant.mapper.card.MerchantCardMapper">
 
+    <update id="updateMerchantCard">
+        UPDATE merchant_card SET
+           card_name =  #{cardName},
+           type_code =  #{typeCode},
+            type_name = #{typeName},
+            reduced_type = #{reducedType},
+            reduce_amount = #{reduceAmount},
+            min_amount = #{minAmount},
+            reduce_rate = #{reduceRate},
+            deadline = #{deadline},
+            require_member_level_code =  #{requireMemberLevelCode},
+            inventory_count = #{inventoryCount},
+            update_time = #{updateTime}
+            WHERE  id = ${id}
+    </update>
+
+    <!-- 卡券集合-->
+    <select id="listCard" resultType="com.mctpay.merchant.model.entity.card.MerchantCardEntity">
+        SELECT  <include refid="Base_Column_List"/>
+        FROM merchant_card
+        WHERE status != 0
+    </select>
+    <!--
+        添加
+    -->
     <insert id="insertMerchantCard">
         INSERT INTO merchant_card( id, card_name, type_code, type_name, reduced_type, reduce_amount, min_amount, reduce_rate, deadline, require_member_level_code, inventory_count, update_time, status, create_time)
         VALUES (

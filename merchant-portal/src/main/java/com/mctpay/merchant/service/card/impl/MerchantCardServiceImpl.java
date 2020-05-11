@@ -2,10 +2,16 @@ package com.mctpay.merchant.service.card.impl;
 
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.merchant.mapper.card.MerchantCardMapper;
+import com.mctpay.merchant.model.dto.card.CardDTO;
+import com.mctpay.merchant.model.entity.card.MerchantCardEntity;
 import com.mctpay.merchant.model.param.MerchantCardParam;
 import com.mctpay.merchant.service.card.MerchantCardService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MerchantCardServiceImpl implements MerchantCardService {
@@ -19,6 +25,24 @@ public class MerchantCardServiceImpl implements MerchantCardService {
     @Override
     public ResponseData insertMerchantCard(MerchantCardParam merchantCardParam) {
         merchantCardMapper.insertMerchantCard(merchantCardParam);
+        return new ResponseData().success(null);
+    }
+
+    @Override
+    public List<CardDTO> listCard() {
+        List<MerchantCardEntity> merchantCardEntities = merchantCardMapper.listCard();
+        List<CardDTO> cardDTOs = new ArrayList<>();
+        for(MerchantCardEntity merchantCardEntity : merchantCardEntities){
+            CardDTO cardDTO = new CardDTO();
+            BeanUtils.copyProperties(merchantCardEntity, cardDTO);
+            cardDTOs.add(cardDTO);
+        }
+        return cardDTOs;
+    }
+
+    @Override
+    public ResponseData updateMerchantCard(MerchantCardParam merchantCardParam) {
+        merchantCardMapper.updateMerchantCard(merchantCardParam);
         return new ResponseData().success(null);
     }
 }
