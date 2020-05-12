@@ -6,6 +6,7 @@ import com.mctpay.common.base.model.PageParam;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.merchant.model.dto.template.ReserveTemplateDTO;
+import com.mctpay.merchant.model.param.MerchantTemplateParam;
 import com.mctpay.merchant.service.template.ReserveTemplateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,7 +37,7 @@ public class ReserveTemplateController {
      * @Date 10:56 2020/04/28
      **/
     @ApiOperation(value = "分页查询模板", notes = "分页查询模板",httpMethod = "POST",  consumes = "application/json")
-    @PostMapping("/listReserveTemplate")
+    @PostMapping("/listTemplate")
     public ResponsePageInfo<List<ReserveTemplateDTO>> listReserveTemplate(@RequestBody PageParam pageParam){
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
@@ -53,26 +54,26 @@ public class ReserveTemplateController {
      * @Date 10:56 2020/04/28
      **/
     @ApiOperation(value = "分页查询商户模板", notes = "分页查询商户模板",httpMethod = "POST",  consumes = "application/json")
-    @PostMapping("/listMerchantReserveTemplate")
-    public ResponsePageInfo<List<ReserveTemplateDTO>> listMerchantReserveTemplate(@RequestBody PageParam pageParam, String merchantId){
+    @PostMapping("/listMerchantTemplate")
+    public ResponsePageInfo<List<ReserveTemplateDTO>> listMerchantReserveTemplate(@RequestBody PageParam pageParam){
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
             PageHelper.orderBy(pageParam.getOrder());
         } else {
             PageHelper.orderBy("id desc");
         }
-        List<ReserveTemplateDTO> reserveTemplateDTOs = reserveTemplateService.listMerchantReserveTemplate(merchantId);
+        List<ReserveTemplateDTO> reserveTemplateDTOs = reserveTemplateService.listMerchantReserveTemplate();
         return new ResponsePageInfo<List<ReserveTemplateDTO>>().success(reserveTemplateDTOs, pageInfo);
     }
 
-    // TODO 更新商户模板
     /**
      * @Description 更新商户模板
      * @Date 10:56 2020/04/28
      **/
     @ApiOperation(value = "更新商户模板", notes = "更新商户模板",httpMethod = "POST",  consumes = "application/json")
-    public ResponseData updateMerchantReserveTemplate(@RequestBody List<Long> templates, String merchantId) {
-        reserveTemplateService.updateMerchantReserveTemplate(templates, merchantId);
+    @PostMapping("/updateMerchantTemplate")
+    public ResponseData updateMerchantReserveTemplate(@RequestBody List<MerchantTemplateParam> templates) {
+        reserveTemplateService.updateMerchantReserveTemplate(templates);
         return new ResponseData().success(null);
     }
 }

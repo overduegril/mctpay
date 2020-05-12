@@ -31,7 +31,7 @@ public interface MemberLevelRulesMapper extends BaseMapper<MemberLevelRulesEntit
      * @Description 冻结，激活会员积分等级设置
      * @Date 11:12 2020/3/2
      **/
-    void switchMemberLevelRules(@Param("id") Long id, @Param("state") Integer state);
+    void switchMemberLevelRules(@Param("id") Long id, @Param("state") Integer state, @Param("merchantId") String merchantId);
 
     /**
      * @Description 判断会员等级名称是否已经存在

@@ -2,6 +2,7 @@ package com.mctpay.merchant.service.template;
 
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.merchant.model.dto.template.ReserveTemplateDTO;
+import com.mctpay.merchant.model.param.MerchantTemplateParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -27,8 +28,9 @@ public interface ReserveTemplateService {
 
     /**
      * 更新商户模板
+     *
      * @param templates
      * @return
      */
-    void updateMerchantReserveTemplate(@RequestBody List<Long> templates);
+    void updateMerchantReserveTemplate(List<MerchantTemplateParam> templates);
 }

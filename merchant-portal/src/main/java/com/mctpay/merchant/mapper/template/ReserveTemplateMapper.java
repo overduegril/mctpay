@@ -2,6 +2,8 @@ package com.mctpay.merchant.mapper.template;
 
 import com.mctpay.common.base.mapper.BaseMapper;
 import com.mctpay.merchant.model.entity.template.ReserveTemplateEntity;
+import com.mctpay.merchant.model.param.MerchantTemplateParam;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,7 +32,7 @@ public interface ReserveTemplateMapper extends BaseMapper<ReserveTemplateEntity>
      * @Description 更新商户模板
      * @Date 21:07 2020/5/11
      **/
-    void updateMerchantReserveTemplate(List<Long> templates, String merchantId);
+    void insertMerchantReserveTemplate(@Param("templates") List<MerchantTemplateParam> templates);
 
    /**
     * @Description 删除短信模板

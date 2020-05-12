@@ -25,7 +25,10 @@
     <update id="switchMemberLevelRules">
         UPDATE merchant_member_level_rules
         SET status = #{state}
-        WHERE id = #{id}
+        WHERE
+        status != 0
+        AND id = #{id}
+        AND merchant_id = #{merchantId}
     </update>
 
     <!-- 更新积分等级规则 -->

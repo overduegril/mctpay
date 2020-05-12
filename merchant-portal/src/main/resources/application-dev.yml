@@ -34,7 +34,7 @@ logging:
   config: classpath:logback.xml
 
 server:
-  port: 9100
+  port: 9103
   servlet:
      session:
        timeout: 3600

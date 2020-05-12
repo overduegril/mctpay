@@ -5,23 +5,42 @@
 
     <update id="updateMerchantCard">
         UPDATE merchant_card SET
-           card_name =  #{cardName},
-           type_code =  #{typeCode},
+        <if test="cardName != null">
+            card_name = #{cardName},
+        </if>
+        <if test="reduceAmount != null">
+            type_code = #{typeCode},
+        </if>
+        <if test="typeName != null">
             type_name = #{typeName},
-            reduced_type = #{reducedType},
+        </if>
+        reduced_type = #{reducedType},
+        <if test="reduceAmount != null">
             reduce_amount = #{reduceAmount},
+        </if>
+        <if test="reduceAmount != null">
             min_amount = #{minAmount},
+        </if>
+        <if test="reduceAmount != null">
             reduce_rate = #{reduceRate},
+        </if>
+        <if test="reduceAmount != null">
             deadline = #{deadline},
-            require_member_level_code =  #{requireMemberLevelCode},
+        </if>
+        <if test="reduceAmount != null">
+            require_member_level_code = #{requireMemberLevelCode},
+        </if>
+        <if test="reduceAmount != null">
             inventory_count = #{inventoryCount},
-            update_time = #{updateTime}
-            WHERE  id = ${id}
+        </if>
+        update_time = #{updateTime}
+        WHERE id = #{id}
     </update>
 
     <!-- 卡券集合-->
     <select id="listCard" resultType="com.mctpay.merchant.model.entity.card.MerchantCardEntity">
-        SELECT  <include refid="Base_Column_List"/>
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM merchant_card
         WHERE status != 0
     </select>
@@ -107,6 +126,5 @@
             and create_time = #{createTime}
         </if>
     </sql>
-
 
 </mapper>

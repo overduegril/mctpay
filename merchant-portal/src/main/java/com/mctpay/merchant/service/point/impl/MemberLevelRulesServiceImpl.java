@@ -4,10 +4,12 @@ import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.merchant.mapper.point.MemberLevelRulesMapper;
 import com.mctpay.merchant.model.dto.point.MemberLevelRulesDTO;
 import com.mctpay.merchant.model.entity.point.MemberLevelRulesEntity;
+import com.mctpay.merchant.model.entity.system.UserEntity;
 import com.mctpay.merchant.model.param.MemberLevelRulesParam;
 import com.mctpay.merchant.service.point.MemberLevelRulesService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -68,7 +70,8 @@ public class MemberLevelRulesServiceImpl implements MemberLevelRulesService {
      **/
     @Override
     public void switchMemberLevelRules(Long id, Integer state) {
-        memberLevelRulesMapper.switchMemberLevelRules(id, state);
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        memberLevelRulesMapper.switchMemberLevelRules(id, state, userEntity.getId());
     }
 
     /**

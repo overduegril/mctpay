@@ -8,13 +8,26 @@
 	    id, template_name, phone_nmuber, reserve_time, user_count, comment, need_deposit, deposit_amount, need_picture, dynamic_field, status, create_time, update_time</sql>
 
     <!-- 更新商户模板 -->
-    <update id="updateMerchantReserveTemplate">
-
-    </update>
+    <insert id="insertMerchantReserveTemplate">
+        INSERT INTO merchant_reserve_template(template_id, template_name, merchant_id, status, create_time, update_time)
+        VALUES
+        <foreach collection="templates" item="item" separator=",">
+            (
+               #{item.templateId},
+               #{item.templateName},
+               #{item.merchantId},
+               #{item.status},
+               #{item.createTime},
+               #{item.updateTime}
+            )
+        </foreach>
+    </insert>
 
     <!-- 删除商户模板 -->
     <update id="deleteMerchantReserveTemplate">
-        update  set  =  where ;
+        update merchant_reserve_template
+        set status = 0
+        where merchant_id = #{merchantId};
     </update>
 
     <select id="listReserveTemplate" resultType="com.mctpay.merchant.model.entity.template.ReserveTemplateEntity">

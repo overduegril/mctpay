@@ -26,15 +26,15 @@ import java.util.List;
  * @Description: 商家卡券
  * @Date: 2020/05/06 11:46
  */
-@Api(value = "商家卡券相关", tags = "商家")
+@Api(value = "商家卡券相关", tags = "商家卡券")
 @RestController
-@RequestMapping("merchant-portal")
+@RequestMapping("card")
 public class MerchantCardController {
     @Autowired
     private MerchantCardService merchantCardService;
 
     @ApiOperation(value = "添加商家卡券", notes = "添加商家卡券",  httpMethod = "POST", consumes = "application/json")
-    @PostMapping("/insertMerchantCard")
+    @PostMapping("/insertCard")
     public ResponseData insertMerchantCard(@RequestBody MerchantCardParam merchantCardParam){
         String id = UIdUtils.getUid().toString();
         merchantCardParam.setId(id);
@@ -43,8 +43,10 @@ public class MerchantCardController {
         merchantCardParam.setUpdateTime(new Date());
         return merchantCardService.insertMerchantCard(merchantCardParam);
     }
+
     @ApiOperation(value = "商家卡券集合", notes = "商家卡券集合", httpMethod = "POST")
-    public ResponseData listCard(@RequestBody PageParam pageParam){
+    @PostMapping("/listCards")
+    public ResponseData listCards(@RequestBody PageParam pageParam){
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
             PageHelper.orderBy(pageParam.getOrder());
@@ -54,11 +56,11 @@ public class MerchantCardController {
     }
 
     /**
-     * @Description 修改模板
+     * @Description 修改商家卡券
      * @Date 14:39 2020/4/27
      **/
-    @ApiOperation(value = "修改模板", notes = "修改模板", httpMethod = "POST", consumes = "application/json")
-    @PostMapping("/updateReserveTemplate")
+    @ApiOperation(value = "修改商家卡券", notes = "修改商家卡券", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/updateCard")
     public ResponseData updateMerchantCard(@RequestBody MerchantCardParam merchantCardParam){
         merchantCardParam.setUpdateTime(new Date());
         ResponseData responseData = merchantCardService.updateMerchantCard(merchantCardParam);

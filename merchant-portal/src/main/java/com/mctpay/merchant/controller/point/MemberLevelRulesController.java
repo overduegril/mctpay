@@ -33,8 +33,9 @@ public class MemberLevelRulesController {
     // @PreAuthorize("hasRole('MANAGER')")
     @ApiOperation(value = "查询积分等级设置(未分页)", notes = "查询积分等级设置", httpMethod = "GET")
     @RequestMapping("/listMemberLevelRules")
-    public ResponseData<List<MemberLevelRulesDTO>> listMemberLevelRules(@RequestParam("merchantId") String merchantId) {
-        List<MemberLevelRulesDTO> memberLevelRulesDTO = memberLevelRulesService.listMemberLevelRules(merchantId);
+    public ResponseData<List<MemberLevelRulesDTO>> listMemberLevelRules() {
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<MemberLevelRulesDTO> memberLevelRulesDTO = memberLevelRulesService.listMemberLevelRules(userEntity.getId());
         ResponseData responseData = new ResponseData();
         return responseData.success(memberLevelRulesDTO);
     }
@@ -47,6 +48,7 @@ public class MemberLevelRulesController {
         memberLevelRulesParam.setUpdateTime(new Date());
         UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         memberLevelRulesParam.setLastOperator(userEntity.getUsername());
+        memberLevelRulesParam.setMerchantId(userEntity.getId());
         ResponseData<Object> responseData = memberLevelRulesService.insertMemberLevelRules(memberLevelRulesParam);
         return responseData;
     }

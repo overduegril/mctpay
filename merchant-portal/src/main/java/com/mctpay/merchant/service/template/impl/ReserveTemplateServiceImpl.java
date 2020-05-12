@@ -7,6 +7,7 @@ import com.mctpay.merchant.mapper.template.ReserveTemplateMapper;
 import com.mctpay.merchant.model.dto.template.ReserveTemplateDTO;
 import com.mctpay.merchant.model.entity.system.UserEntity;
 import com.mctpay.merchant.model.entity.template.ReserveTemplateEntity;
+import com.mctpay.merchant.model.param.MerchantTemplateParam;
 import com.mctpay.merchant.service.template.ReserveTemplateService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +46,7 @@ public class ReserveTemplateServiceImpl implements ReserveTemplateService {
             }
             ReserveTemplateDTO reserveTemplateDTO = new ReserveTemplateDTO();
             reserveTemplateDTO.setSelected(flag);
+            flag = false;
             reserveTemplateDTO.setId(reserveTemplateEntity.getId());
             reserveTemplateDTO.setTemplateName(reserveTemplateEntity.getTemplateName());
             reserveTemplateDTOs.add(reserveTemplateDTO);
@@ -68,9 +71,15 @@ public class ReserveTemplateServiceImpl implements ReserveTemplateService {
 
     @Override
     @Transactional
-    public void updateMerchantReserveTemplate(List<Long> templates) {
+    public void updateMerchantReserveTemplate(List<MerchantTemplateParam> templates) {
         UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         reserveTemplateMapper.deleteMerchantReserveTemplate(userEntity.getId());
-        reserveTemplateMapper.updateMerchantReserveTemplate(templates, userEntity.getId());
+        for (MerchantTemplateParam template : templates) {
+            template.setMerchantId(Long.valueOf(userEntity.getId()));
+            template.setStatus(1);
+            template.setCreateTime(new Date());
+            template.setUpdateTime(new Date());
+        }
+        reserveTemplateMapper.insertMerchantReserveTemplate(templates);
     }
 }

@@ -16,7 +16,7 @@ public class MemberLevelRulesParam extends BaseEntity{
     @ApiModelProperty(value = "新增数据时，不传此参数，修改时传入此参数")
     private Long id;
 
-    @ApiModelProperty(value = "商户Id")
+    @ApiModelProperty(value = "商户Id", hidden = true)
     private String merchantId;
 
     /**
