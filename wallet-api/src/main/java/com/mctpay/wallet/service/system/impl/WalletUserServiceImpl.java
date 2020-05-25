@@ -1,6 +1,7 @@
 package com.mctpay.wallet.service.system.impl;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.config.MyBCryptPasswordEncoder;
 import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.wallet.mapper.point.SummaryPointMapper;
 import com.mctpay.wallet.mapper.point.UseabelPointMapper;
@@ -13,6 +14,7 @@ import com.mctpay.wallet.model.param.UserParam;
 import com.mctpay.wallet.service.system.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,9 @@ import static com.mctpay.common.constants.ErrorCode.EMAIL_HAS_BEEN_USED;
 @Service
 public class WalletUserServiceImpl implements UserService {
 
+    @Autowired
+    @Qualifier("myBCryptPasswordEncoder")
+    private MyBCryptPasswordEncoder myBCryptPasswordEncoder;
     @Autowired
     private UserMapper userMapper;
 
@@ -122,5 +127,31 @@ public class WalletUserServiceImpl implements UserService {
         // 验证邮箱是否重复
         Integer emailCount = userMapper.countEmail(email);
         return emailCount;
+    }
+    /**
+     * @Description修改昵称
+     * @Date 13:58 2020/5/25
+     **/
+    @Override
+    public ResponseData updateNickname(String userId, String newNickname) {
+        userMapper.updateNickname(userId,newNickname);
+        return new ResponseData().success(null);
+    }
+    /**
+     * @Description修改头像
+     * @Date 14:19 2020/5/25
+     **/
+    @Override
+    public void updateHeadpicture(String businessLicenseUrl, String userId) {
+        userMapper.updateHeadpicture(businessLicenseUrl,userId);
+    }
+
+    @Override
+    public ResponseData updatePassword(String newPassword, String oldPassword,String userId) {
+       // UserEntity userEntity = userMapper.get(Long.valueOf(userId));
+       // myBCryptPasswordEncoder.encode(userEntity.getPassword());
+        String newPwd = SecureUtils.MD5Encrypt(newPassword);
+        userMapper.updatePassword(newPwd,userId);
+        return new ResponseData().success(null);
     }
 }

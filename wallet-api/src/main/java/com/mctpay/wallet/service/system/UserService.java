@@ -42,4 +42,20 @@ public interface UserService {
      * @Date 19:30 2020/3/2
      **/
     Integer countEmail(String email);
+    /**
+     * @Description修改昵称
+     * @Date 13:57 2020/5/25
+     **/
+    ResponseData updateNickname(String userId, String newNickname);
+
+    /**
+     * @Description修改头像
+     * @Date 14:19 2020/5/25
+     **/
+    void updateHeadpicture(String businessLicenseUrl, String userId);
+    /**
+     * @Description修改密码
+     * @Date 14:50 2020/5/25
+     **/
+    ResponseData updatePassword(String newPassword, String oldPassword,String userId);
 }

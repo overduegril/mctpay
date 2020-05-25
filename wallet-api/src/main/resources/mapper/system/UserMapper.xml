@@ -7,6 +7,27 @@
     <sql id="Base_Column_List">
 	    id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time</sql>
 
+    <update id="updatePassword">
+         UPDATE  wallet_user
+        SET password = #{newPwd}
+        WHERE id = #{userId}
+    </update>
+
+
+    <!-- 修改头像-->
+    <update id="updateHeadpicture">
+          UPDATE  wallet_user
+        SET headpicture_url = #{businessLicenseUrl}
+        WHERE id = #{userId}
+    </update>
+
+    <!-- 修改昵称-->
+    <update id="updateNickname">
+          UPDATE  wallet_user
+        SET nickname = #{newNickname}
+        WHERE id = #{userId}
+    </update>
+
     <!-- 注册管理员 -->
     <insert id="insertUser">
         INSERT INTO wallet_user(

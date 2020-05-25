@@ -54,11 +54,17 @@ public class UserEntity extends BaseEntity implements Serializable, UserDetails 
      */
     @ApiModelProperty(value = "邮箱")
     private String email;
+
     /**
      * 备注
      */
     @ApiModelProperty(value = "备注")
     private String remark;
+    /**
+     * 头像
+     */
+    @ApiModelProperty(value = "头像")
+    private String headpictureUrl;
 
     /**
      * 角色
