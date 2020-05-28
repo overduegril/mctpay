@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.wallet.mapper.point.MemberLevelRulesMapper">
+
+
+    <sql id="Base_Column_List">
+	    id, merchant_id, member_level_name, point, last_operator, status, create_time, update_time</sql>
+
+
+    <!-- 获取积分等级设置列表 -->
+    <select id="listMemberLevelRules"
+            resultType="com.mctpay.wallet.model.entity.point.MemberLevelRulesEntity">
+        SELECT  <include refid="Base_Column_List"/>
+        FROM merchant_member_level_rules
+        WHERE status != 0
+    </select>
+
+
+
+</mapper>
