@@ -1,8 +1,8 @@
 package com.mctpay.wallet.mapper.point;
 
 import com.mctpay.common.base.mapper.BaseMapper;
-import com.mctpay.manager.model.param.PointResetParam;
 import com.mctpay.wallet.model.entity.point.PointResetEntity;
+import com.mctpay.wallet.model.param.PointResetParam;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mctpay.manager.mapper.point.PointResetMapper">
+<mapper namespace="com.mctpay.wallet.model.entity.point.PointResetEntity">
 
     <sql id="Base_Column_List">
 	    id, reset_time, operator, status, create_time, update_time</sql>
@@ -20,7 +20,7 @@
         )
     </insert>
 
-    <select id="get" resultType="com.mctpay.manager.model.entity.point.PointResetEntity">
+    <select id="get" resultType="com.mctpay.wallet.model.entity.point.PointResetEntity">
         select
         <include refid="Base_Column_List"/>
         from manager_point_reset where id = #{value}
@@ -28,7 +28,7 @@
     </select>
 
     <!-- 分页查询积分等级设置 -->
-    <select id="listPointReset" resultType="com.mctpay.manager.model.entity.point.PointResetEntity">
+    <select id="listPointReset" resultType="com.mctpay.wallet.model.entity.point.PointResetEntity">
         select
         <include refid="Base_Column_List"/>
         from manager_point_reset

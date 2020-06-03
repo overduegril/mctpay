@@ -1,11 +1,11 @@
 package com.mctpay.wallet.service.point.impl;
 
-import com.mctpay.manager.mapper.point.PointResetMapper;
-import com.mctpay.manager.model.dto.point.PointResetDTO;
-import com.mctpay.manager.model.entity.point.PointResetEntity;
-import com.mctpay.manager.model.entity.system.UserEntity;
-import com.mctpay.manager.model.param.PointResetParam;
-import com.mctpay.manager.service.point.PointResetService;
+import com.mctpay.wallet.mapper.point.PointResetMapper;
+import com.mctpay.wallet.model.dto.point.PointResetDTO;
+import com.mctpay.wallet.model.entity.point.PointResetEntity;
+import com.mctpay.wallet.model.entity.system.UserEntity;
+import com.mctpay.wallet.model.param.PointResetParam;
+import com.mctpay.wallet.service.point.PointResetService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

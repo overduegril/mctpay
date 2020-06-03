@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.wallet.mapper.merchant.MerchantMapper">
+
+
+
+    <!--
+       获取商户集合
+    -->
+    <select id="listMerchantByInput" resultType="com.mctpay.wallet.model.entity.merchant.MerchantEntity">
+        SELECT
+        <include refid="Base_Column_List"/>,
+        ROUND(lat_lng_distance(#{lat}, #{lon}, latitude, longitude), 2) AS distance
+        FROM
+        (SELECT
+        <include refid="Base_Column_List"/>, concat(merchant_name,phone_number,email) content
+        FROM
+        mct_merchant
+        ) t0 WHERE status != 0
+        <if test="inputContent != null and inputContent != ''">
+            AND content LIKE CONCAT('%', #{inputContent} , '%')
+        </if>
+         <![CDATA[ AND latitude > #{minLat} AND latitude < #{maxLat} AND longitude > #{minLng} AND longitude < #{maxLng} ]]>
+
+        order by distance
+    </select>
+
+
+
+    <sql id="Base_Column_List">
+        id, merchant_name, legal_person, id_last_number, phone_number, email, postcode,latitude,longitude, registered_address, business_address, business_time, industry,data_dictionary, explain_content, business_content, business_license, member_qrcode_url, shop_photo, creator, business_status, status, create_time, update_time
+     </sql>
+
+
+
+</mapper>
