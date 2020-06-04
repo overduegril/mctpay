@@ -6,6 +6,18 @@
     <sql id="Base_Column_List">
 	    id, role_name, description, status, create_time, update_time</sql>
 
+    <!-- 创建角色 -->
+    <insert id="insertRole" useGeneratedKeys="true" keyProperty = "id">
+        INSERT INTO mct_role(role_name, description, status, create_time, update_time)
+        VALUES (
+            #{roleName},
+            #{description},
+            #{status},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
     <select id="get" resultType="com.mctpay.manager.model.entity.system.RoleEntity">
         SELECT
         <include refid="Base_Column_List"/>
@@ -17,6 +29,14 @@
         SELECT role.id, role.role_name, role.description
         FROM mct_user_role userrole, mct_role role, manager_user manageruser
         WHERE userrole.role_id = role.id AND manageruser.id = #{id}
+    </select>
+
+    <!-- 根据就是名获取 -->
+    <select id="getByRoleName" resultType="com.mctpay.manager.model.entity.system.RoleEntity">
+        SELECT  <include refid="Base_Column_List"/>
+        from mct_role
+        where role_name = #{roleName}
+        AND status != 0
     </select>
 
     <sql id="where">

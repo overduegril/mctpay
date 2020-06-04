@@ -35,7 +35,7 @@ public class MemberEntity  extends BaseEntity implements Serializable {
 	private String email;
 
 	/**
-	 * 邮箱
+	 * 积分
 	 */
 	@ApiModelProperty(value = "积分")
 	private Integer point;

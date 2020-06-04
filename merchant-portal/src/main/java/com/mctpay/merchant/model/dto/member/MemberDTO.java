@@ -47,4 +47,10 @@ public class MemberDTO {
     @ApiModelProperty(value = "信用等级")
     private String creditLevel;
 
+    /**
+     * 积分
+     */
+    @ApiModelProperty(value = "积分")
+    private Integer point;
+
 }

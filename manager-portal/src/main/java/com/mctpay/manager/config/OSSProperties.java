@@ -30,5 +30,9 @@ public class OSSProperties {
      * 二维码路径
      */
     private String qrcodePath;
+    /**
+     * 礼物图片路径
+     */
+    private String giftPath;
 
 }

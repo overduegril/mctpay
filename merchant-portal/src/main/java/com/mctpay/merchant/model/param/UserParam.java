@@ -29,8 +29,14 @@ public class UserParam extends BaseEntity {
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "密码", hidden = true)
     private String password;
+
+    /**
+     * 最低折扣率
+     */
+    @ApiModelProperty(value = "最低折扣率")
+    private Integer minDiscountRate;
 
     /**
      * 手机号
@@ -49,6 +55,12 @@ public class UserParam extends BaseEntity {
      */
     @ApiModelProperty(value = "备注")
     private String remark;
+
+    /**
+     * 备注
+     */
+    @ApiModelProperty(value = "商户ID", hidden = true)
+    private String merchantId;
 
     /**
      * 状态

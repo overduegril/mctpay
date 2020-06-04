@@ -20,7 +20,7 @@
         FROM wallet_user
         <if test="inputContent != null and inputContent != ''">
         WHERE
-        nickname LIKE CONCAT('%', #{inputContent}, '%')
+        nickname LIKE CONCAT('%', #{inputContent}, '%')mi
         OR email LIKE CONCAT('%', #{inputContent}, '%')
         OR phone_number LIKE CONCAT('%', #{inputContent}, '%')
         </if>

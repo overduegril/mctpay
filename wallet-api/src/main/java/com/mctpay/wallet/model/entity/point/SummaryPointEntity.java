@@ -29,4 +29,7 @@ public class SummaryPointEntity extends BaseEntity implements Serializable {
 	@ApiModelProperty(value = "积分")
 	private Integer point;
 
+	@ApiModelProperty(value = "会员等级名")
+	private String memberLevelName;
+
 }

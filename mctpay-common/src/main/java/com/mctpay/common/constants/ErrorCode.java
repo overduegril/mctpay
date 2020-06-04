@@ -56,7 +56,17 @@ public enum ErrorCode {
     /**
      * 参数验证错误
      */
-    ARGUMENTS_VALIDATE_FAIL(3011, "arguments_validate_fail");
+    ARGUMENTS_VALIDATE_FAIL(3011, "arguments_validate_fail"),
+
+    /**
+     * 静态收款获取失败
+     */
+    GET_COLLECTION_QRCODE_FAIL(3012, "get_collection_qrcode_fail"),
+
+    /**
+     * 扫码收款失败
+     */
+    SWEEP_COLLECT_FIAL(3013, "sweep_collect_fial");
 
     private int code;
     private String message;

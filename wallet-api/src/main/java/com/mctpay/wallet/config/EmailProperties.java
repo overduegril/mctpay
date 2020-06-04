@@ -24,4 +24,14 @@ public class EmailProperties {
      */
     private String registChineseSubject;
 
+    /**
+     * 英文用户邮件修改密码主题
+     */
+    private String updatePasswordEnglishSubject;
+
+    /**
+     * 汉语用户邮件修改密码主题
+     */
+    private String  updatePasswordChineseSubject;
+
 }

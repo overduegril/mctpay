@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.pos.mapper.merchant.TradeRecordMapper">
+
+    <sql id="Base_Column_List">
+    id, partner_trans_id, buyer_email, forex_rate, trade_status, total_fee, trade_no, merchant, merchant_id, pay_type, trans_amount, pay_time, status, create_time, update_time        </sql>
+
+    <!-- 添加交易记录 -->
+    <insert id="insert">
+        INSERT INTO mct_trade_record(partner_trans_id, buyer_email, forex_rate, trade_status, total_fee, trade_no, merchant, merchant_id, pay_type, trans_amount, pay_time, operator ,status, create_time, update_time)
+        VALUES (
+         #{partnerTransId},
+         #{buyerEmail},
+         #{forexRate},
+         #{tradeStatus},
+         #{totalFee},
+         #{tradeNo},
+         #{merchant},
+         #{merchantId},
+         #{payType},
+         #{transAmount},
+         #{payTime},
+         #{operator},
+         #{status},
+         #{createTime},
+         #{updateTime}
+        )
+    </insert>
+
+    <select id="get" resultType="com.mctpay.pos.model.entity.merchant.MerchantEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from mct_trade_record where id = #{value}
+    </select>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="partnerTransId != null">
+            and partner_trans_id = #{partnerTransId}
+        </if>
+        <if test="buyerEmail != null">
+            and buyer_email = #{buyerEmail}
+        </if>
+        <if test="forexRate != null">
+            and forex_rate = #{forexRate}
+        </if>
+        <if test="tradeStatus != null">
+            and trade_status = #{tradeStatus}
+        </if>
+        <if test="totalFee != null">
+            and total_fee = #{totalFee}
+        </if>
+        <if test="tradeNo != null">
+            and trade_no = #{tradeNo}
+        </if>
+        <if test="merchant != null">
+            and merchant = #{merchant}
+        </if>
+        <if test="merchantId != null">
+            and merchant_id = #{merchantId}
+        </if>
+        <if test="payType != null">
+            and pay_type = #{payType}
+        </if>
+        <if test="transAmount != null">
+            and trans_amount = #{transAmount}
+        </if>
+        <if test="payTime != null">
+            and pay_time = #{payTime}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>

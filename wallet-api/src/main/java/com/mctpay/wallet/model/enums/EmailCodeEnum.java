@@ -9,7 +9,9 @@ import lombok.Data;
  */
 public enum EmailCodeEnum {
 
-    REGIST("regist", "注册");
+    REGIST("regist", "注册"),
+    UPDATE_PASSWORD("update-password", "修改密码");
+
 
     EmailCodeEnum() {
     }

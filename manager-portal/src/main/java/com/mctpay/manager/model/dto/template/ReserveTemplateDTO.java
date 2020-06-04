@@ -17,20 +17,23 @@ public class ReserveTemplateDTO  implements Serializable  {
     @ApiModelProperty(value = "id")
     private Long id;
 
+    @ApiModelProperty(value = "预订者姓名")
+    private Integer name;
+
     @ApiModelProperty(value = "模板名字")
     private String templateName;
 
     @ApiModelProperty(value = "手机号")
-    private String phoneNmuber;
+    private Integer phoneNmuber;
 
     @ApiModelProperty(value = "预约时间")
-    private Date reserveTime;
+    private Integer reserveTime;
 
     @ApiModelProperty(value = "人数")
     private Integer userCount;
 
     @ApiModelProperty(value = "备注")
-    private String comment;
+    private Integer comment;
 
     @ApiModelProperty(value = "是否需要定金")
     private Integer needDeposit;

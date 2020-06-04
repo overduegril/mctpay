@@ -12,6 +12,30 @@
         from manager_summary_point where id = #{value}
     </select>
 
+    <!-- 根据用户id获取 -->
+    <select id="getByUserId" resultType="com.mctpay.wallet.model.entity.point.SummaryPointEntity">
+        select
+        t0.*, t1.member_level_name
+        from manager_summary_point t0, manager_member_level_rules t1
+        where t0.user_id = #{userId}
+        AND t0.point &gt;= t1.point
+        AND t0.status != 0
+		AND t1.status != 0
+        ORDER BY point DESC
+        limit 0, 1
+    </select>
+
+    <!-- 获取下一级所需积分 -->
+    <select id="getNextNeedPoint" resultType="java.lang.Integer">
+        select
+        point
+        from  manager_member_level_rules
+        WHERE point &gt; #{point}
+        AND status != 0
+        ORDER BY point ASC
+        limit 0,1
+    </select>
+
     <!-- 初始化汇总信息 -->
     <insert id="initUserSummaryPoint">
         INSERT INTO manager_summary_point( user_id, point, status, create_time, update_time)

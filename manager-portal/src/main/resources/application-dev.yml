@@ -82,4 +82,5 @@ aliyun-oss:
   bucketName: wosz
   shopPhotoKeyPrefix: mctpay/merchant/shopPhoto/
   businessLicenseKeyPrefix: mctpay/merchant/businessLicense/
-  qrcodePath: mctpay/merchant/qrcode
+  qrcodePath: mctpay/merchant/qrcode/
+  giftPath: mctpay/manager/gift/

@@ -4,6 +4,7 @@ import com.mctpay.common.base.mapper.BaseMapper;
 import com.mctpay.merchant.model.entity.card.MerchantCardEntity;
 import com.mctpay.merchant.model.param.MerchantCardParam;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,10 +24,16 @@ public interface MerchantCardMapper extends BaseMapper<MerchantCardEntity> {
      * @Description 卡券集合
      * @Date 23:50 2020/5/11
      **/
-    List<MerchantCardEntity> listCard();
+    List<MerchantCardEntity> listCardByInput(@Param("inputContent") String inputContent);
     /**
      * @Description 修改卡券
      * @Date 23:51 2020/5/11
      **/
     void updateMerchantCard(MerchantCardParam merchantCardParam);
+
+    /**
+     * 删除商户卡券
+     * @param id
+     */
+    void delete(Long id);
 }

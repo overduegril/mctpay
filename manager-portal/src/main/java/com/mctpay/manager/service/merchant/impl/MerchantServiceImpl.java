@@ -4,11 +4,16 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.uitl.SecureUtils;
+import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.manager.mapper.merchant.MerchantMapper;
 import com.mctpay.manager.mapper.merchant.MerchantUserMapper;
+import com.mctpay.manager.mapper.pos.PosUserMapper;
+import com.mctpay.manager.mapper.system.RoleMapper;
+import com.mctpay.manager.mapper.system.UserRoleMapper;
 import com.mctpay.manager.model.dto.merchant.MerchantDtO;
 import com.mctpay.manager.model.entity.merchant.MerchantEntity;
-import com.mctpay.manager.model.param.MerchantParam;
+import com.mctpay.manager.model.entity.system.RoleEntity;
+import com.mctpay.manager.model.param.*;
 import com.mctpay.manager.service.merchant.MerchantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -37,9 +42,52 @@ public class MerchantServiceImpl implements MerchantService {
     @Autowired
     private MerchantUserMapper merchantUserMapper;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private PosUserMapper posUserMapper;
+
+    private final static String roleName ="ROLE_SHOP_OWNER";
+    private final static String description ="管理平台创建的商户角色";
+
     @Override
+    @Transactional
     public ResponseData insertMerchant(MerchantParam merchantParam) {
         merchantMapper.insertMerchant(merchantParam);
+        // 创建店长的权限
+//        RoleParam roleParam = new RoleParam();
+//        roleParam.setRoleName(roleName);
+//        roleParam.setDescription(description);
+//        roleParam.setCreateTime(new Date());
+//        roleParam.setUpdateTime(new Date());
+//        roleParam.setStatus(1);
+//        roleMapper.insertRole(roleParam);
+        RoleEntity role = roleMapper.getByRoleName(roleName);
+        // 用户于角色进行关联
+        UserRoleParam userRoleParam = new UserRoleParam();
+        userRoleParam.setRoleId(role.getId());
+        userRoleParam.setUserId(Long.valueOf(merchantParam.getId()));
+        userRoleParam.setStatus(1);
+        userRoleParam.setCreateTime(new Date());
+        userRoleParam.setUpdateTime(new Date());
+        userRoleMapper.insert(userRoleParam);
+        // 将商户信息添加到账户体系中
+        MerchantUserParam merchantUserParam = new MerchantUserParam();
+        merchantUserParam.setId(UIdUtils.getUid().toString());
+        merchantUserParam.setMerchantId(merchantParam.getId());
+        merchantUserParam.setNickname(merchantParam.getLegalPerson());
+        merchantUserParam.setEmail(merchantParam.getEmail());
+        merchantUserParam.setPhoneNumber(merchantParam.getPhoneNumber());
+        merchantUserParam.setRemark(merchantParam.getCreator());
+        merchantUserParam.setPassword(SecureUtils.MD5Encrypt("123456"));
+        merchantUserParam.setStatus(2);
+        merchantUserParam.setCreateTime(new Date());
+        merchantUserParam.setUpdateTime(new Date());
+        merchantUserMapper.insertUser(merchantUserParam);
         return new ResponseData().success(null);
     }
 
@@ -69,17 +117,17 @@ public class MerchantServiceImpl implements MerchantService {
                     if (inRange && businessStatus != -1) {
                         businessStatus = 1;
                         break;
-                    }else if (!inRange && businessStatus != -1){
+                    } else if (!inRange && businessStatus != -1) {
                         businessStatus = 0;
                     }
                 }
             }
-                merchantEntity.setBusinessStatus(businessStatus);
+            merchantEntity.setBusinessStatus(businessStatus);
         }
         List<MerchantDtO> merchantDtOs = new ArrayList<>();
-        for(MerchantEntity merchantEntity : merchantEntities){
+        for (MerchantEntity merchantEntity : merchantEntities) {
             MerchantDtO merchantDtO = new MerchantDtO();
-            BeanUtils.copyProperties(merchantEntity,merchantDtO);
+            BeanUtils.copyProperties(merchantEntity, merchantDtO);
             merchantDtOs.add(merchantDtO);
         }
         return merchantDtOs;
@@ -88,15 +136,16 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     @Transactional
     public ResponseData switchMerchant(String merchantId, Integer state) {
-        merchantMapper.updateSwitchMerchant(merchantId,state);
+        merchantMapper.updateSwitchMerchant(merchantId, state);
         return new ResponseData().success(null);
     }
+
     @Override
     @Transactional
     public ResponseData updateMerchant(MerchantParam merchantParam) {
         merchantMapper.updateMerchant(merchantParam);
         // 如果更新的是法人。同时修改商户昵称
-        if (! StringUtils.isEmpty(merchantParam.getLegalPerson())){
+        if (!StringUtils.isEmpty(merchantParam.getLegalPerson())) {
             merchantUserMapper.updateUserNickName(merchantParam.getLegalPerson(), merchantParam.getId());
         }
         return new ResponseData().success(null);

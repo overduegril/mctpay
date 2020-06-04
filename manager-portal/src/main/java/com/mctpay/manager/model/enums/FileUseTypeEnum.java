@@ -8,7 +8,8 @@ package com.mctpay.manager.model.enums;
 public enum FileUseTypeEnum {
 
     SHOP_PHOTO("门头照"),
-    BUSINESS_LICENSE("营业执照");
+    BUSINESS_LICENSE("营业执照"),
+    GIFT("兑换礼物图片");
     FileUseTypeEnum(String name){
         this.name = name;
     }

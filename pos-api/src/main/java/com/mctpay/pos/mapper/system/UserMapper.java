@@ -16,12 +16,6 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<UserEntity> {
 
     /**
-     * @Description 注册管理员
-     * @Date 20:45 2020/2/24
-     **/
-    void insertUser(UserParam userParam);
-
-    /**
      * @Description 判断邮箱是否被使用
      * @Date 21:07 2020/2/24
      **/
@@ -34,6 +28,18 @@ public interface UserMapper extends BaseMapper<UserEntity> {
     Integer countPhoneNumber(String phoneNumber);
 
     /**
+     * @Description 根据邮箱获取用户
+     * @Date 10:12 2020/2/26
+     **/
+    List<UserEntity>  listByEmail(@Param("email") String email, @Param("limited")  Boolean limited);
+
+    /**
+     * @Description 根据手机号获取用户
+     * @Date 10:12 2020/2/26
+     **/
+     List<UserEntity> listByPhone(@Param("phoneNumber") String phoneNumber, @Param("limited")  Boolean limited);
+
+    /**
      * @Description 判断用户名是否被使用
      * @Date 21:07 2020/2/24
      **/
@@ -44,12 +50,6 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Date 21:34 2020/2/25
      **/
     void updateSwitchUser(@Param("userId") Long userId, @Param("state") Integer state);
-
-    /**
-     * @Description 根据账号获取用户
-     * @Date 10:12 2020/2/26
-     **/
-    UserEntity getByUserName(String userName);
 
     /**
      * @Description 分页查询管理员列表

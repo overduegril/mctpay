@@ -1,5 +1,6 @@
 package com.mctpay.merchant.service.system.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.mctpay.merchant.mapper.system.RoleMapper;
 import com.mctpay.merchant.mapper.system.UserMapper;
 import com.mctpay.merchant.model.entity.system.RoleEntity;
@@ -32,14 +33,15 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        UserEntity userEntity = userMapper.getByEmail(userName);
-        if (userEntity == null) {
-            userEntity = userMapper.getByPhoneNumber(userName);
+        List<UserEntity> userEntities = userMapper.listByEmail(userName, false);
+        if (CollectionUtil.isEmpty(userEntities)) {
+            userEntities = userMapper.listByPhone(userName, false);
         }
         // 验证账户为username的用户是否存在
-        if (null == userEntity){
+        if (CollectionUtil.isEmpty(userEntities)){
             throw new UsernameNotFoundException("username:  " + userName + "is not exist!");
         }
+        UserEntity userEntity = userEntities.get(0);
         List<RoleEntity> roles = roleMapper.getByUserId(userEntity.getId());
         userEntity.setRoles(roles);
         userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));

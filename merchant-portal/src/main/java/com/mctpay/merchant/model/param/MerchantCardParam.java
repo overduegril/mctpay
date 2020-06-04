@@ -2,6 +2,7 @@ package com.mctpay.merchant.model.param;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mctpay.common.base.entity.BaseEntity;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
+@ApiModel("商户卡券集合")
 public class MerchantCardParam extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "", hidden = true)
@@ -33,7 +35,14 @@ public class MerchantCardParam extends BaseEntity implements Serializable {
      * 卡券优惠类型
      */
     @ApiModelProperty(value = "卡券优惠类型 ")
-    private Integer reducedType;
+    private String reduceType;
+
+    /**
+     * 卡券优惠类型名
+     */
+    @ApiModelProperty(value = "卡券优惠类型名")
+    private String reduceTypeName;
+
     /**
      * 优惠金额
      */

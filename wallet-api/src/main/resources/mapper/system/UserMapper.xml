@@ -5,7 +5,7 @@
 
 
     <sql id="Base_Column_List">
-	    id, username, nickname, password, gender, phone_number, email, remark, status, create_time, update_time</sql>
+	    id, username, nickname, password, gender, phone_number, email, headpicture_url, remark, status, create_time, update_time</sql>
 
     <update id="updatePassword">
          UPDATE  wallet_user
@@ -19,11 +19,12 @@
           UPDATE  wallet_user
         SET headpicture_url = #{businessLicenseUrl}
         WHERE id = #{userId}
+        AND status != 0
     </update>
 
     <!-- 修改昵称-->
     <update id="updateNickname">
-          UPDATE  wallet_user
+        UPDATE  wallet_user
         SET nickname = #{newNickname}
         WHERE id = #{userId}
     </update>
@@ -31,15 +32,17 @@
     <!-- 注册管理员 -->
     <insert id="insertUser">
         INSERT INTO wallet_user(
-        id, nickname, password, email, status, create_time, update_time
+        id, username, nickname, password, email, headpicture_url, status, create_time, update_time
         )
         VALUES (
         #{id},
+        #{username},
         #{nickname},
         #{password},
         <!-- 保留字段 -->
         <!-- #{gender}, -->
         #{email},
+        #{headpictureUrl},
         #{status},
         #{createTime},
         #{updateTime}
@@ -51,6 +54,14 @@
         UPDATE manager_user
         SET status = #{state}
         WHERE id = #{userId}
+    </update>
+
+    <!-- 通过邮箱更新密码 -->
+    <update id="updatePasswordByEmail">
+        UPDATE  wallet_user
+        SET password = #{newPwd}
+        WHERE email = #{email}
+        AND status != 0
     </update>
 
 
@@ -72,6 +83,7 @@
         SELECT count(*)
         FROM wallet_user
         WHERE phone_number = #{phoneNumber}
+        AND status != 0
     </select>
 
     <!-- 判断用户名是否被使用 -->
@@ -79,16 +91,18 @@
         SELECT count(*)
         FROM wallet_user
         WHERE username = #{userName}
+        AND status != 0
     </select>
 
     <!-- 根据账号获取用户 -->
     <select id="getByPhoneNumber" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
-        SELECT id, username, nickname, password, phone_number, email, remark, status
+        SELECT <include refid="Base_Column_List"/>
         FROM wallet_user
         WHERE phone_number = #{username}
+        AND status != 0
     </select>
 
-    <!-- 差选会员列表 -->
+    <!-- 筛选会员列表 -->
     <select id="listUser" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
         SELECT
         <include refid="Base_Column_List"/>
@@ -111,7 +125,7 @@
 
     <!-- 通过邮箱获取 -->
     <select id="getByEmail" resultType="com.mctpay.wallet.model.entity.system.UserEntity">
-        SELECT id, username, nickname, password, phone_number, email, remark, status
+        SELECT <include refid="Base_Column_List"/>
         FROM wallet_user
         WHERE email = #{username}
     </select>

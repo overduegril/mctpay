@@ -18,4 +18,16 @@ public interface SummaryPointMapper extends BaseMapper<SummaryPointEntity> {
      **/
     void initUserSummaryPoint(SummaryPointParam summaryPointParam);
 
+    /**
+     * 根据用户ID获取汇总积分信息
+     * @param userId
+     * @return
+     */
+    SummaryPointEntity getByUserId(String userId);
+
+    /**
+     * 获取下一级所需积分
+     * @param point
+     */
+    Integer getNextNeedPoint(Integer point);
 }

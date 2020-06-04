@@ -78,6 +78,13 @@ public class UserEntity extends BaseEntity implements Serializable, UserDetails 
 	private Integer status;
 
 	/**
+	 * 该记录状态
+	 */
+	@ApiModelProperty(value = "商户ID", hidden = true)
+	private String merchantId;
+
+
+	/**
 	 * @Description 设置权限
 	 * @Date 10:34 2020/2/26
 	 **/

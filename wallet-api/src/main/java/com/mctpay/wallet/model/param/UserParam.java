@@ -16,6 +16,13 @@ public class UserParam extends BaseEntity {
 
     @ApiModelProperty(value = "id", hidden = true)
     private Long id;
+
+    /**
+     * 昵称
+     */
+    @ApiModelProperty(value = "用户名", hidden = true)
+    private String username;
+
     /**
      * 昵称
      */

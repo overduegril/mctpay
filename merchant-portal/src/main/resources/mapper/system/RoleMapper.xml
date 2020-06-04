@@ -14,9 +14,11 @@
 
     <!-- 获取用户角色 -->
     <select id="getByUserId" resultType="com.mctpay.merchant.model.entity.system.RoleEntity">
-        SELECT role.id, role.role_name, role.description
-        FROM mct_user_role userrole, mct_role role, manager_user manageruser
-        WHERE userrole.role_id = role.id AND manageruser.id = #{id}
+        SELECT r.id, r.role_name, r.description
+        FROM mct_role r
+        LEFT JOIN mct_user_role ur
+        ON r.id = ur.role_id
+        WHERE ur.user_id = #{id}
     </select>
 
     <sql id="where">

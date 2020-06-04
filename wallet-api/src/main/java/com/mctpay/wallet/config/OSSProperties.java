@@ -21,7 +21,7 @@ public class OSSProperties {
     /**
      * 门头照路径
      */
-    private String shopPhotoKeyPrefix;
+    private String reserveKeyPrefix;
     /**
      * 营业执照路径
      */

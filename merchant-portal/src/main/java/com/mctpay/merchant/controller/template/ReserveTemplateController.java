@@ -38,15 +38,20 @@ public class ReserveTemplateController {
      **/
     @ApiOperation(value = "分页查询模板", notes = "分页查询模板",httpMethod = "POST",  consumes = "application/json")
     @PostMapping("/listTemplate")
-    public ResponsePageInfo<List<ReserveTemplateDTO>> listReserveTemplate(@RequestBody PageParam pageParam){
-        Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
-        if (!StringUtils.isEmpty(pageParam.getOrder())) {
-            PageHelper.orderBy(pageParam.getOrder());
+    public ResponseData listReserveTemplate(@RequestBody(required = false) PageParam pageParam){
+        if (pageParam != null) {
+            Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+            if (!StringUtils.isEmpty(pageParam.getOrder())) {
+                PageHelper.orderBy(pageParam.getOrder());
+            } else {
+                PageHelper.orderBy("id desc");
+            }
+            List<ReserveTemplateDTO> reserveTemplateDTOs = reserveTemplateService.listReserveTemplate();
+            return new ResponsePageInfo<List<ReserveTemplateDTO>>().success(reserveTemplateDTOs, pageInfo);
         } else {
-            PageHelper.orderBy("id desc");
+            List<ReserveTemplateDTO> reserveTemplateDTOs = reserveTemplateService.listReserveTemplate();
+            return new ResponseData().success(reserveTemplateDTOs);
         }
-        List<ReserveTemplateDTO> reserveTemplateDTOs = reserveTemplateService.listReserveTemplate();
-        return new ResponsePageInfo<List<ReserveTemplateDTO>>().success(reserveTemplateDTOs, pageInfo);
     }
 
     /**
@@ -55,15 +60,20 @@ public class ReserveTemplateController {
      **/
     @ApiOperation(value = "分页查询商户模板", notes = "分页查询商户模板",httpMethod = "POST",  consumes = "application/json")
     @PostMapping("/listMerchantTemplate")
-    public ResponsePageInfo<List<ReserveTemplateDTO>> listMerchantReserveTemplate(@RequestBody PageParam pageParam){
-        Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
-        if (!StringUtils.isEmpty(pageParam.getOrder())) {
-            PageHelper.orderBy(pageParam.getOrder());
+    public ResponseData<List<ReserveTemplateDTO>> listMerchantReserveTemplate(@RequestBody(required = false) PageParam pageParam){
+        if (pageParam != null) {
+            Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+            if (!StringUtils.isEmpty(pageParam.getOrder())) {
+                PageHelper.orderBy(pageParam.getOrder());
+            } else {
+                PageHelper.orderBy("id desc");
+            }
+            List<ReserveTemplateDTO> reserveTemplateDTOs = reserveTemplateService.listMerchantReserveTemplate();
+            return new ResponsePageInfo<List<ReserveTemplateDTO>>().success(reserveTemplateDTOs, pageInfo);
         } else {
-            PageHelper.orderBy("id desc");
+            List<ReserveTemplateDTO> reserveTemplateDTOs = reserveTemplateService.listMerchantReserveTemplate();
+            return new ResponseData<List<ReserveTemplateDTO>>().success(reserveTemplateDTOs);
         }
-        List<ReserveTemplateDTO> reserveTemplateDTOs = reserveTemplateService.listMerchantReserveTemplate();
-        return new ResponsePageInfo<List<ReserveTemplateDTO>>().success(reserveTemplateDTOs, pageInfo);
     }
 
     /**

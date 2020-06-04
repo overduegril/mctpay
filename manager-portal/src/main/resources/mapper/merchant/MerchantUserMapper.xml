@@ -9,10 +9,11 @@
     <!-- 注册管理员 -->
     <insert id="insertUser">
         INSERT INTO merchant_user(
-        id, nickname, password, phone_number, email, remark, status, create_time, update_time
+        id, merchant_id, nickname, password, phone_number, email, remark, status, create_time, update_time
         )
         VALUES (
         #{id},
+        #{merchantId},
         #{nickname},
         #{password},
         <!-- 保留字段 -->

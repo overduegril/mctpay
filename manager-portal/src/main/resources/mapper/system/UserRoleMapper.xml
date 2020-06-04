@@ -6,6 +6,19 @@
     <sql id="Base_Column_List">
 	    id, user_id, role_id, status, create_time, update_time</sql>
 
+    <!-- 插入用户角色关系 -->
+    <insert id="insert">
+       INSERT INTO mct_user_role(user_id, role_id, status, create_time, update_time)
+       VALUES (
+           #{userId},
+           #{roleId},
+           #{status},
+           #{createTime},
+           #{updateTime}
+       )
+
+    </insert>
+
     <select id="get" resultType="com.mctpay.manager.model.entity.system.UserRoleEntity">
         select
         <include refid="Base_Column_List"/>

@@ -1,6 +1,7 @@
 package com.mctpay.merchant.mapper.system;
 
 import com.mctpay.common.base.mapper.BaseMapper;
+import com.mctpay.merchant.model.dto.system.LoginedUserDTO;
 import com.mctpay.merchant.model.entity.system.UserEntity;
 import com.mctpay.merchant.model.param.UserParam;
 import org.apache.ibatis.annotations.Param;
@@ -46,16 +47,16 @@ public interface UserMapper extends BaseMapper<UserEntity> {
     void updateSwitchUser(@Param("userId") String userId, @Param("state") Integer state);
 
     /**
-     * @Description 根据账号获取用户
+     * @Description 根据邮箱获取用户
      * @Date 10:12 2020/2/26
      **/
-    UserEntity getByEmail(String userName);
+    List<UserEntity>  listByEmail(@Param("email") String email, @Param("limited")  Boolean limited);
 
     /**
-     * @Description 根据账号获取用户
+     * @Description 根据手机号获取用户
      * @Date 10:12 2020/2/26
      **/
-    UserEntity getByPhoneNumber(String userName);
+    List<UserEntity> listByPhone(@Param("phoneNumber") String phoneNumber, @Param("limited")  Boolean limited);
 
     /**
      * @Description 分页查询管理员列表
@@ -74,4 +75,11 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Date 17:06 2020/3/7
      **/
     void updatePassword(@Param("password") String password, @Param("id") String id, @Param("status") Integer status);
+
+    /**
+     * 获取可登录的账户体系
+     * @param userName
+     * @return
+     */
+    List<UserEntity> listAccounts(String userName);
 }

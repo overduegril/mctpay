@@ -10,6 +10,7 @@
         VALUES (
         #{id},
         #{goodsName},
+        #{goodsPicture},
         #{maxExchangeCount},
         #{goodsTypeCode},
         #{goodsTypeName},
@@ -43,10 +44,11 @@
         UPDATE manager_gift
         SET status = #{state}
         WHERE id = #{giftId}
+        AND status != 0
     </update>
 
     <sql id="Base_Column_List">
-	  id, goods_name, max_exchange_count, goods_type_code, goods_type_name, goods_amount ,exchange_point ,
+	  id, goods_name, goods_picture, max_exchange_count, goods_type_code, goods_type_name, goods_amount ,exchange_point ,
 	  status,
 	  start_date,
 	  end_date,

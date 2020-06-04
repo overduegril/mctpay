@@ -26,6 +26,13 @@ public class GiftEntity extends BaseEntity implements Serializable {
      */
     @ApiModelProperty(value = "商品名称")
     private String goodsName;
+
+    /**
+     * 商品图片
+     */
+    @ApiModelProperty(value = "商品图片")
+    private String goodsPicture;
+
     /**
      * 最大兑换数量
      */

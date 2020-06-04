@@ -16,10 +16,16 @@ public interface MerchantCardService {
      * @Description 修改商户集合
      * @Date 23:39 2020/5/11
      **/
-    List<CardDTO> listCard();
+    List<CardDTO> listCard(String inputContent);
     /**
      * @Description  修改商户卡券
      * @Date 23:49 2020/5/11
      **/
     ResponseData updateMerchantCard(MerchantCardParam merchantCardParam);
+
+    /**
+     * 商户商户卡券
+     * @param id
+     */
+    void deleteMerchantCard(Long id);
 }

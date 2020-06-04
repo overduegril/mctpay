@@ -71,7 +71,7 @@ public class MemberLevelRulesServiceImpl implements MemberLevelRulesService {
     @Override
     public void switchMemberLevelRules(Long id, Integer state) {
         UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        memberLevelRulesMapper.switchMemberLevelRules(id, state, userEntity.getId());
+        memberLevelRulesMapper.switchMemberLevelRules(id, state, userEntity.getMerchantId());
     }
 
     /**

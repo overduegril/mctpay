@@ -25,16 +25,16 @@ public class ReserveTemplateParam extends BaseEntity {
     private String templateName;
 
     @ApiModelProperty(value = "手机号")
-    private String phoneNmuber;
+    private Integer phoneNmuber;
 
     @ApiModelProperty(value = "预约时间(注意到分钟)")
-    private Date reserveTime;
+    private Integer reserveTime;
 
     @ApiModelProperty(value = "人数")
     private Integer userCount;
 
     @ApiModelProperty(value = "备注")
-    private String comment;
+    private Integer comment;
 
     @ApiModelProperty(value = "是否需要定金（0不需要，1需要）")
     private Integer needDeposit;

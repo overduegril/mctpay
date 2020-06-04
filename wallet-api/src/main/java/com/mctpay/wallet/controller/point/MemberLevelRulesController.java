@@ -36,6 +36,4 @@ public class MemberLevelRulesController {
         ResponseData responseData = new ResponseData();
         return responseData.success(memberLevelRulesDTO);
     }
-
-
 }

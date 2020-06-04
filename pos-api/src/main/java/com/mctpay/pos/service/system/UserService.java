@@ -1,9 +1,12 @@
 package com.mctpay.pos.service.system;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.pos.model.dto.system.LoginedUserDTO;
 import com.mctpay.pos.model.dto.system.UserDTO;
+import com.mctpay.pos.model.entity.merchant.AccessibleMerchantDTO;
 import com.mctpay.pos.model.param.UserParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -12,12 +15,6 @@ import java.util.List;
  * @Date: 2020/2/24 20:42
  */
 public interface UserService {
-
-    /**
-     * @Description 注册管理员
-     * @Date 20:45 2020/2/24
-     **/
-    ResponseData insertUser(UserParam userParam);
 
     /**
      * @Description 激活冻结用户
@@ -36,4 +33,17 @@ public interface UserService {
      * @Date 10:29 2020/2/27
      **/
     List<UserDTO> listUserByInput(String inputContent);
+
+    /**
+     * 获取可用的账号
+     * @param account
+     */
+    List<AccessibleMerchantDTO> listAccounts(String account);
+
+    /**
+     * 选择登录账户
+     * @param id
+     * @param request
+     */
+    void selectAccount(String id, HttpServletRequest request);
 }

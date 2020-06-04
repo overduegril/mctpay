@@ -1,12 +1,16 @@
 package com.mctpay.wallet.controller.system;
+
 import cn.hutool.core.util.RandomUtil;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.uitl.EmailUtils;
 import com.mctpay.common.uitl.OSSUtils;
 import com.mctpay.common.uitl.UIdUtils;
-import com.mctpay.wallet.config.OSSProperties;
 import com.mctpay.wallet.config.EmailProperties;
+import com.mctpay.wallet.config.OSSProperties;
+import com.mctpay.wallet.model.dto.point.PointInfoDTO;
 import com.mctpay.wallet.model.entity.system.UserEntity;
+import com.mctpay.wallet.model.enums.EmailCodeEnum;
+import com.mctpay.wallet.model.param.CheckCodeParam;
 import com.mctpay.wallet.model.param.EmailCodeParam;
 import com.mctpay.wallet.model.param.UserParam;
 import com.mctpay.wallet.service.system.EmailCodeService;
@@ -17,12 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import static com.mctpay.common.constants.ErrorCode.EMAIL_HAS_BEEN_USED;
 import static com.mctpay.wallet.model.enums.EmailCodeEnum.REGIST;
+import static com.mctpay.wallet.model.enums.EmailCodeEnum.UPDATE_PASSWORD;
 
 /**
  * @Author: guodongwei
@@ -61,27 +66,32 @@ public class UserController {
 
     @ApiOperation(value = "发送邮箱验证码", notes = "发送邮箱验证码", httpMethod = "GET", consumes = "application/json")
     @GetMapping("/sendEmailCode")
-    public ResponseData sendEmailCode(String email, Integer language) {
-        // 确认邮箱是否被使用过
-        Integer integer = userService.countEmail(email);
-        if (integer != 0) {
-            return new ResponseData<>().fail(EMAIL_HAS_BEEN_USED.getCode(), EMAIL_HAS_BEEN_USED.getMessage());
-        }
+    public ResponseData sendEmailCode(String email, Integer language, EmailCodeEnum emailCodeEnum ) {
         String randomString = RandomUtil.randomString(6);
-        // 默认主题
-        String subject = emailProperties.getRegistChineseSubject();
-        if (language != null && language == 1) {
-            subject = emailProperties.getRegistEnglishSubject();
-        }
-        EmailUtils.sendRegistEmail(email, subject, randomString);
+        String subject = "";
         // 存储验证码，等待用户输入后进行校验
         EmailCodeParam emailCodeParam = new EmailCodeParam();
+        if ("regist".equalsIgnoreCase(emailCodeEnum.getEmailCodeType())) {
+            // 默认主题
+             subject = emailProperties.getRegistChineseSubject();
+            if (language != null && language == 1) {
+                subject = emailProperties.getRegistEnglishSubject();
+            }
+            emailCodeParam.setBusinessType(REGIST.getEmailCodeType());
+        }else if ("update-password".equalsIgnoreCase(emailCodeEnum.getEmailCodeType())) {
+            // 默认主题
+            subject = emailProperties.getUpdatePasswordChineseSubject();
+            if (language != null && language == 1) {
+                subject = emailProperties.getUpdatePasswordEnglishSubject();
+            }
+            emailCodeParam.setBusinessType(UPDATE_PASSWORD.getEmailCodeType());
+        }
+        EmailUtils.sendRegistEmail(email, subject, randomString);
         emailCodeParam.setCreateTime(new Timestamp(System.currentTimeMillis()));
         emailCodeParam.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         emailCodeParam.setCode(randomString);
         emailCodeParam.setToEmail(email);
         emailCodeParam.setStatus(1);
-        emailCodeParam.setBusinessType(REGIST.getEmailCodeType());
         emailCodeParam.setExpirationTime(new Date(System.currentTimeMillis() + 120000));
         emailCodeService.insertEmailCode(emailCodeParam);
         return new ResponseData().success(null);
@@ -91,10 +101,10 @@ public class UserController {
      * @Description 校验验证码
      * @Date 19:31 2020/3/2
      **/
-    @ApiOperation(value = "校验验证码", notes = "校验验证码,regist为注册验证码", httpMethod = "POST", consumes = "application/json")
+    @ApiOperation(value = "校验验证码", notes = "校验验证码,regist为注册验证码,update-password忘记/修改密码", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/checkCode")
-    public ResponseData checkCode(@RequestParam String emailCode, @RequestParam String email, @RequestParam String businessType) {
-        ResponseData responseData = emailCodeService.checkCode(emailCode, email, businessType);
+    public ResponseData checkCode(@RequestBody CheckCodeParam checkCodeParam) {
+        ResponseData responseData = emailCodeService.checkCode(checkCodeParam.getEmailCode(),checkCodeParam.getEmail(), checkCodeParam.getBusinessType());
         return responseData;
     }
 
@@ -136,4 +146,27 @@ public class UserController {
         return userService.updatePassword(newPassword,oldPassword,userEntity.getId());
     }
 
+    /**
+     * @Description H获取登陆用户的积分信息
+     * @Date 19:31 2020/5/25
+     **/
+    @ApiOperation(value = "积分信息", notes = "积分信息", httpMethod = "GET", consumes = "application/json")
+    @GetMapping("/point-info")
+    public ResponseData<PointInfoDTO> getPointInfo(){
+        // 获取此时登陆的用户ID作为真实会员ID
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PointInfoDTO pointInfo = userService.getPointInfo(userEntity.getId());
+        return new ResponseData<PointInfoDTO>().success(pointInfo);
+    }
+
+    /**
+     * @Description H获取登陆用户的积分信息
+     * @Date 19:31 2020/5/25
+     **/
+    @ApiOperation(value = "忘记密码修改密码", notes = "忘记密码修改密码", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/forget-password")
+    public ResponseData forgetPassword(@RequestParam("email") String email, @RequestParam("emailCode") String emailCode, @RequestParam("newPassword")  String newPassword){
+        userService.forgetPassword(email, emailCode, newPassword);
+        return new ResponseData().success(null);
+    }
 }

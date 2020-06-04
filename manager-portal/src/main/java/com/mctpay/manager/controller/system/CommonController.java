@@ -31,7 +31,7 @@ public class CommonController {
     @ApiOperation(value = "文件上传", notes = "文件上传", httpMethod = "POST")
     @ApiImplicitParams({@ApiImplicitParam(
             name = "userType",
-            value = "使用类型,SHOP_PHOTO：门头照;",
+            value = "使用类型,SHOP_PHOTO：门头照;GIFT: 兑换礼物图片",
             required = true,
             paramType = "insert",
             dataType = "String"
@@ -42,6 +42,8 @@ public class CommonController {
         String fileUrl = "";
         if (FileUseTypeEnum.SHOP_PHOTO.toString().equals(userType)){
             fileUrl = OSSUtils.uploadFileInputStream(oSSProperties.getBucketName(), oSSProperties.getShopPhotoKeyPrefix() + file.getOriginalFilename(), inputStream);
+        } else if (FileUseTypeEnum.GIFT.toString().equals(userType)) {
+            fileUrl = OSSUtils.uploadFileInputStream(oSSProperties.getBucketName(), oSSProperties.getGiftPath() + file.getOriginalFilename(), inputStream);
         }
         // 将图片地址回传
         return new ResponseData<String>().success(fileUrl);

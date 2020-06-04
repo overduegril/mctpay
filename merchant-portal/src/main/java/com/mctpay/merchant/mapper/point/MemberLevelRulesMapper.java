@@ -1,6 +1,7 @@
 package com.mctpay.merchant.mapper.point;
 
 import com.mctpay.common.base.mapper.BaseMapper;
+import com.mctpay.merchant.model.dto.member.MemberLevelDTO;
 import com.mctpay.merchant.model.entity.point.MemberLevelRulesEntity;
 import com.mctpay.merchant.model.param.MemberLevelRulesParam;
 import org.apache.ibatis.annotations.Param;
@@ -56,4 +57,10 @@ public interface MemberLevelRulesMapper extends BaseMapper<MemberLevelRulesEntit
      * @Date 19:37 2020/3/23
      **/
     void updateMemberLevelRules(MemberLevelRulesParam memberLevelRulesParam);
+
+    /**
+     * @Description 获取会员等级
+     * @Date 15:03 2020/6/2
+     **/
+    List<MemberLevelRulesEntity> listMemberLevel(String merchantId);
 }

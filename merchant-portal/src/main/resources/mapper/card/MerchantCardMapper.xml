@@ -6,55 +6,82 @@
     <update id="updateMerchantCard">
         UPDATE merchant_card SET
         <if test="cardName != null">
-            card_name = #{cardName},
+             card_name = #{cardName},
         </if>
-        <if test="reduceAmount != null">
-            type_code = #{typeCode},
+        <if test="typeCode != null">
+             type_code = #{typeCode},
         </if>
         <if test="typeName != null">
-            type_name = #{typeName},
+             type_name = #{typeName},
         </if>
-        reduced_type = #{reducedType},
-        <if test="reduceAmount != null">
-            reduce_amount = #{reduceAmount},
+        <if test="reduceType != null">
+             reduce_type = #{reduceType},
         </if>
-        <if test="reduceAmount != null">
-            min_amount = #{minAmount},
-        </if>
-        <if test="reduceAmount != null">
-            reduce_rate = #{reduceRate},
+        <if test="reduceTypeName != null">
+            reduce_type_name = #{reduceTypeName},
         </if>
         <if test="reduceAmount != null">
-            deadline = #{deadline},
+             reduce_amount = #{reduceAmount},
         </if>
-        <if test="reduceAmount != null">
-            require_member_level_code = #{requireMemberLevelCode},
+        <if test="minAmount != null">
+             min_amount = #{minAmount},
         </if>
-        <if test="reduceAmount != null">
-            inventory_count = #{inventoryCount},
+        <if test="reduceRate != null">
+             reduce_rate = #{reduceRate},
         </if>
-        update_time = #{updateTime}
+        <if test="deadline != null">
+             deadline = #{deadline},
+        </if>
+        <if test="requireMemberLevelCode != null">
+             require_member_level_code = #{requireMemberLevelCode},
+        </if>
+        <if test="inventoryCount != null">
+             inventory_count = #{inventoryCount},
+        </if>
+        <if test="status != null">
+            status = #{status},
+        </if>
+        <if test="createTime != null">
+            create_time = #{createTime},
+        </if>
+            update_time = #{updateTime}
+        WHERE id = #{id}
+        AND status != 0
+    </update>
+
+    <!-- 删除商户卡券 -->
+    <update id="delete">
+        UPDATE merchant_card
+        SET status = 0
         WHERE id = #{id}
     </update>
 
     <!-- 卡券集合-->
-    <select id="listCard" resultType="com.mctpay.merchant.model.entity.card.MerchantCardEntity">
+    <select id="listCardByInput" resultType="com.mctpay.merchant.model.entity.card.MerchantCardEntity">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM merchant_card
-        WHERE status != 0
+        FROM
+        (SELECT
+        <include refid="Base_Column_List"/>, concat(card_name,reduce_amount,type_name,min_amount,deadline,reduce_type, reduce_amount,reduce_rate) content
+        FROM
+        merchant_card
+        ) t0 WHERE status != 0
+        <if test="inputContent != null and inputContent != ''">
+            AND content LIKE CONCAT('%', #{inputContent} , '%')
+        </if>
     </select>
     <!--
         添加
     -->
     <insert id="insertMerchantCard">
-        INSERT INTO merchant_card( id, card_name, type_code, type_name, reduced_type, reduce_amount, min_amount, reduce_rate, deadline, require_member_level_code, inventory_count, update_time, status, create_time)
+        INSERT INTO merchant_card( id, card_name, type_code, type_name, reduce_type, reduce_type_name, reduce_amount, min_amount, reduce_rate, deadline, require_member_level_code, inventory_count, update_time, status, create_time)
         VALUES (
             #{id},
             #{cardName},
             #{typeCode},
             #{typeName},
-            #{reducedType},
+            #{reduceType},
+            #{reduceTypeName},
             #{reduceAmount},
             #{minAmount},
             #{reduceRate},
@@ -68,12 +95,14 @@
     </insert>
 
     <sql id="Base_Column_List">
-	    id, card_name, type_code, type_name, reduced_type, reduce_amount, min_amount, reduce_rate, deadline, require_member_level_code, inventory_count, update_time, status, create_time</sql>
+	    id, card_name, type_code, type_name, reduce_type, reduce_type_name, reduce_amount, min_amount, reduce_rate, deadline, require_member_level_code, inventory_count, update_time, status, create_time</sql>
 
     <select id="get" resultType="com.mctpay.merchant.model.entity.card.MerchantCardEntity">
         select
         <include refid="Base_Column_List"/>
-        from merchant_card where id = #{value}
+        from merchant_card
+        where id = #{value}
+        AND status != 0
     </select>
 
     <sql id="where">
@@ -95,8 +124,8 @@
         <if test="typeName != null">
             and type_name = #{typeName}
         </if>
-        <if test="reducedType != null">
-            and reduced_type = #{reducedType}
+        <if test="reduceType != null">
+            and reduce_type = #{reduceType}
         </if>
         <if test="reduceAmount != null">
             and reduce_amount = #{reduceAmount}

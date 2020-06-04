@@ -18,15 +18,24 @@ public class UserDTO {
     private String id;
 
     /**
-     * 用户名
-     */
-    @ApiModelProperty(value = "用户名")
-    private String username;
-    /**
      * 昵称
      */
     @ApiModelProperty(value = "昵称")
     private String nickname;
+
+    @ApiModelProperty(value = "最低折扣比")
+    private Integer minDiscountrRate;
+
+    /**
+     * 手机号
+     */
+    @ApiModelProperty(value = "手机号")
+    private String phoneNumber;
+    /**
+     * 邮箱
+     */
+    @ApiModelProperty(value = "邮箱")
+    private String email;
 
     /**
      * 备注

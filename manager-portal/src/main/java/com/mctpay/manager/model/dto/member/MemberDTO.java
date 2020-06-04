@@ -3,6 +3,8 @@ package com.mctpay.manager.model.dto.member;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @Author: guodongwei
  * @Description: 会员dto
@@ -47,4 +49,15 @@ public class MemberDTO {
     @ApiModelProperty(value = "信用等级")
     private String creditLevel;
 
+    /**
+     * 信用等级
+     */
+    @ApiModelProperty(value = "创建时间（注册时间）")
+    private Date createTime;
+
+    /**
+     * 积分
+     */
+    @ApiModelProperty(value = "积分")
+    private Integer point;
 }

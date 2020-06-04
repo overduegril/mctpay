@@ -31,7 +31,14 @@ public class CardDTO implements Serializable {
      * 卡券优惠类型
      */
     @ApiModelProperty(value = "卡券优惠类型 ")
-    private Integer reducedType;
+    private String reduceType;
+
+    /**
+     * 卡券优惠类型名
+     */
+    @ApiModelProperty(value = "卡券优惠类型名")
+    private String reduceTypeName;
+
     /**
      * 优惠金额
      */

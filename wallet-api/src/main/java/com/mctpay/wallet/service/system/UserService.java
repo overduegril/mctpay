@@ -1,6 +1,7 @@
 package com.mctpay.wallet.service.system;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.wallet.model.dto.point.PointInfoDTO;
 import com.mctpay.wallet.model.dto.system.UserDTO;
 import com.mctpay.wallet.model.param.UserParam;
 
@@ -43,19 +44,32 @@ public interface UserService {
      **/
     Integer countEmail(String email);
     /**
-     * @Description修改昵称
+     * @Description 修改昵称
      * @Date 13:57 2020/5/25
      **/
     ResponseData updateNickname(String userId, String newNickname);
 
     /**
-     * @Description修改头像
+     * @Description 修改头像
      * @Date 14:19 2020/5/25
      **/
     void updateHeadpicture(String businessLicenseUrl, String userId);
     /**
-     * @Description修改密码
+     * @Description 修改密码
      * @Date 14:50 2020/5/25
      **/
     ResponseData updatePassword(String newPassword, String oldPassword,String userId);
+
+    /**
+     * @Description 获取用户登陆的积分信息
+     * @Date 20:53 2020/5/31
+     **/
+    PointInfoDTO getPointInfo(String id);
+
+    /**
+     * 忘记密码修改密码
+     *  @param emailCode
+     * @param newPassword
+     */
+    ResponseData forgetPassword(String email, String emailCode, String newPassword);
 }

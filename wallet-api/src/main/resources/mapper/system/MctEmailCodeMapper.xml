@@ -34,6 +34,7 @@
         <include refid="Base_Column_List"/>
         FROM mct_email_code
         WHERE to_email = #{email} AND business_type = #{businessType}  AND status != 0
+        ORDER BY id DESC
         limit 0, 1
     </select>
 

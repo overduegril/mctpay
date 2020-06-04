@@ -29,8 +29,8 @@ public class MerchantCardServiceImpl implements MerchantCardService {
     }
 
     @Override
-    public List<CardDTO> listCard() {
-        List<MerchantCardEntity> merchantCardEntities = merchantCardMapper.listCard();
+    public List<CardDTO> listCard(String inputContent) {
+        List<MerchantCardEntity> merchantCardEntities = merchantCardMapper.listCardByInput(inputContent);
         List<CardDTO> cardDTOs = new ArrayList<>();
         for(MerchantCardEntity merchantCardEntity : merchantCardEntities){
             CardDTO cardDTO = new CardDTO();
@@ -44,5 +44,10 @@ public class MerchantCardServiceImpl implements MerchantCardService {
     public ResponseData updateMerchantCard(MerchantCardParam merchantCardParam) {
         merchantCardMapper.updateMerchantCard(merchantCardParam);
         return new ResponseData().success(null);
+    }
+
+    @Override
+    public void deleteMerchantCard(Long id) {
+        merchantCardMapper.delete(id);
     }
 }

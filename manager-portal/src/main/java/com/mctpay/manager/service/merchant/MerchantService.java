@@ -14,7 +14,7 @@ import java.util.List;
 public interface MerchantService {
 
     /**
-     * @Description 插入积分商品
+     * @Description 创建商户
      * @Date 22:27  2020/2/28
      **/
     ResponseData insertMerchant(MerchantParam merchantParam);

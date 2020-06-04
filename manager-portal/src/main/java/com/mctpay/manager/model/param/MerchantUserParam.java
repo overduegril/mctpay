@@ -12,10 +12,14 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "管理员注册参数")
-public class MerchantUserParam extends BaseEntity {
+public class    MerchantUserParam extends BaseEntity {
 
     @ApiModelProperty(value = "id", hidden = true)
-    private Long id;
+    private String id;
+
+    @ApiModelProperty(value = "商户ID", hidden = true)
+    private String merchantId;
+
     /**
      * 昵称
      */
@@ -38,6 +42,12 @@ public class MerchantUserParam extends BaseEntity {
      */
     @ApiModelProperty(value = "邮箱")
     private String email;
+
+    /**
+     * 最低折扣率
+     */
+    @ApiModelProperty(value = "最低折扣率")
+    private Integer minDiscountRate;
 
     /**
      * 备注

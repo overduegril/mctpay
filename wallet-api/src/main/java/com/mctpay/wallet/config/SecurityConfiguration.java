@@ -3,6 +3,8 @@ package com.mctpay.wallet.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.config.MyBCryptPasswordEncoder;
+import com.mctpay.wallet.model.dto.system.LoginedUserDTO;
+import com.mctpay.wallet.model.entity.system.RoleEntity;
 import com.mctpay.wallet.model.entity.system.UserEntity;
 import com.mctpay.wallet.service.system.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.mctpay.common.constants.ErrorCode.*;
 
@@ -91,8 +95,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     PrintWriter out = resp.getWriter();
                     UserEntity userEntity = (UserEntity) authentication.getPrincipal();
                     ResponseData<Object> responseData = new ResponseData<>();
-                    // TODO 抽取部分数据进行返回
-                    String s = new ObjectMapper().writeValueAsString(responseData.success(null));
+                    LoginedUserDTO loginedUserDTO = new LoginedUserDTO();
+                    loginedUserDTO.setId(userEntity.getId());
+                    loginedUserDTO.setNickname(userEntity.getNickname());
+                    loginedUserDTO.setStatus(userEntity.getStatus());
+                    loginedUserDTO.setHeadpictureUrl(userEntity.getHeadpictureUrl());
+                    // 获取用户权限列表
+                    List<RoleEntity> roles = userEntity.getRoles();
+                    // 传递权限参数
+                    loginedUserDTO.setRoles(new ArrayList<String>());
+                    for (RoleEntity role : roles) {
+                        loginedUserDTO.getRoles().add(role.getRoleName());
+                    }
+                    String s = new ObjectMapper().writeValueAsString(responseData.success(loginedUserDTO));
                     out.write(s);
                     out.flush();
                     out.close();

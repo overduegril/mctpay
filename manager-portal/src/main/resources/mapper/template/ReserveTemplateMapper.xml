@@ -54,7 +54,6 @@
 
 
     <select id="listReserveTemplate" resultType="com.mctpay.manager.model.entity.template.ReserveTemplateEntity">
-
         SELECT
         <include refid="Base_Column_List" />
         FROM mct_reserve_template

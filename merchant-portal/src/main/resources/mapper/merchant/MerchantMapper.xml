@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.merchant.mapper.merchant.MerchantMapper">
+
+
+
+    <sql id="Base_Column_List">
+        id, merchant_name, legal_person, id_last_number, phone_number, email, postcode, registered_address, business_address, business_time, industry,data_dictionary, explain_content, business_content, business_license, member_qrcode_url, shop_photo, creator, business_status, status, create_time, update_time</sql>
+
+
+
+    <select id="get" resultType="com.mctpay.merchant.model.entity.merchant.MerchantEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from mct_merchant where id = #{value}
+    </select>
+
+    <!-- 获取可以登录的商户 -->
+    <select id="listMerchantsByUserName" resultType="com.mctpay.merchant.model.entity.merchant.MerchantEntity">
+        SELECT <include refid="Base_Column_List"></include>
+        FROM (SELECT <include refid="Base_Column_List"></include>
+            FROM mct_merchant
+            WHERE status != 0
+        ) t
+        WHERE email = #{userName}  OR  phone_number = #{userName}
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="merchantName != null">
+            and merchant_name = #{merchantName}
+        </if>
+        <if test="legalPerson != null">
+            and legal_person = #{legalPerson}
+        </if>
+        <if test="idLastNumber != null">
+            and id_last_number = #{idLastNumber}
+        </if>
+        <if test="phoneNumber != null">
+            and phone_number = #{phoneNumber}
+        </if>
+        <if test="email != null">
+            and email = #{email}
+        </if>
+        <if test="registeredAddress != null">
+            and registered_address = #{registeredAddress}
+        </if>
+        <if test="businessAddress != null">
+            and business_address = #{businessAddress}
+        </if>
+        <if test="businessTime != null">
+            and business_time = #{businessTime}
+        </if>
+        <if test="industry != null">
+            and industry = #{industry}
+        </if>
+        <if test="dataDictionary != null">
+            and data_dictionary = #{dataDictionary}
+        </if>
+        <if test="explainContent != null">
+            and explain_content = #{explainContent}
+        </if>
+        <if test="businessContent != null">
+            and business_content = #{businessContent}
+        </if>
+        <if test="businessLicense != null">
+            and business_license = #{businessLicense}
+        </if>
+        <if test="memberQrcodeUrl != null">
+            and member_qrcode_url = #{memberQrcodeUrl}
+        </if>
+        <if test="shopPhoto != null">
+            and shop_photo = #{shopPhoto}
+        </if>
+        <if test="creator != null">
+            and creator = #{creator}
+        </if>
+        <if test="businessStatus != null">
+            and business_status = #{businessStatus}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>

@@ -7,7 +7,10 @@ import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.common.uitl.UIdUtils;
+import com.mctpay.merchant.model.dto.merchant.AccessibleMerchantDTO;
+import com.mctpay.merchant.model.dto.system.LoginedUserDTO;
 import com.mctpay.merchant.model.dto.system.UserDTO;
+import com.mctpay.merchant.model.entity.system.UserEntity;
 import com.mctpay.merchant.model.param.NewPassword;
 import com.mctpay.merchant.model.param.UserParam;
 import com.mctpay.merchant.service.system.UserService;
@@ -16,9 +19,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -53,6 +58,8 @@ public class UserController {
         userParam.setStatus(2);
         userParam.setCreateTime(new Timestamp(System.currentTimeMillis()));
         userParam.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userParam.setMerchantId(userEntity.getMerchantId());
         return userService.insertUser(userParam);
     }
 
@@ -86,4 +93,24 @@ public class UserController {
         userService.resetPassword(userId);
         return new ResponsePageInfo<List<UserDTO>>().success(null);
     }
+
+    @ApiOperation(value = "获取可以登录的商户账户", notes = "获取可以登录的商户账户", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/accounts")
+    public ResponseData< List<AccessibleMerchantDTO>> listAccounts() {
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = userEntity.getEmail();
+        if (userName == null) {
+            userName = userEntity.getPhoneNumber();
+        }
+        List<AccessibleMerchantDTO> accessibleMerchantDTOs = userService.listAccounts(userName);
+        return new ResponsePageInfo<List<AccessibleMerchantDTO>>().success(accessibleMerchantDTOs);
+    }
+
+    @ApiOperation(value = "选择登录的商户", notes = "选择登录的商户", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/selectAccount")
+    public ResponseData selectAccount(@RequestParam String id, HttpServletRequest request) {
+        userService.selectAccount(id, request);
+        return new ResponseData<>().success(null);
+    }
+
 }

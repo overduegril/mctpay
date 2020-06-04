@@ -84,4 +84,11 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Date 15:04 2020/5/25
      **/
     void updatePassword(@Param("newPwd") String newPwd, @Param("userId") String userId);
+
+    /**
+     * 通过邮箱更新密码
+     * @param newPwd
+     * @param email
+     */
+    void updatePasswordByEmail(@Param("newPwd") String newPwd, @Param("email") String email);
 }

@@ -76,10 +76,19 @@
     <select id="getLevelByPoint" resultType="java.lang.String">
        SELECT member_level_name
        FROM merchant_member_level_rules
-       WHERE point > #{point}
+       WHERE point &lt; #{point}
        AND merchant_id = #{merchantId}
-       ORDER BY point ASC
+       ORDER BY point DESC
        LIMIT 0,1
+    </select>
+
+    <!-- 获取会员等级 -->
+    <select id="listMemberLevel" resultType="com.mctpay.merchant.model.entity.point.MemberLevelRulesEntity">
+       SELECT  id, member_level_name
+       FROM merchant_member_level_rules
+       WHERE
+       merchant_id = #{merchantId}
+       AND status != 0
     </select>
 
     <sql id="where">
