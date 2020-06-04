@@ -4,16 +4,17 @@
 <mapper namespace="com.mctpay.pos.mapper.merchant.TradeRecordMapper">
 
     <sql id="Base_Column_List">
-    id, partner_trans_id, buyer_email, forex_rate, trade_status, total_fee, trade_no, merchant, merchant_id, pay_type, trans_amount, pay_time, status, create_time, update_time        </sql>
+    id, partner_trans_id, partner_refund_id, buyer_email, forex_rate, trade_status, order_status, total_fee, trade_no, merchant, merchant_id, pay_type, trans_amount, pay_time, status, create_time, update_time        </sql>
 
     <!-- 添加交易记录 -->
     <insert id="insert">
-        INSERT INTO mct_trade_record(partner_trans_id, buyer_email, forex_rate, trade_status, total_fee, trade_no, merchant, merchant_id, pay_type, trans_amount, pay_time, operator ,status, create_time, update_time)
+        INSERT INTO mct_trade_record(partner_trans_id, buyer_email, forex_rate, trade_status, order_status, total_fee, trade_no, merchant, merchant_id, pay_type, trans_amount, pay_time, operator ,status, create_time, update_time)
         VALUES (
          #{partnerTransId},
          #{buyerEmail},
          #{forexRate},
          #{tradeStatus},
+         #{orderStatus},
          #{totalFee},
          #{tradeNo},
          #{merchant},
@@ -28,10 +29,44 @@
         )
     </insert>
 
-    <select id="get" resultType="com.mctpay.pos.model.entity.merchant.MerchantEntity">
+    <!-- 更新订单状态 -->
+    <update id="updateOrderStatus">
+        UPDATE mct_trade_record
+        SET order_status = #{orderStatus},
+        partner_refund_id = #{partnerRefundId}
+        WHERE trade_no = #{tradeNo}
+        AND status != 0
+    </update>
+
+    <select id="get" resultType="com.mctpay.pos.model.entity.merchant.TradeRecordEntity">
         select
         <include refid="Base_Column_List"/>
         from mct_trade_record where id = #{value}
+    </select>
+
+    <!-- 通过订单号获取退款金额 -->
+    <select id="getAmountByTradeNo" resultType="java.lang.String">
+        SELECT trans_amount
+        FROM mct_trade_record
+        WHERE trade_no = #{tradeNo}
+        AND status != 0
+        AND order_status != 109
+    </select>
+
+    <!-- 获取父订单id -->
+    <select id="getPartnerTransIdByTradeNo" resultType="java.lang.String">
+        SELECT partner_trans_id
+        FROM mct_trade_record
+        WHERE trade_no = #{tradeNo}
+        AND status != 0
+    </select>
+
+    <!-- 获取交易记录 -->
+    <select id="listTradeRecordByMerchantId" resultType="com.mctpay.pos.model.entity.merchant.TradeRecordEntity">
+        SELECT <include refid="Base_Column_List"/>
+        FROM mct_trade_record
+        WHERE merchant_id = #{merchantId}
+        AND status != 0
     </select>
 
     <sql id="baseWhere">

@@ -1,7 +1,10 @@
 package com.mctpay.pos.service.merchant;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
 import com.mctpay.pos.model.param.SweepCollectParam;
+
+import java.util.List;
 
 /**
  * @Author: guodongwei
@@ -34,4 +37,17 @@ public interface MerchantService {
      * @param sweepCollectParam
      */
     ResponseData sweepCollect(SweepCollectParam sweepCollectParam);
+
+    /**
+     * 退款
+     * @param order
+     */
+    ResponseData refund(String order);
+
+    /**
+     * 获取交易记录
+     * @param merchantId
+     * @return
+     */
+    List<TradeRecordDTO> listTradeRecord(String merchantId);
 }

@@ -1,4 +1,4 @@
-package com.mctpay.pos.model.entity.merchant;
+package com.mctpay.pos.model.dto.system;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

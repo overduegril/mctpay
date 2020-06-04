@@ -32,6 +32,9 @@ public class TradeRecordParam extends BaseEntity implements Serializable {
 	@ApiModelProperty(value = "交易状态（99为交易成功）")
 	private Integer tradeStatus;
 
+	@ApiModelProperty(value = "订单状态（99为订单已付款，109为订单已退款）")
+	private Integer orderStatus;
+
 	@ApiModelProperty(value = "交易转为加币后总金额")
 	private String totalFee;
 

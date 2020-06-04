@@ -66,7 +66,12 @@ public enum ErrorCode {
     /**
      * 扫码收款失败
      */
-    SWEEP_COLLECT_FIAL(3013, "sweep_collect_fial");
+    SWEEP_COLLECT_FIAL(3013, "sweep_collect_fial"),
+
+    /**
+     * 订单不存在
+     */
+    ORDER_NOT_EXIST(3014, "order_not_exist");
 
     private int code;
     private String message;

@@ -1,10 +1,8 @@
 package com.mctpay.pos.service.system;
 
 import com.mctpay.common.base.model.ResponseData;
-import com.mctpay.pos.model.dto.system.LoginedUserDTO;
 import com.mctpay.pos.model.dto.system.UserDTO;
-import com.mctpay.pos.model.entity.merchant.AccessibleMerchantDTO;
-import com.mctpay.pos.model.param.UserParam;
+import com.mctpay.pos.model.dto.system.AccessibleMerchantDTO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

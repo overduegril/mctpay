@@ -2,8 +2,7 @@ package com.mctpay.pos.controller.system;
 
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
-import com.mctpay.pos.model.dto.system.UserDTO;
-import com.mctpay.pos.model.entity.merchant.AccessibleMerchantDTO;
+import com.mctpay.pos.model.dto.system.AccessibleMerchantDTO;
 import com.mctpay.pos.model.entity.system.UserEntity;
 import com.mctpay.pos.service.system.UserService;
 import io.swagger.annotations.Api;

@@ -1,4 +1,4 @@
-package com.mctpay.pos.model.entity.merchant;
+package com.mctpay.pos.model.dto.merchant;
 
 import com.mctpay.common.base.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
@@ -14,14 +14,11 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "交易记录")
-public class TradeRecordEntity  extends BaseEntity implements Serializable {
+public class TradeRecordDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@ApiModelProperty(value = "")
 	private Long id;
-
-	@ApiModelProperty(value = "父订单id")
-	private String partnerTransId;
 
 	@ApiModelProperty(value = "支付人信息")
 	private String buyerEmail;

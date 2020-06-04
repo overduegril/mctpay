@@ -1,16 +1,12 @@
 package com.mctpay.pos.service.system.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.mctpay.common.base.model.ResponseData;
-import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.pos.mapper.merchant.MerchantMapper;
 import com.mctpay.pos.mapper.system.UserMapper;
-import com.mctpay.pos.model.dto.system.LoginedUserDTO;
 import com.mctpay.pos.model.dto.system.UserDTO;
-import com.mctpay.pos.model.entity.merchant.AccessibleMerchantDTO;
+import com.mctpay.pos.model.dto.system.AccessibleMerchantDTO;
 import com.mctpay.pos.model.entity.merchant.MerchantEntity;
 import com.mctpay.pos.model.entity.system.UserEntity;
-import com.mctpay.pos.model.param.UserParam;
 import com.mctpay.pos.service.system.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +19,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.mctpay.common.constants.ErrorCode.*;
 
 /**
  * @Author: guodongwei
