@@ -20,5 +20,9 @@ public interface MerchantMapper extends BaseMapper<MerchantEntity> {
      **/
     List<MerchantEntity> listMerchantByInput( Map<String,Object> param);
 
-
+    /**
+     * @Description 获取商户集合
+     * @Date 22:31  2020/2/28
+     **/
+    List<MerchantEntity> listAllMerchant();
 }

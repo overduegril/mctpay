@@ -35,7 +35,7 @@ public class MerchantController {
 
     @ApiOperation(value = "分页查询商户", notes = "分页查询商户 ;status值为1||2，表示激活商户，-1||-2为冻结商户",  httpMethod = "POST", consumes = "application/json")
     @RequestMapping("/listMerchanttByInput")
-    public ResponseData<List<MerchantDtO>> listMerchanttByInput( @RequestParam(required = true) double lat,  @RequestParam(required = true) double lon,  @RequestParam(required = false) String inputContent, @RequestBody PageParam pageParam){
+    public ResponseData<List<MerchantDtO>> listMerchanttByInput( @RequestParam(required = false) Double lat,  @RequestParam(required = false) Double lon,  @RequestParam(required = false) String inputContent, @RequestBody PageParam pageParam){
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
             PageHelper.orderBy(pageParam.getOrder());

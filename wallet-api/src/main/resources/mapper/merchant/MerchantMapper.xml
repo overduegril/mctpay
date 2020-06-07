@@ -3,6 +3,22 @@
 
 <mapper namespace="com.mctpay.wallet.mapper.merchant.MerchantMapper">
 
+    <!--
+        获取商户集合
+     -->
+    <select id="listAllMerchant" resultType="com.mctpay.wallet.model.entity.merchant.MerchantEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+
+        FROM
+        (SELECT
+        <include refid="Base_Column_List"/>, concat(merchant_name,phone_number,email) content
+        FROM
+        mct_merchant
+        ) t0 WHERE status != 0
+
+        order by id
+    </select>
 
 
     <!--

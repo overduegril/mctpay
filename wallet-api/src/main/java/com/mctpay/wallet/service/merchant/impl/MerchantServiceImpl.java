@@ -29,19 +29,24 @@ public class MerchantServiceImpl implements MerchantService {
 
 
     @Override
-    public List<MerchantDtO> listMerchantByInput(double lat, double lon,  String inputContent) {
+    public List<MerchantDtO> listMerchantByInput(Double lat, Double lon,  String inputContent) {
 
         long raidus = 10000; //半径10km
         //double lat = 23.12564488053505; //当前纬度
         //double lon = 113.34385183452603; //当前经度
+        List<MerchantEntity> merchantEntities = null;
+        if(lat == null || lon == null){
+            merchantEntities = merchantMapper.listAllMerchant();
+        }else{
+            Map<String, Object> param = new HashMap<>();
+            param.put("lat", lat);
+            param.put("lon", lon);
+            MapUtils.loadGeoSquare(param,lat,lon,raidus);
+            param.put("inputContent",inputContent);
 
-        Map<String, Object> param = new HashMap<>();
-        param.put("lat", lat);
-        param.put("lon", lon);
-        MapUtils.loadGeoSquare(param,lat,lon,raidus);
-        param.put("inputContent",inputContent);
+            merchantEntities = merchantMapper.listMerchantByInput(param);
+        }
 
-        List<MerchantEntity> merchantEntities = merchantMapper.listMerchantByInput(param);
         // 计算商户的营业时间
         for (MerchantEntity merchantEntity : merchantEntities) {
             Integer businessStatus = 1;

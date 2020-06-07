@@ -18,6 +18,6 @@ public interface MerchantService {
      * @param lon 精度
      * @Date 23:39 2020/2/28
      **/
-    List<MerchantDtO> listMerchantByInput(double lat, double lon, String inputContent);
+    List<MerchantDtO> listMerchantByInput(Double lat, Double lon, String inputContent);
 
 }
