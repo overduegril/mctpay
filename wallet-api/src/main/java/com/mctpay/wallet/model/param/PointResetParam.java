@@ -1,5 +1,4 @@
 package com.mctpay.wallet.model.param;
-
 import com.mctpay.common.base.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

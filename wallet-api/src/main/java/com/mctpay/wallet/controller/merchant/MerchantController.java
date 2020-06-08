@@ -8,6 +8,8 @@ import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.wallet.model.dto.merchant.MerchantDtO;
 import com.mctpay.wallet.service.merchant.MerchantService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -33,8 +35,12 @@ public class MerchantController {
     private MerchantService merchantService;
 
 
-    @ApiOperation(value = "分页查询商户", notes = "分页查询商户 ;status值为1||2，表示激活商户，-1||-2为冻结商户",  httpMethod = "POST", consumes = "application/json")
+    @ApiOperation(value = "分页查询商户", notes = "分页查询商户 ;",  httpMethod = "POST", consumes = "application/json")
     @RequestMapping("/listMerchanttByInput")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "lat", value = "维度", paramType = "query"),
+            @ApiImplicitParam(name = "lon", value = "经度", paramType = "query")
+    })
     public ResponseData<List<MerchantDtO>> listMerchanttByInput( @RequestParam(required = false) Double lat,  @RequestParam(required = false) Double lon,  @RequestParam(required = false) String inputContent, @RequestBody PageParam pageParam){
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
