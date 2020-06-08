@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.pos.mapper.card.MerchantCardMapper">
+
+
+    <!-- 卡券集合-->
+    <select id="listCardByMerchanId" resultType="com.mctpay.pos.model.entity.card.MerchantCardEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        merchant_card
+         WHERE status != 0
+        <if test="merchanId != null and merchanId != ''">
+            AND merchant_id = #{merchanId}
+        </if>
+    </select>
+
+    <sql id="Base_Column_List">
+	    id, card_name, type_code, type_name, reduce_type, reduce_type_name, reduce_amount, min_amount, reduce_rate, deadline, require_member_level_code, inventory_count, update_time, status, create_time</sql>
+
+
+
+</mapper>
