@@ -106,4 +106,15 @@ public class MerchantDtO implements Serializable {
      */
     @ApiModelProperty(value = "行业")
     private String industry;
+    /**
+     * 行业
+     */
+    @ApiModelProperty(value = "距离")
+    private double distance;
+    /**
+     *可用卡券数 量
+     */
+    @ApiModelProperty(value = "可用卡券数量")
+    private int cardNum;
+
 }
