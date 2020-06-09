@@ -3,6 +3,7 @@ package com.mctpay.pos.service.merchant;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
 import com.mctpay.pos.model.param.SweepCollectParam;
+import com.mctpay.pos.model.param.TradeRecordParam;
 
 import java.util.List;
 
@@ -49,5 +50,26 @@ public interface MerchantService {
      * @param merchantId
      * @return
      */
-    List<TradeRecordDTO> listTradeRecord(String merchantId);
+    List<TradeRecordDTO> listTradeRecord(String merchantId, String inputContent);
+
+    /**
+     * 插入交易记录
+     * @param tradeRecordParam
+     */
+    void insertTradeRecord(TradeRecordParam tradeRecordParam);
+
+    /**
+     * 查看订单是否已经存在
+     * @param tradeNo
+     * @return
+     */
+    Integer countByTradeNo(String tradeNo);
+
+    /**
+     * 更新订单状态
+     * @param orderNo
+     * @param status
+     * @param partnerTransId
+     */
+    void updateOrderStatus(String orderNo, Integer status, String partnerTransId);
 }

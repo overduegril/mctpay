@@ -13,11 +13,9 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -51,5 +49,11 @@ public class MerchantCardController {
         }
     }
 
+    @ApiOperation(value = "获取可以用于支付的卡券", notes = "获取可以用于支付的卡券", httpMethod = "GET")
+    @GetMapping("/available-cards")
+    public ResponseData<List<CardDTO>> listAvailableCards(@RequestParam String userId, BigDecimal amount) {
+        List<CardDTO> cardDTOs = merchantCardService.listAvailableCards(userId, amount);
+        return new ResponseData<List<CardDTO>>().success(cardDTOs);
+    }
 
 }

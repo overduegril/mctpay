@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.wallet.mapper.card.CardRedeemCodeMapper">
+
+    <sql id="Base_Column_List">
+	id, redeem_code, card_id, used, status, create_time, update_time        </sql>
+
+    <!-- 设置兑换码为已经使用 -->
+    <update id="useRedeemCode">
+        UPDATE merchant_card_redeem_code
+        SET used = 1
+        WHERE status != 0
+        AND redeem_code = #{redeemCode}
+    </update>
+
+    <select id="get" resultType="com.mctpay.pos.model.entity.card.CardRedeemCodeEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from merchant_card_redeem_code where id = #{value}
+    </select>
+
+    <!-- 获取一个可用兑换码 -->
+    <select id="getAvailableRedeemCodeByCardId" resultType="java.lang.String">
+        SELECT redeem_code
+        FROM merchant_card_redeem_code
+        WHERE status != 0
+        AND used = 0
+        AND card_id = #{cardId}
+        limit 0, 1
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="redeemCode != null">
+            and redeem_code = #{redeemCode}
+        </if>
+        <if test="cardId != null">
+            and card_id = #{cardId}
+        </if>
+        <if test="used != null">
+            and used = #{used}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>

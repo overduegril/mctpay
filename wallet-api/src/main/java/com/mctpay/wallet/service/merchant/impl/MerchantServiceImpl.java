@@ -3,9 +3,13 @@ package com.mctpay.wallet.service.merchant.impl;
 import cn.hutool.core.date.DateUtil;
 import com.mctpay.common.uitl.MapUtils;
 import com.mctpay.wallet.mapper.merchant.MerchantMapper;
+import com.mctpay.wallet.mapper.merchant.TradeRecordMapper;
 import com.mctpay.wallet.model.dto.card.CardDTO;
 import com.mctpay.wallet.model.dto.merchant.MerchantDtO;
+import com.mctpay.wallet.model.dto.merchant.TradeRecordDTO;
+import com.mctpay.wallet.model.entity.merchant.MctTradeRecordEntity;
 import com.mctpay.wallet.model.entity.merchant.MerchantEntity;
+import com.mctpay.wallet.model.param.TradeRecordParam;
 import com.mctpay.wallet.service.card.MerchantCardService;
 import com.mctpay.wallet.service.merchant.MerchantService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +34,9 @@ public class MerchantServiceImpl implements MerchantService {
     private MerchantMapper merchantMapper;
     @Autowired
     private MerchantCardService merchantCardService;
+
+    @Autowired
+    private TradeRecordMapper tradeRecordMapper;
 
     @Override
     public List<MerchantDtO> listMerchantByInput(Double lat, Double lon,  String inputContent) {
@@ -103,5 +110,23 @@ public class MerchantServiceImpl implements MerchantService {
         }
         return merchantDtOs;
     }
+
+    @Override
+    public void insertTradeRecord(TradeRecordParam tradeRecordParam) {
+        tradeRecordMapper.insert(tradeRecordParam);
+    }
+
+    @Override
+    public List<TradeRecordDTO> listTradeRecord(String userId, String inputContent) {
+        List<MctTradeRecordEntity> tradeRecordEntities = tradeRecordMapper.listTradeRecordByMerchantId(userId, inputContent);
+        List<TradeRecordDTO> tradeRecordDTOs = new ArrayList<>();
+        for (MctTradeRecordEntity tradeRecordEntity : tradeRecordEntities) {
+            TradeRecordDTO tradeRecordDTO = new TradeRecordDTO();
+            BeanUtils.copyProperties(tradeRecordEntity, tradeRecordDTO);
+            tradeRecordDTOs.add(tradeRecordDTO);
+        }
+        return tradeRecordDTOs;
+    }
+
 
 }

@@ -130,6 +130,14 @@
         WHERE email = #{username}
     </select>
 
+    <!-- 根据用户ID获取积分 -->
+    <select id="getUserPointById" resultType="java.lang.Integer">
+        SELECT point
+        FROM manager_summary_point
+        WHERE user_id = #{userId}
+        AND status != 0
+    </select>
+
     <sql id="where">
         <where>
             <include refid="baseWhere"></include>

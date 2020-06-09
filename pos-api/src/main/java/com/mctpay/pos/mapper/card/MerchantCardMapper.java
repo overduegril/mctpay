@@ -5,6 +5,7 @@ import com.mctpay.pos.model.entity.card.MerchantCardEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -20,4 +21,11 @@ public interface MerchantCardMapper extends BaseMapper<MerchantCardEntity> {
      **/
     List<MerchantCardEntity> listCardByMerchanId(@Param("merchanId") String merchanId);
 
+    /**
+     * 根据用户名获取已领取卡券ID集合
+     *
+     * @param userId
+     * @return
+     */
+    List<MerchantCardEntity> listReceivedCardsByUserId(@Param("userId") String userId, @Param("amount") BigDecimal amount);
 }

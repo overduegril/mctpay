@@ -71,7 +71,9 @@ public enum ErrorCode {
     /**
      * 订单不存在
      */
-    ORDER_NOT_EXIST(3014, "order_not_exist");
+    ORDER_NOT_EXIST(3014, "order_not_exist"),
+
+    CARD_CANT_RECEIVE(3015, "card_cant_receive");
 
     private int code;
     private String message;
