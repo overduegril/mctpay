@@ -19,6 +19,4 @@
     <sql id="Base_Column_List">
 	    id, card_name, type_code, type_name, reduce_type, reduce_type_name, reduce_amount, min_amount, reduce_rate, deadline, require_member_level_code, inventory_count, update_time, status, create_time</sql>
 
-
-
 </mapper>
