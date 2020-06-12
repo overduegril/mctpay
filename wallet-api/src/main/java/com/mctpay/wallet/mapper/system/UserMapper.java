@@ -70,17 +70,17 @@ public interface UserMapper extends BaseMapper<UserEntity> {
     List<UserEntity> listUserByInput(@Param("inputContent") String inputContent);
 
     /**
-     * @Description修改昵称
+     * @Description 修改昵称
      * @Date 13:59 2020/5/25
      **/
     void updateNickname(@Param("userId") String userId,@Param("newNickname")  String newNickname);
     /**
-     * @Description修改头像
+     * @Description 修改头像
      * @Date 13:59 2020/5/25
      **/
     void updateHeadpicture(@Param("businessLicenseUrl") String businessLicenseUrl,@Param("userId")   String userId);
     /**
-     * @Description修改密码
+     * @Description 修改密码
      * @Date 15:04 2020/5/25
      **/
     void updatePassword(@Param("newPwd") String newPwd, @Param("userId") String userId);
@@ -91,4 +91,10 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @param email
      */
     void updatePasswordByEmail(@Param("newPwd") String newPwd, @Param("email") String email);
+
+    /**
+     * @Description 根据用户ID获取积分
+     * @Date 17:39 2020/6/8
+     **/
+    Integer getUserPointById(String userId);
 }

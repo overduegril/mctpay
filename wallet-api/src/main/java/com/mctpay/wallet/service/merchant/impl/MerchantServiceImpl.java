@@ -3,8 +3,14 @@ package com.mctpay.wallet.service.merchant.impl;
 import cn.hutool.core.date.DateUtil;
 import com.mctpay.common.uitl.MapUtils;
 import com.mctpay.wallet.mapper.merchant.MerchantMapper;
+import com.mctpay.wallet.mapper.merchant.TradeRecordMapper;
+import com.mctpay.wallet.model.dto.card.CardDTO;
 import com.mctpay.wallet.model.dto.merchant.MerchantDtO;
+import com.mctpay.wallet.model.dto.merchant.TradeRecordDTO;
+import com.mctpay.wallet.model.entity.merchant.MctTradeRecordEntity;
 import com.mctpay.wallet.model.entity.merchant.MerchantEntity;
+import com.mctpay.wallet.model.param.TradeRecordParam;
+import com.mctpay.wallet.service.card.MerchantCardService;
 import com.mctpay.wallet.service.merchant.MerchantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -26,18 +32,24 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Autowired
     private MerchantMapper merchantMapper;
+    @Autowired
+    private MerchantCardService merchantCardService;
 
+    @Autowired
+    private TradeRecordMapper tradeRecordMapper;
 
     @Override
     public List<MerchantDtO> listMerchantByInput(Double lat, Double lon,  String inputContent) {
-
-        long raidus = 10000; //半径10km
         //double lat = 23.12564488053505; //当前纬度
         //double lon = 113.34385183452603; //当前经度
+
+        long raidus = 1000000000000000000l; //半径10km
         List<MerchantEntity> merchantEntities = null;
-        if(lat == null || lon == null){
-            merchantEntities = merchantMapper.listAllMerchant();
-        }else{
+        if(lat == null || lon == null) {
+            lat = 113.34385183452603; //当前纬度
+            lon = 1.376821 ; //当前经度
+        }
+
             Map<String, Object> param = new HashMap<>();
             param.put("lat", lat);
             param.put("lon", lon);
@@ -45,7 +57,7 @@ public class MerchantServiceImpl implements MerchantService {
             param.put("inputContent",inputContent);
 
             merchantEntities = merchantMapper.listMerchantByInput(param);
-        }
+
 
         // 计算商户的营业时间
         for (MerchantEntity merchantEntity : merchantEntities) {
@@ -81,9 +93,40 @@ public class MerchantServiceImpl implements MerchantService {
         for(MerchantEntity merchantEntity : merchantEntities){
             MerchantDtO merchantDtO = new MerchantDtO();
             BeanUtils.copyProperties(merchantEntity,merchantDtO);
+            if(lon != null && lat != null){
+                if(StringUtils.hasText(merchantEntity.getLatitude()) && StringUtils.hasText(merchantEntity.getLongitude())){
+                    double distance = MapUtils.getDistance(new Double(merchantEntity.getLatitude()),new Double(merchantEntity.getLongitude()),lat,lat);
+                    merchantDtO.setDistance(distance);
+                    List<CardDTO> cardDTOList = merchantCardService.listCard(merchantEntity.getId());
+                    if(cardDTOList != null && cardDTOList.size() > 0){
+                        merchantDtO.setCardNum(cardDTOList.size());
+                    }else{
+                        merchantDtO.setCardNum(0);
+                    }
+                }
+
+            }
             merchantDtOs.add(merchantDtO);
         }
         return merchantDtOs;
     }
+
+    @Override
+    public void insertTradeRecord(TradeRecordParam tradeRecordParam) {
+        tradeRecordMapper.insert(tradeRecordParam);
+    }
+
+    @Override
+    public List<TradeRecordDTO> listTradeRecord(String userId, String inputContent) {
+        List<MctTradeRecordEntity> tradeRecordEntities = tradeRecordMapper.listTradeRecordByMerchantId(userId, inputContent);
+        List<TradeRecordDTO> tradeRecordDTOs = new ArrayList<>();
+        for (MctTradeRecordEntity tradeRecordEntity : tradeRecordEntities) {
+            TradeRecordDTO tradeRecordDTO = new TradeRecordDTO();
+            BeanUtils.copyProperties(tradeRecordEntity, tradeRecordDTO);
+            tradeRecordDTOs.add(tradeRecordDTO);
+        }
+        return tradeRecordDTOs;
+    }
+
 
 }

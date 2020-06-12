@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.wallet.mapper.merchant.TradeRecordMapper">
+
+
+    <sql id="Base_Column_List">
+	id, user_id, trade_no, status, create_time, update_time        </sql>
+
+    <select id="get" resultType="com.mctpay.wallet.model.entity.merchant.TradeRecordEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from wallet_trade_record where id = #{value}
+    </select>
+
+    <!-- 获取用户交易记录 -->
+    <select id="listTradeRecordByMerchantId"
+            resultType="com.mctpay.wallet.model.entity.merchant.MctTradeRecordEntity">
+        SELECT * FROM
+        (
+        SELECT t1.*, concat(t1.trans_amount, t1.total_fee, t1.trade_no, t1.pay_time) content
+        FROM wallet_trade_record t0, mct_trade_record t1
+        WHERE
+        t0.status != 0
+        AND  t1.status != 0
+        AND t0.trade_no = t1.trade_no
+        AND t0.user_id = #{userId}
+        ) t3
+        WHERE
+        1 = 1
+        <if test="inputContent != null and inputContent != ''">
+            AND  content LIKE CONCAT('%', #{inputContent}, '%')
+        </if>
+
+    </select>
+
+    <sql id="baseWhere">
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="tradeNo != null">
+            and trade_no = #{tradeNo}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO wallet_trade_record
+        (
+       user_id, trade_no, status, create_time, update_time
+        )
+        VALUES
+        (
+        #{userId},
+        #{tradeNo},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+</mapper>

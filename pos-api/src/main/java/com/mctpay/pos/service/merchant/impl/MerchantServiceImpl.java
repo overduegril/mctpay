@@ -7,6 +7,9 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.uitl.UIdUtils;
+import com.mctpay.pos.mapper.card.MerchantCardMapper;
+import com.mctpay.pos.mapper.card.MerchantCardReceiveMapper;
+import com.mctpay.pos.mapper.card.MerchantCardVerifyCancelMapper;
 import com.mctpay.pos.mapper.merchant.MerchantMapper;
 import com.mctpay.pos.mapper.merchant.TradeRecordMapper;
 import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
@@ -16,6 +19,7 @@ import com.mctpay.pos.model.entity.system.UserEntity;
 import com.mctpay.pos.model.param.SweepCollectParam;
 import com.mctpay.pos.model.param.TradeRecordParam;
 import com.mctpay.pos.service.merchant.MerchantService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,15 +32,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.mctpay.common.constants.ErrorCode.GET_COLLECTION_QRCODE_FAIL;
-import static com.mctpay.common.constants.ErrorCode.ORDER_NOT_EXIST;
-import static com.mctpay.common.constants.ErrorCode.SWEEP_COLLECT_FIAL;
+import static com.mctpay.common.constants.ErrorCode.*;
 
 /**
  * @Author: guodongwei
  * @Description: 商户业务
  * @Date: 2020/5/23 21:02
  */
+@Log4j2
 @Service
 public class MerchantServiceImpl implements MerchantService {
 
@@ -45,6 +48,15 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Autowired
     private TradeRecordMapper tradeRecordMapper;
+
+    @Autowired
+    private MerchantCardReceiveMapper merchantCardReceiveMapper;
+
+    @Autowired
+    private MerchantCardMapper merchantCardMapper;
+
+    @Autowired
+    private MerchantCardVerifyCancelMapper merchantCardVerifyCancelMapper;
 
     public String getMemberQRCode() {
         UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -69,7 +81,7 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     public String getMerchantName(String merchantId) {
-        MerchantEntity merchantEntity = merchantMapper.get(Long.valueOf(merchantId));
+        MerchantEntity merchantEntity = merchantMapper.get(merchantId);
         return merchantEntity.getMerchantName();
     }
 
@@ -85,7 +97,7 @@ public class MerchantServiceImpl implements MerchantService {
         // 设置订单号
         String order = UIdUtils.getUid().toString();
         paramMap.put("order", order);
-        String notifyUrl = "http://39.96.29.99:9104/merchant/sweep-collect-notify";
+        String notifyUrl = "http://39.96.29.99:/pay/merchant/sweep-collect-notify";
         paramMap.put("notify_url", notifyUrl);
         paramMap.put("sign_string", SecureUtil.md5("Guest" + SecureUtil.md5("Guest") + amount + sweepCollectParam.getPayer() + order + notifyUrl));
         String result = HttpUtil.get("https://ccpay.sg/dci/api_v2/cashier_app", paramMap);
@@ -95,6 +107,8 @@ public class MerchantServiceImpl implements MerchantService {
             TradeRecordParam tradeRecordParam = new TradeRecordParam();
             recordTradeParam(jsonObject, tradeRecordParam);
             tradeRecordMapper.insert(tradeRecordParam);
+            // TODO 核销优惠券
+
             return new ResponseData().success(jsonObject);
         }
 
@@ -122,7 +136,7 @@ public class MerchantServiceImpl implements MerchantService {
         String partnerTransId = tradeRecordMapper.getPartnerTransIdByTradeNo(order);
         paramMap.put("amount", amount);
         paramMap.put("order", partnerTransId);
-        String notifyUrl = "http://39.96.29.99:9104/merchant/sweep-collect-notify";
+        String notifyUrl = "http://39.96.29.99:/pay/merchant/refund-notify";
         paramMap.put("notify_url", notifyUrl);
         paramMap.put("sign_string", SecureUtil.md5("Guest" + SecureUtil.md5("Guest") + amount + partnerTransId + notifyUrl));
         String result = HttpUtil.get("https://ccpay.sg/dci/api_v2/refund_app", paramMap);
@@ -146,8 +160,8 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public List<TradeRecordDTO> listTradeRecord(String merchantId) {
-        List<TradeRecordEntity> tradeRecordEntities = tradeRecordMapper.listTradeRecordByMerchantId(merchantId);
+    public List<TradeRecordDTO> listTradeRecord(String merchantId, String inputContent) {
+        List<TradeRecordEntity> tradeRecordEntities = tradeRecordMapper.listTradeRecordByMerchantId(merchantId, inputContent);
         List<TradeRecordDTO> tradeRecordDTOs = new ArrayList<>();
         for (TradeRecordEntity tradeRecordEntity : tradeRecordEntities) {
             TradeRecordDTO tradeRecordDTO = new TradeRecordDTO();
@@ -188,8 +202,11 @@ public class MerchantServiceImpl implements MerchantService {
         if (jsonObject.get("pay_type") != null) {
             tradeRecordParam.setPayType(jsonObject.get("pay_type").toString());
         }
-        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        tradeRecordParam.setMerchantId(userEntity.getMerchantId());
+        if (SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null && SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
+            UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            tradeRecordParam.setMerchantId(userEntity.getMerchantId());
+            tradeRecordParam.setOperator(userEntity.getNickname());
+        }
         if (jsonObject.get("trans_amount") != null) {
             tradeRecordParam.setTransAmount(jsonObject.get("trans_amount").toString());
         }
@@ -197,24 +214,35 @@ public class MerchantServiceImpl implements MerchantService {
 
             tradeRecordParam.setPayTime(DateUtil.parseDateTime(jsonObject.get("pay_time").toString()).toJdkDate());
         }
-        tradeRecordParam.setOperator(userEntity.getNickname());
         tradeRecordParam.setCreateTime(new Date());
         tradeRecordParam.setUpdateTime(new Date());
         tradeRecordParam.setStatus(1);
     }
 
+    public void insertTradeRecord(TradeRecordParam tradeRecordParam) {
+        tradeRecordMapper.insert(tradeRecordParam);
+    }
+
+    @Override
+    public Integer countByTradeNo(String tradeNo) {
+        Integer rows = tradeRecordMapper.countByTradeNo(tradeNo);
+        return rows;
+    }
+
+
+    public void updateOrderStatus(String orderNo, Integer status, String partnerTransId) {
+        tradeRecordMapper.updateOrderStatus(orderNo, status, partnerTransId);
+    }
+
     public static void main(String[] args) {
+        // TODO 获取到支付需要的用户名密码
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("user_id", "Guest");
         paramMap.put("user_password", SecureUtil.md5("Guest"));
-        // 根据订单号获取退款金额
-        String amount = "0.01";
-        paramMap.put("amount", amount);
-        paramMap.put("order", "DCI202006041007117170751");
-        String notifyUrl = "http://39.96.29.99:9104/merchant/sweep-collect-notify";
-        paramMap.put("notify_url", notifyUrl);
-        paramMap.put("sign_string", SecureUtil.md5("Guest" + SecureUtil.md5("Guest") + amount + "DCI202006041007117170751" + notifyUrl));
-        String result = HttpUtil.get("https://ccpay.sg/dci/api_v2/refund_app", paramMap);
+        paramMap.put("url_string", "http://39.96.29.99:/pay/merchant/sweep-collect-notify");
+        paramMap.put("sign_string", SecureUtil.md5("Guest" + SecureUtil.md5("Guest") + "http://39.96.29.99:/pay/merchant/sweep-collect-notify"));
+        String result = HttpUtil.get("https://ccpay.sg/dci/api_v2/set_notify_url", paramMap);
         System.out.println(result);
     }
+
 }

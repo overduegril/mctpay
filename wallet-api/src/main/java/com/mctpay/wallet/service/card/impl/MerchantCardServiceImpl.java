@@ -20,7 +20,7 @@ public class MerchantCardServiceImpl implements MerchantCardService {
 
     @Override
     public List<CardDTO> listCard(String  merchanId) {
-        List<MerchantCardEntity> merchantCardEntities = merchantCardMapper.listCardByMerchanId(merchanId);
+        List<MerchantCardEntity> merchantCardEntities = merchantCardMapper.listMerchantCard(merchanId);
         List<CardDTO> cardDTOs = new ArrayList<>();
         for(MerchantCardEntity merchantCardEntity : merchantCardEntities){
             CardDTO cardDTO = new CardDTO();

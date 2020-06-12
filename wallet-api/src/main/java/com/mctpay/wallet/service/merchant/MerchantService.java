@@ -1,6 +1,8 @@
 package com.mctpay.wallet.service.merchant;
 
 import com.mctpay.wallet.model.dto.merchant.MerchantDtO;
+import com.mctpay.wallet.model.dto.merchant.TradeRecordDTO;
+import com.mctpay.wallet.model.param.TradeRecordParam;
 
 import java.util.List;
 
@@ -20,4 +22,16 @@ public interface MerchantService {
      **/
     List<MerchantDtO> listMerchantByInput(Double lat, Double lon, String inputContent);
 
+    /**
+     * 插入交易记录
+     * @param tradeRecordParam
+     */
+    void insertTradeRecord(TradeRecordParam tradeRecordParam);
+
+    /**
+     * 获取交易记录
+     * @param userId
+     * @return
+     */
+    List<TradeRecordDTO> listTradeRecord(String userId, String inputContent);
 }

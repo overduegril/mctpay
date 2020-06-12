@@ -14,7 +14,7 @@ public interface BaseMapper<T> {
      * @param id
      * @return
      */
-    T get(Long id);
+    T get(String id);
 
     /**
      * @param parameter

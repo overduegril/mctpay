@@ -66,6 +66,11 @@ public class CardDTO implements Serializable {
     @ApiModelProperty(value = "使用会员的等级code")
     private String requireMemberLevelCode;
     /**
+     * 使用会员的等级code
+     */
+    @ApiModelProperty(value = "使用会员的等级名")
+    private String requireMemberLevelName;
+    /**
      * 库存
      */
     @ApiModelProperty(value = "库存")

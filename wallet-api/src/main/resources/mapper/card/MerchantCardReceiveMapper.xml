@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.wallet.mapper.card.MerchantCardReceiveMapper">
+
+    <sql id="Base_Column_List">
+	id, redeem_code, card_id, user_id, receive_time, use_state_type, locked, status, create_time, update_time        </sql>
+
+    <!-- 插入领取记录 -->
+    <insert id="insert">
+        INSERT INTO merchant_card_receive(redeem_code, card_id, user_id, receive_time, use_state_type, locked, status, create_time, update_time)
+        VALUES (
+            #{redeemCode},
+            #{cardId},
+            #{userId},
+            #{receiveTime},
+            #{useStateType},
+            #{locked},
+            #{status},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <select id="get" resultType="com.mctpay.wallet.model.entity.card.MerchantCardReceiveEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from merchant_card_receive where id = #{value}
+    </select>
+
+    <!-- 获取已经领取过的优惠券Id集合 -->
+    <select id="listReceivedCardsByUserId" resultType="java.lang.String">
+        SELECT card_id
+        FROM  merchant_card_receive
+        WHERE locked != 1
+        AND status != 0
+        AND user_id = #{userId}
+    </select>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="redeemCode != null">
+            and redeem_code = #{redeemCode}
+        </if>
+        <if test="cardId != null">
+            and card_id = #{cardId}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="receiveTime != null">
+            and receive_time = #{receiveTime}
+        </if>
+        <if test="useStateType != null">
+            and use_state_type = #{useStateType}
+        </if>
+        <if test="locked != null">
+            and locked = #{locked}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>

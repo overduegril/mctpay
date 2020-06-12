@@ -2,6 +2,7 @@ package com.mctpay.merchant.service.card;
 
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.merchant.model.dto.card.CardDTO;
+import com.mctpay.merchant.model.param.CardRedeemCodeParam;
 import com.mctpay.merchant.model.param.MerchantCardParam;
 
 import java.util.List;
@@ -28,4 +29,10 @@ public interface MerchantCardService {
      * @param id
      */
     void deleteMerchantCard(Long id);
+
+    /**
+     * 批量创建兑换码
+     * @param cardRedeemCodeParams
+     */
+    void insertBatchRedeemCode(List<CardRedeemCodeParam> cardRedeemCodeParams);
 }

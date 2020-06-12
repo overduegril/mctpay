@@ -50,5 +50,10 @@ public interface TradeRecordMapper extends BaseMapper<TradeRecordEntity> {
      * @param merchantId
      * @return
      */
-    List<TradeRecordEntity> listTradeRecordByMerchantId(String merchantId);
+    List<TradeRecordEntity> listTradeRecordByMerchantId(@Param("merchantId") String merchantId, @Param("inputContent") String inputContent);
+
+    /**
+     * 根据订单号查看订单是否存在
+     */
+    Integer countByTradeNo(String tradeNo);
 }

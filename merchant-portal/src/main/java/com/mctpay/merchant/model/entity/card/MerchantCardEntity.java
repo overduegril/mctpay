@@ -71,6 +71,12 @@ public class MerchantCardEntity extends BaseEntity implements Serializable {
 	 */
 	@ApiModelProperty(value = "使用会员的等级code")
 	private String requireMemberLevelCode;
+
+	/**
+	 * 使用会员的等级code
+	 */
+	@ApiModelProperty(value = "使用会员的等级code")
+	private String requireMemberLevelName;
 	/**
 	 * 库存
 	 */

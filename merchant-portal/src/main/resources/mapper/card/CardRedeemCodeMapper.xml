@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.merchant.mapper.card.CardRedeemCodeMapper">
+
+    <sql id="Base_Column_List">
+	id, redeem_code, card_id, used, status, create_time, update_time        </sql>
+
+    <!-- 批量创建兑换码 -->
+    <insert id="insertBatch">
+        INSERT INTO merchant_card_redeem_code(redeem_code, card_id, used, status, create_time, update_time )
+        VALUES
+        <foreach collection="cardRedeemCodeParams" item="item" separator=",">
+            (
+            #{item.redeemCode},
+            #{item.cardId},
+            #{item.used},
+            #{item.status},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <select id="get" resultType="com.mctpay.merchant.model.entity.card.CardRedeemCodeEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from merchant_card_redeem_code where id = #{value}
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="redeemCode != null">
+            and redeem_code = #{redeemCode}
+        </if>
+        <if test="cardId != null">
+            and card_id = #{cardId}
+        </if>
+        <if test="used != null">
+            and used = #{used}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+</mapper>

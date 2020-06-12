@@ -21,4 +21,9 @@ public interface MemberLevelRulesMapper extends BaseMapper<MemberLevelRulesEntit
      **/
     List<MemberLevelRulesEntity> listMemberLevelRules();
 
+    /**
+     * @Description 根据id获取最低会员所需积分
+     * @Date 19:20 2020/6/8
+     **/
+    Integer getPointByMemberCode(String memberCode);
 }

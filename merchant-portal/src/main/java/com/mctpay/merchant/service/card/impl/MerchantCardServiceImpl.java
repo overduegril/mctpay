@@ -1,8 +1,10 @@
 package com.mctpay.merchant.service.card.impl;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.merchant.mapper.card.CardRedeemCodeMapper;
 import com.mctpay.merchant.mapper.card.MerchantCardMapper;
 import com.mctpay.merchant.model.dto.card.CardDTO;
+import com.mctpay.merchant.model.param.CardRedeemCodeParam;
 import com.mctpay.merchant.model.entity.card.MerchantCardEntity;
 import com.mctpay.merchant.model.param.MerchantCardParam;
 import com.mctpay.merchant.service.card.MerchantCardService;
@@ -18,6 +20,8 @@ public class MerchantCardServiceImpl implements MerchantCardService {
     @Autowired
     private MerchantCardMapper merchantCardMapper;
 
+    @Autowired
+    private CardRedeemCodeMapper cardRedeemCodeMapper;
     /**
      * @Description 插入商户兑换码
      * @Date 16:03 2020/5/11
@@ -49,5 +53,10 @@ public class MerchantCardServiceImpl implements MerchantCardService {
     @Override
     public void deleteMerchantCard(Long id) {
         merchantCardMapper.delete(id);
+    }
+
+    @Override
+    public void insertBatchRedeemCode(List<CardRedeemCodeParam> cardRedeemCodeParams) {
+        cardRedeemCodeMapper.insertBatch(cardRedeemCodeParams);
     }
 }

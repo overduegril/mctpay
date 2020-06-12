@@ -3,10 +3,8 @@
 
 <mapper namespace="com.mctpay.wallet.mapper.point.MemberLevelRulesMapper">
 
-
     <sql id="Base_Column_List">
 	    id, merchant_id, member_level_name, point, last_operator, status, create_time, update_time</sql>
-
 
     <!-- 获取积分等级设置列表 -->
     <select id="listMemberLevelRules"
@@ -16,6 +14,13 @@
         WHERE status != 0
     </select>
 
+    <!-- 根据会员code获取积分 -->
+    <select id="getPointByMemberCode" resultType="java.lang.Integer">
+        SELECT point
+        FROM merchant_member_level_rules
+        WHERE id = #{memberCode}
+        AND status != 0
+    </select>
 
 
 </mapper>

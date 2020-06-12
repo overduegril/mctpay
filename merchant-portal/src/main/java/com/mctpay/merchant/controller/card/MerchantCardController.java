@@ -7,10 +7,9 @@ import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.merchant.model.dto.card.CardDTO;
+import com.mctpay.merchant.model.param.CardRedeemCodeParam;
 import com.mctpay.merchant.model.dto.card.CardTypeDTO;
 import com.mctpay.merchant.model.dto.card.ReduceTypeDTO;
-import com.mctpay.merchant.model.dto.template.ReserveTemplateDTO;
-import com.mctpay.merchant.model.entity.system.UserEntity;
 import com.mctpay.merchant.model.enums.CardTypeEnum;
 import com.mctpay.merchant.model.enums.ReduceTypeEnum;
 import com.mctpay.merchant.model.param.MerchantCardParam;
@@ -19,7 +18,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -46,7 +44,21 @@ public class MerchantCardController {
         merchantCardParam.setStatus(1);
         merchantCardParam.setCreateTime(new Date());
         merchantCardParam.setUpdateTime(new Date());
-        return merchantCardService.insertMerchantCard(merchantCardParam);
+        merchantCardService.insertMerchantCard(merchantCardParam);
+        // 创建兑换码
+        List<CardRedeemCodeParam> cardRedeemCodeParams = new ArrayList<>();
+        for (Integer i = 0; i < merchantCardParam.getInventoryCount(); i++) {
+            CardRedeemCodeParam cardRedeemCodeParam = new CardRedeemCodeParam();
+            cardRedeemCodeParam.setStatus(1);
+            cardRedeemCodeParam.setCreateTime(new Date());
+            cardRedeemCodeParam.setUpdateTime(new Date());
+            cardRedeemCodeParam.setCardId(id);
+            cardRedeemCodeParam.setRedeemCode(UIdUtils.getUid().toString());
+            cardRedeemCodeParam.setUsed(0);
+            cardRedeemCodeParams.add(cardRedeemCodeParam);
+        }
+        merchantCardService.insertBatchRedeemCode(cardRedeemCodeParams);
+        return new ResponseData().success(null);
     }
 
     @ApiOperation(value = "商家卡券集合", notes = "商家卡券集合", httpMethod = "POST")
