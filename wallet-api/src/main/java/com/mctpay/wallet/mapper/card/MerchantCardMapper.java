@@ -32,11 +32,4 @@ public interface MerchantCardMapper extends BaseMapper<MerchantCardEntity> {
      */
     void reduceInventoryCount(@Param("cardId")String cardId, @Param("inventoryCount") Integer inventoryCount);
 
-//    /**
-//     * 通过商户ID获取卡券
-//     * @param merchanId
-//     * @return
-//     */
-//    List<MerchantCardEntity> listCardByMerchanId(@Param("merchanId") String merchanId);
-
 }

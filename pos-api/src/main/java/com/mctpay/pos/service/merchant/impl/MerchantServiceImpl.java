@@ -109,7 +109,6 @@ public class MerchantServiceImpl implements MerchantService {
             tradeRecordMapper.insert(tradeRecordParam);
             // TODO 核销优惠券
 
-
             return new ResponseData().success(jsonObject);
         }
 
