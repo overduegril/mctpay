@@ -73,7 +73,9 @@ public enum ErrorCode {
      */
     ORDER_NOT_EXIST(3014, "order_not_exist"),
 
-    CARD_CANT_RECEIVE(3015, "card_cant_receive");
+    CARD_CANT_RECEIVE(3015, "card_cant_receive"),
+
+    CARD_NOT_EXIST_OR_HAS_BEEN_USED(3016, "card_not_exist_or_has_been_used");
 
     private int code;
     private String message;

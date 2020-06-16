@@ -30,4 +30,13 @@ public class SweepCollectParam {
     @ApiModelProperty("优惠金额")
     private BigDecimal reduceAmount;
 
+    @ApiModelProperty("卡券id")
+    private String cardId;
+
+    @ApiModelProperty("用户ID")
+    private String userId;
+
+    @NotNull
+    @ApiModelProperty("校验字符串，一个随机字符串。用于没有获取到直接支付结果时。轮训定位")
+    private String checkStr;
 }

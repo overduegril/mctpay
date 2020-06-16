@@ -28,4 +28,10 @@ public interface MerchantCardMapper extends BaseMapper<MerchantCardEntity> {
      * @return
      */
     List<MerchantCardEntity> listReceivedCardsByUserId(@Param("userId") String userId, @Param("amount") BigDecimal amount);
+
+    /**
+     * 库存减1
+     * @param cardId
+     */
+    void decInventory(@Param("cardId") String cardId);
 }

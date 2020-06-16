@@ -100,6 +100,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     loginedUserDTO.setNickname(userEntity.getNickname());
                     loginedUserDTO.setStatus(userEntity.getStatus());
                     loginedUserDTO.setHeadpictureUrl(userEntity.getHeadpictureUrl());
+                    loginedUserDTO.setUserQurcodeUrl(userEntity.getUserQurcodeUrl());
                     // 获取用户权限列表
                     List<RoleEntity> roles = userEntity.getRoles();
                     // 传递权限参数

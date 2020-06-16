@@ -3,6 +3,14 @@
 
 <mapper namespace="com.mctpay.pos.mapper.card.MerchantCardMapper">
 
+    <!-- 库存减一 -->
+    <update id="decInventory">
+        update merchant_card
+        set inventory_count = inventory_count - 1
+        where status != 0
+        AND id = #{cardId}
+    </update>
+
 
     <!-- 卡券集合-->
     <select id="listCardByMerchanId" resultType="com.mctpay.pos.model.entity.card.MerchantCardEntity">

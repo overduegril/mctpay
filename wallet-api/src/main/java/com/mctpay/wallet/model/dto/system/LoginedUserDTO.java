@@ -28,6 +28,9 @@ public class LoginedUserDTO {
     @ApiModelProperty(value = "头像")
     private String headpictureUrl;
 
+    @ApiModelProperty(value = "用户Id二维码")
+    private String userQurcodeUrl;
+
     /**
      * 该记录状态
      */

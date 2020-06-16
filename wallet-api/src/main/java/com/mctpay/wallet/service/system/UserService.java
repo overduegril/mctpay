@@ -5,6 +5,7 @@ import com.mctpay.wallet.model.dto.point.PointInfoDTO;
 import com.mctpay.wallet.model.dto.system.UserDTO;
 import com.mctpay.wallet.model.param.UserParam;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public interface UserService {
      * @Description 注册用户
      * @Date 15:03 2020/3/2
      **/
-    ResponseData insertUser(UserParam userParam);
+    ResponseData insertUser(UserParam userParam) throws IOException;
 
     /**
      * @Description 激活冻结用户

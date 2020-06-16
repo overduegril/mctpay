@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,7 @@ public class MerchantController {
 
     @ApiOperation(value = "添加商户", notes = "添加商户",  httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertMerchant")
-    public ResponseData insertMerchant(@RequestBody @Valid MerchantParam merchantParam){
+    public ResponseData insertMerchant(MerchantParam merchantParam) throws IOException {
         String id = UIdUtils.getUid().toString();
         merchantParam.setId(id);
         merchantParam.setStatus(2);

@@ -62,7 +62,7 @@ public class MerchantController {
 
     @ApiOperation(value = "扫码收款", notes = "扫码收款,trade_status：99 表示成功，90表示未知", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/sweep-collect")
-    public ResponseData sweepCollect(@RequestBody SweepCollectParam sweepCollectParam) {
+    public ResponseData sweepCollect(@RequestBody SweepCollectParam sweepCollectParam) throws Exception {
         ResponseData responseData = merchantService.sweepCollect(sweepCollectParam);
         return responseData;
     }
@@ -76,25 +76,26 @@ public class MerchantController {
 
     @ApiOperation(value = "扫码收款回调接口", notes = "扫码收款回调接口,trade_status：99 表示成功，90表示未知")
     @PostMapping("sweep-collect-notify")
-    public String sweepCollectNotify(SweepCollectNotifyParam sweepCollectNotifyParam) {
-        log.debug("-----------------------------------------");
+    public String sweepCollectNotify(SweepCollectNotifyParam sweepCollectNotifyParam, @RequestParam String checkStr) {
         log.debug(sweepCollectNotifyParam);
         // 判断是否该单已经完成
         if ("T".equalsIgnoreCase(sweepCollectNotifyParam.getIs_success()) && sweepCollectNotifyParam.getTrade_no() != null) {
+            log.debug("-----------------------------------------");
             Integer rows = merchantService.countByTradeNo(sweepCollectNotifyParam.getTrade_no());
             if (rows == 0) {
                 TradeRecordParam tradeRecordParam = new TradeRecordParam();
                 MerchantServiceImpl.recordTradeParam(JSONUtil.parseObj(sweepCollectNotifyParam), tradeRecordParam);
                 log.debug(tradeRecordParam);
                 // 插入记录
-                if (tradeRecordParam.getTradeStatus() == null) {
-                    tradeRecordParam.setTradeStatus(99);
-                }
+                tradeRecordParam.setOrderStatus(99);
                 merchantService.insertTradeRecord(tradeRecordParam);
+                // 校验码交易号更新
+                merchantService.updatePayCheck(checkStr);
             }
+            return "SUCCESS";
         }
         log.debug("=========================================");
-        return "SUCCESS";
+        return "FAIL";
     }
 
     @ApiOperation(value = "扫码退款回调接口", notes = "扫码退款回调接口")
@@ -124,6 +125,13 @@ public class MerchantController {
         }
         List<TradeRecordDTO> tradeRecordDTOS = merchantService.listTradeRecord(userEntity.getMerchantId(), inputContent);
         return new ResponsePageInfo<List<TradeRecordDTO>>().success(tradeRecordDTOS, pageInfo);
+    }
+
+    @ApiOperation(value = "未直接获取到支付结果时，轮询接口，获取支付状态及信息", notes = "如果没有直接获取到支付结果时，轮训接口，获取支付状态及信息", httpMethod = "GET")
+    @PostMapping("/pay-result")
+    public ResponseData<TradeRecordDTO> getPayResult(@RequestParam("checkStr") String checkStr) {
+        TradeRecordDTO payResult = merchantService.getPayResult(checkStr);
+        return new ResponseData<TradeRecordDTO>().success(payResult);
     }
 
 }

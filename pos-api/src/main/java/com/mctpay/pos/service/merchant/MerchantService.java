@@ -37,7 +37,7 @@ public interface MerchantService {
      * 扫码收款
      * @param sweepCollectParam
      */
-    ResponseData sweepCollect(SweepCollectParam sweepCollectParam);
+    ResponseData sweepCollect(SweepCollectParam sweepCollectParam) throws Exception;
 
     /**
      * 退款
@@ -72,4 +72,17 @@ public interface MerchantService {
      * @param partnerTransId
      */
     void updateOrderStatus(String orderNo, Integer status, String partnerTransId);
+
+    /**
+     * 通过校验码获取支付结果
+     * @param checkStr
+     * @return
+     */
+    TradeRecordDTO getPayResult(String checkStr);
+
+    /**
+     * 更新添加未返回支付结果的校验订单信息
+     * @param checkStr
+     */
+    void updatePayCheck(String checkStr);
 }

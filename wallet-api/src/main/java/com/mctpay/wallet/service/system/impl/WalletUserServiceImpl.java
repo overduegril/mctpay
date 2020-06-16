@@ -1,8 +1,11 @@
 package com.mctpay.wallet.service.system.impl;
 
+import cn.hutool.extra.qrcode.QrCodeUtil;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.config.MyBCryptPasswordEncoder;
+import com.mctpay.common.uitl.OSSUtils;
 import com.mctpay.common.uitl.SecureUtils;
+import com.mctpay.wallet.config.OSSProperties;
 import com.mctpay.wallet.mapper.point.SummaryPointMapper;
 import com.mctpay.wallet.mapper.point.UseabelPointMapper;
 import com.mctpay.wallet.mapper.system.EmailCodeMapper;
@@ -23,6 +26,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,18 +62,27 @@ public class WalletUserServiceImpl implements UserService {
     @Autowired
     private EmailCodeMapper emailCodeMapper;
 
+    @Autowired
+    private OSSProperties ossProperties;
+
     /**
      * @Description 注册管理员
      * @Date 20:45 2020/2/24
      **/
     @Override
     @Transactional
-    public ResponseData insertUser(UserParam userParam) {
+    public ResponseData insertUser(UserParam userParam) throws IOException {
         // 验证邮箱是否重复
         Integer emailCount = countEmail(userParam.getEmail());
         if (emailCount != 0) {
             return new ResponseData<>().fail(EMAIL_HAS_BEEN_USED.getCode(), EMAIL_HAS_BEEN_USED.getMessage());
         }
+        // 添加用户二维码
+        File tempFile = File.createTempFile(userParam.getId().toString(), ".jpg");
+        QrCodeUtil.generate(userParam.getId().toString(), 300, 300, tempFile);
+        InputStream inputStream = new FileInputStream(tempFile);
+        String userQurcodeUrl = OSSUtils.uploadFileInputStream(ossProperties.getBucketName(), ossProperties.getQrcodePath() + tempFile.getName(), inputStream);
+        userParam.setUserQurcodeUrl(userQurcodeUrl);
         userParam.setPassword(SecureUtils.MD5Encrypt(userParam.getPassword()));
         userMapper.insertUser(userParam);
         // 初始化积分设置
@@ -139,30 +155,32 @@ public class WalletUserServiceImpl implements UserService {
         Integer emailCount = userMapper.countEmail(email);
         return emailCount;
     }
+
     /**
      * @Description修改昵称
      * @Date 13:58 2020/5/25
      **/
     @Override
     public ResponseData updateNickname(String userId, String newNickname) {
-        userMapper.updateNickname(userId,newNickname);
+        userMapper.updateNickname(userId, newNickname);
         return new ResponseData().success(null);
     }
+
     /**
      * @Description修改头像
      * @Date 14:19 2020/5/25
      **/
     @Override
     public void updateHeadpicture(String businessLicenseUrl, String userId) {
-        userMapper.updateHeadpicture(businessLicenseUrl,userId);
+        userMapper.updateHeadpicture(businessLicenseUrl, userId);
     }
 
     @Override
-    public ResponseData updatePassword(String newPassword, String oldPassword,String userId) {
-       // UserEntity userEntity = userMapper.get(Long.valueOf(userId));
-       // myBCryptPasswordEncoder.encode(userEntity.getPassword());
+    public ResponseData updatePassword(String newPassword, String oldPassword, String userId) {
+        // UserEntity userEntity = userMapper.get(Long.valueOf(userId));
+        // myBCryptPasswordEncoder.encode(userEntity.getPassword());
         String newPwd = SecureUtils.MD5Encrypt(newPassword);
-        userMapper.updatePassword(newPwd,userId);
+        userMapper.updatePassword(newPwd, userId);
         return new ResponseData().success(null);
     }
 

@@ -2,9 +2,12 @@ package com.mctpay.manager.service.merchant.impl;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.extra.qrcode.QrCodeUtil;
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.uitl.OSSUtils;
 import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.common.uitl.UIdUtils;
+import com.mctpay.manager.config.OSSProperties;
 import com.mctpay.manager.mapper.merchant.MerchantMapper;
 import com.mctpay.manager.mapper.merchant.MerchantUserMapper;
 import com.mctpay.manager.mapper.pos.PosUserMapper;
@@ -22,6 +25,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,6 +56,9 @@ public class MerchantServiceImpl implements MerchantService {
     private UserRoleMapper userRoleMapper;
 
     @Autowired
+    private OSSProperties ossProperties;
+
+    @Autowired
     private PosUserMapper posUserMapper;
 
     private final static String roleName ="ROLE_SHOP_OWNER";
@@ -56,7 +66,7 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     @Transactional
-    public ResponseData insertMerchant(MerchantParam merchantParam) {
+    public ResponseData insertMerchant(MerchantParam merchantParam) throws IOException {
         merchantMapper.insertMerchant(merchantParam);
         // 创建店长的权限
 //        RoleParam roleParam = new RoleParam();
@@ -87,7 +97,15 @@ public class MerchantServiceImpl implements MerchantService {
         merchantUserParam.setStatus(2);
         merchantUserParam.setCreateTime(new Date());
         merchantUserParam.setUpdateTime(new Date());
+
+        // 添加用户二维码
+        File tempFile = File.createTempFile(merchantParam.getId(), ".jpg");
+        QrCodeUtil.generate(merchantParam.getId().toString(), 300, 300, tempFile);
+        InputStream inputStream = new FileInputStream(tempFile);
+        String userQurcodeUrl = OSSUtils.uploadFileInputStream(ossProperties.getBucketName(), ossProperties.getQrcodePath() + tempFile.getName(), inputStream);
+        merchantParam.setMemberQrcodeUrl(userQurcodeUrl);
         merchantUserMapper.insertUser(merchantUserParam);
+        merchantMapper.insertMerchant(merchantParam);
         return new ResponseData().success(null);
     }
 

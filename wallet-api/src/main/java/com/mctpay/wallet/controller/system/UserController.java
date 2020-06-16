@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -53,7 +54,7 @@ public class UserController {
 
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertUser")
-    public ResponseData insertUser(@RequestBody UserParam userParam) {
+    public ResponseData insertUser(@RequestBody UserParam userParam) throws IOException {
         // 设置会员ID
         Long id = UIdUtils.getUid();
         userParam.setId(id);

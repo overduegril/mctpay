@@ -57,6 +57,7 @@ mybatis:
 aliyun-oss:
   bucketName: wosz
   reserveKeyPrefix: wallet/reserve/
+  qrcodePath: mctpay/wallet/qrcode/
 
 email-properties:
   registChineseSubject: mctPay钱包注册

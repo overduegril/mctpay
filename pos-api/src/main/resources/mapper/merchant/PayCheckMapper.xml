@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mctpay.pos.mapper.merchant.PayCheckMapper">
+
+    <sql id="Base_Column_List">
+	id, check_str, trade_no, status, create_time, update_time</sql>
+
+    <select id="get" resultType="com.mctpay.pos.model.entity.merchant.PayCheckEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from pos_pay_check where id = #{value}
+    </select>
+
+    <sql id="where">
+        <where>
+            <include refid="baseWhere"></include>
+        </where>
+    </sql>
+
+    <sql id="baseWhere">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="checkStr != null">
+            and check_str = #{checkStr}
+        </if>
+        <if test="tradeNo != null">
+            and trade_no = #{tradeNo}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime}
+        </if>
+    </sql>
+
+    <select id="list">
+        select
+        <include refid="Base_Column_List"/>
+        from pos_pay_check
+        <include refid="where"/>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!-- 根据校验字符串获取校验信息 -->
+    <select id="getBycheckStr" resultType="com.mctpay.pos.model.entity.merchant.TradeRecordEntity">
+        SELECT t1.*
+        FROM mct_trade_record t1
+        LEFT JOIN pos_pay_check t0
+        ON t1.trade_no = t0.trade_no
+        WHERE t1.status != 0
+        AND t0.status != 0
+    </select>
+
+    <insert id="insert" parameterType="com.mctpay.pos.model.dto.merchant.PayCheckDTO">
+        insert into pos_pay_check
+        (
+       check_str, trade_no, status, create_time, update_time
+        )
+        values
+        (
+        #{checkStr},
+        #{tradeNo},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <sql id="baseUpdate">
+        <set>
+            <if test="checkStr != null">`check_str` = #{checkStr},
+            </if>
+            <if test="tradeNo != null">`trade_no` = #{tradeNo},
+            </if>
+            <if test="status != null">`status` = #{status},
+            </if>
+            `update_time` = #{updateTime}
+        </set>
+    </sql>
+
+    <update id="updateByCheckStr" parameterType="com.mctpay.pos.model.param.PayCheckParam">
+        update pos_pay_check
+        <include refid="baseUpdate"></include>
+        where check_str = #{check_str}
+    </update>
+
+</mapper>

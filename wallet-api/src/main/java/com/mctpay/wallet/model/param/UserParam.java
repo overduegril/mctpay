@@ -40,6 +40,12 @@ public class UserParam extends BaseEntity {
     @ApiModelProperty(value = "邮箱")
     private String email;
 
+    @ApiModelProperty("用户头像")
+    private String headpictureUrl;
+
+    @ApiModelProperty(value = "用户Id二维码")
+    private String userQurcodeUrl;
+
     /**
      * 状态
      */

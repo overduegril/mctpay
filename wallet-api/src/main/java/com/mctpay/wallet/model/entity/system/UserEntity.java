@@ -66,6 +66,9 @@ public class UserEntity extends BaseEntity implements Serializable, UserDetails 
     @ApiModelProperty(value = "头像")
     private String headpictureUrl;
 
+    @ApiModelProperty(value = "用户Id二维码")
+    private String userQurcodeUrl;
+
     /**
      * 角色
      */

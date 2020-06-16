@@ -31,7 +31,6 @@ public class MerchantCardController {
     @Autowired
     private MerchantCardService merchantCardService;
 
-
     @ApiOperation(value = "商家卡券集合", notes = "商家卡券集合", httpMethod = "POST")
     @PostMapping("/listCards")
     public ResponseData<List<CardDTO>> listCards(@RequestBody(required = false) PageParam pageParam, String inputContent){

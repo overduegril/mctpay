@@ -22,6 +22,9 @@ public class UserDTO {
     @ApiModelProperty(value = "昵称")
     private String nickname;
 
+    @ApiModelProperty(value = "用户Id二维码")
+    private String userQurcodeUrl;
+
     /**
      * 备注
      */

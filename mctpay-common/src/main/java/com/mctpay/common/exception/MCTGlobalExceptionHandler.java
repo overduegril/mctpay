@@ -56,11 +56,19 @@ public class MCTGlobalExceptionHandler {
         ErrorCode code = ErrorCode.ERROR;
         // 获取异常名
         String className = ex.getClass().getName();
+        String message = ex.getMessage();
+        // 异常名控制
         if (className.contains("AccessDeniedException")) {
             code = ErrorCode.NON_AUTHENTICATION;
         } else if (className.contains("BindException")) {
             code = ErrorCode.ARGUMENTS_VALIDATE_FAIL;
         }
+
+        // 异常信息控制
+        if ("输入卡券不存在或已经使用".equals(message)) {
+            code = ErrorCode.CARD_NOT_EXIST_OR_HAS_BEEN_USED;
+        }
+
         log.debug("bug-happen---------------------------------" + ex);
         responseData.fail(code.getCode(), code.getMessage());
         return responseData;

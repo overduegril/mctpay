@@ -9,21 +9,28 @@ import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.pos.mapper.card.MerchantCardMapper;
 import com.mctpay.pos.mapper.card.MerchantCardReceiveMapper;
-import com.mctpay.pos.mapper.card.MerchantCardVerifyCancelMapper;
 import com.mctpay.pos.mapper.merchant.MerchantMapper;
+import com.mctpay.pos.mapper.merchant.PayCheckMapper;
 import com.mctpay.pos.mapper.merchant.TradeRecordMapper;
+import com.mctpay.pos.mapper.merchant.WalletTradeRecordMapper;
+import com.mctpay.pos.mapper.point.SummaryPointMapper;
+import com.mctpay.pos.mapper.point.UseabelPointMapper;
 import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
+import com.mctpay.pos.model.dto.merchant.WalletTradeRecordParam;
 import com.mctpay.pos.model.entity.merchant.MerchantEntity;
 import com.mctpay.pos.model.entity.merchant.TradeRecordEntity;
 import com.mctpay.pos.model.entity.system.UserEntity;
+import com.mctpay.pos.model.param.PayCheckParam;
 import com.mctpay.pos.model.param.SweepCollectParam;
 import com.mctpay.pos.model.param.TradeRecordParam;
+import com.mctpay.pos.model.param.WalletTradeRecordDTO;
 import com.mctpay.pos.service.merchant.MerchantService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -56,7 +63,16 @@ public class MerchantServiceImpl implements MerchantService {
     private MerchantCardMapper merchantCardMapper;
 
     @Autowired
-    private MerchantCardVerifyCancelMapper merchantCardVerifyCancelMapper;
+    private SummaryPointMapper summaryPointMapper;
+
+    @Autowired
+    private UseabelPointMapper useabelPointMapper;
+
+    @Autowired
+    private PayCheckMapper payCheckMapper;
+
+    @Autowired
+    private WalletTradeRecordMapper walletTradeRecordMapper;
 
     public String getMemberQRCode() {
         UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -86,7 +102,8 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public ResponseData sweepCollect(SweepCollectParam sweepCollectParam) {
+    @Transactional
+    public ResponseData sweepCollect(SweepCollectParam sweepCollectParam) throws Exception {
         // TODO 获取到支付需要的用户名密码
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("user_id", "Guest");
@@ -97,21 +114,25 @@ public class MerchantServiceImpl implements MerchantService {
         // 设置订单号
         String order = UIdUtils.getUid().toString();
         paramMap.put("order", order);
-        String notifyUrl = "http://39.96.29.99:/pay/merchant/sweep-collect-notify";
+        String notifyUrl = "http://39.96.29.99:/pay/merchant/sweep-collect-notify?checkStr=" + sweepCollectParam.getCheckStr();
         paramMap.put("notify_url", notifyUrl);
         paramMap.put("sign_string", SecureUtil.md5("Guest" + SecureUtil.md5("Guest") + amount + sweepCollectParam.getPayer() + order + notifyUrl));
         String result = HttpUtil.get("https://ccpay.sg/dci/api_v2/cashier_app", paramMap);
         JSONObject jsonObject = JSONUtil.parseObj(result);
-        if (jsonObject.get("trade_status") != null && "99".equalsIgnoreCase(jsonObject.get("trade_status").toString())) {
-            // 记录交易记录
-            TradeRecordParam tradeRecordParam = new TradeRecordParam();
-            recordTradeParam(jsonObject, tradeRecordParam);
-            tradeRecordMapper.insert(tradeRecordParam);
-            // TODO 核销优惠券
-
-            return new ResponseData().success(jsonObject);
+        PayCheckParam payCheckParam = new PayCheckParam();
+        payCheckParam.setStatus(1);
+        payCheckParam.setCreateTime(new Date());
+        payCheckParam.setUpdateTime(new Date());
+        payCheckParam.setCheckStr(sweepCollectParam.getCheckStr());
+        if (jsonObject.get("trade_status") != null && "99".equalsIgnoreCase(jsonObject.getStr("trade_status"))) {
+            postSweepSuccessPayOperate(jsonObject, sweepCollectParam);
+            // 设置校验字符串
+            payCheckParam.setTradeNo(jsonObject.getStr("trade_no"));
+            payCheckMapper.insert(payCheckParam);
+            return new ResponseData().success(null);
         }
-
+        // 设置校验字符串
+        payCheckMapper.insert(payCheckParam);
         String message = "";
         if (jsonObject.get("error_msg") != null) {
             message = jsonObject.get("error_msg").toString();
@@ -147,7 +168,6 @@ public class MerchantServiceImpl implements MerchantService {
             tradeRecordMapper.updateOrderStatus(order, 109, jsonObject.get("partner_refund_id").toString());
             return new ResponseData().success(jsonObject);
         }
-
         String message = "";
         if (jsonObject.get("error_msg") != null) {
             message = jsonObject.get("error_msg").toString();
@@ -155,7 +175,6 @@ public class MerchantServiceImpl implements MerchantService {
             message = jsonObject.get("trade_msg").toString();
         }
         return new ResponseData().fail(SWEEP_COLLECT_FIAL.getCode(), message);
-
 
     }
 
@@ -211,12 +230,47 @@ public class MerchantServiceImpl implements MerchantService {
             tradeRecordParam.setTransAmount(jsonObject.get("trans_amount").toString());
         }
         if (jsonObject.get("pay_time") != null) {
-
-            tradeRecordParam.setPayTime(DateUtil.parseDateTime(jsonObject.get("pay_time").toString()).toJdkDate());
+            tradeRecordParam.setPayTime(DateUtil.parseDateTime(jsonObject.getStr("pay_time")).toJdkDate());
         }
         tradeRecordParam.setCreateTime(new Date());
         tradeRecordParam.setUpdateTime(new Date());
         tradeRecordParam.setStatus(1);
+    }
+
+    /**
+     * @Description 扫码支付后操作
+     * @Date 9:54 2020/6/15
+     **/
+    public void postSweepSuccessPayOperate(JSONObject jsonObject, SweepCollectParam sweepCollectParam) throws Exception {
+        // 记录交易记录
+        TradeRecordParam tradeRecordParam = new TradeRecordParam();
+        recordTradeParam(jsonObject, tradeRecordParam);
+        tradeRecordMapper.insert(tradeRecordParam);
+        // 核销优惠券
+        if (!StringUtils.isEmpty(sweepCollectParam.getCardId())) {
+            // 校验卡券是否被领取
+            String redeemCode = merchantCardReceiveMapper.getRedeemCodeByCardIdAndUserId(sweepCollectParam.getCardId(), sweepCollectParam.getUserId());
+            if (StringUtils.isEmpty(redeemCode)) {
+                throw new Exception("输入卡券不存在或已经使用");
+            }
+            // 领取记录修改
+            merchantCardReceiveMapper.updateUseStateByRedeenCode(1, jsonObject.getStr("trade_no")  ,redeemCode);
+            // 卡券库存修改
+            merchantCardMapper.decInventory(sweepCollectParam.getCardId());
+        }
+        // 添加积分以及积分记录
+        String integerAmount = sweepCollectParam.getAmount().setScale(0, BigDecimal.ROUND_FLOOR).toString();
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // 积分变动详情
+        WalletTradeRecordParam walletTradeRecordParam = new WalletTradeRecordParam();
+        walletTradeRecordParam.setStatus(1);
+        walletTradeRecordParam.setCreateTime(new Date());
+        walletTradeRecordParam.setChangePoint(integerAmount);
+        walletTradeRecordParam.setUpdateTime(new Date());
+        walletTradeRecordParam.setTransAmount(jsonObject.getStr("trans_amount"));
+        walletTradeRecordMapper.insert(walletTradeRecordParam);
+        summaryPointMapper.incPoint(userEntity.getMerchantId(), Integer.valueOf(integerAmount));
+        useabelPointMapper.incPoint(userEntity.getMerchantId(), Integer.valueOf(integerAmount));
     }
 
     public void insertTradeRecord(TradeRecordParam tradeRecordParam) {
@@ -229,20 +283,24 @@ public class MerchantServiceImpl implements MerchantService {
         return rows;
     }
 
-
     public void updateOrderStatus(String orderNo, Integer status, String partnerTransId) {
         tradeRecordMapper.updateOrderStatus(orderNo, status, partnerTransId);
     }
 
-    public static void main(String[] args) {
-        // TODO 获取到支付需要的用户名密码
-        HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("user_id", "Guest");
-        paramMap.put("user_password", SecureUtil.md5("Guest"));
-        paramMap.put("url_string", "http://39.96.29.99:/pay/merchant/sweep-collect-notify");
-        paramMap.put("sign_string", SecureUtil.md5("Guest" + SecureUtil.md5("Guest") + "http://39.96.29.99:/pay/merchant/sweep-collect-notify"));
-        String result = HttpUtil.get("https://ccpay.sg/dci/api_v2/set_notify_url", paramMap);
-        System.out.println(result);
+    @Override
+    public TradeRecordDTO getPayResult(String checkStr) {
+        TradeRecordEntity tradeRecordEntity = payCheckMapper.getBycheckStr(checkStr);
+        TradeRecordDTO tradeRecordDTO = new TradeRecordDTO();
+        BeanUtils.copyProperties(tradeRecordEntity, tradeRecordDTO);
+        return tradeRecordDTO;
+    }
+
+    @Override
+    public void updatePayCheck(String checkStr) {
+        PayCheckParam payCheckParam = new PayCheckParam();
+        payCheckParam.setCheckStr(checkStr);
+        payCheckParam.setUpdateTime(new Date());
+        payCheckMapper.updateByCheckStr(payCheckParam);
     }
 
 }
