@@ -3,10 +3,8 @@
 
 <mapper namespace="com.mctpay.wallet.mapper.template.ReserveMapper">
 
-    <!-- 可根据自己的需求，是否要使用 -->
-
     <sql id="Base_Column_List">
-		        id, template_name, phone_nmuber, reserve_time, user_count, comment, deposit_amount, picture, dynamic_field, status, create_time, update_time        </sql>
+	id, template_name, `name`, phone_nmuber, reserve_time, user_count, comment, deposit_amount, picture, dynamic_field, status, create_time, update_time        </sql>
 
     <!-- 插入预约信息 -->
     <insert id="insert">
@@ -14,6 +12,7 @@
         <include refid="Base_Column_List"/>
         VALUES (
             #{id},
+            #{name},
             #{templateName},
             #{phoneNmuber},
             #{reserveTime},

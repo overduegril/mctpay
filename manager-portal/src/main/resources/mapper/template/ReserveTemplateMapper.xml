@@ -5,13 +5,14 @@
 
 
     <sql id="Base_Column_List">
-	    id, template_name, phone_nmuber, reserve_time, user_count, comment, need_deposit, deposit_amount, need_picture, dynamic_field, status, create_time, update_time</sql>
+	    id, template_name, `name`, phone_nmuber, reserve_time, user_count, comment, need_deposit, deposit_amount, need_picture, dynamic_field, status, create_time, update_time</sql>
 
     <!-- 插入模板 -->
     <insert id="insert">
-        INSERT INTO mct_reserve_template(template_name, phone_nmuber, reserve_time, user_count, comment, need_deposit, deposit_amount, need_picture, dynamic_field, status, create_time, update_time)
+        INSERT INTO mct_reserve_template(template_name, `name`, phone_nmuber, reserve_time, user_count, comment, need_deposit, deposit_amount, need_picture, dynamic_field, status, create_time, update_time)
         VALUES (
             #{templateName},
+            #{name},
             #{phoneNmuber},
             #{reserveTime},
             #{userCount},
@@ -30,6 +31,7 @@
     <update id="updateReserveTemplate">
         UPDATE  mct_reserve_template SET
             template_name =  #{templateName},
+            `name` = #{name},
             phone_nmuber = #{phoneNmuber},
             reserve_time = #{reserveTime},
             user_count = #{userCount},

@@ -5,7 +5,7 @@
 
 
     <sql id="Base_Column_List">
-	    id, template_name, phone_nmuber, reserve_time, user_count, comment, need_deposit, deposit_amount, need_picture, dynamic_field, status, create_time, update_time</sql>
+	    id, template_name, `name`, phone_nmuber, reserve_time, user_count, comment, need_deposit, deposit_amount, need_picture, dynamic_field, status, create_time, update_time</sql>
 
     <select id="get" resultType="com.mctpay.wallet.model.entity.template.ReserveTemplateEntity">
         select
@@ -17,7 +17,7 @@
     <select id="listMerchantReserveTemplate"
             resultType="com.mctpay.wallet.model.entity.template.ReserveTemplateEntity">
         select
-        t0.id, t0.template_name, t0.phone_nmuber, t0.reserve_time, t0.user_count, t0.comment, t0.need_deposit, t0.deposit_amount, t0.need_picture, t0.dynamic_field, t0.status, t0.create_time, t0.update_time
+        t0.id, t0.template_name, t0.name, t0.phone_nmuber, t0.reserve_time, t0.user_count, t0.comment, t0.need_deposit, t0.deposit_amount, t0.need_picture, t0.dynamic_field, t0.status, t0.create_time, t0.update_time
         from mct_reserve_template t0, merchant_reserve_template t1
         where t0.status != 0
         AND t1.status != 0

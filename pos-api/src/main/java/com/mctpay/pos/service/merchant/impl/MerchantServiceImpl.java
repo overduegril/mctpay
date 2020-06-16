@@ -259,7 +259,7 @@ public class MerchantServiceImpl implements MerchantService {
             merchantCardMapper.decInventory(sweepCollectParam.getCardId());
         }
         // 添加积分以及积分记录
-        String integerAmount = sweepCollectParam.getAmount().setScale(0, BigDecimal.ROUND_FLOOR).toString();
+        String integerAmount = tradeRecordParam.getTransAmount().setScale(0, BigDecimal.ROUND_FLOOR).toString();
         UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // 积分变动详情
         WalletTradeRecordParam walletTradeRecordParam = new WalletTradeRecordParam();
@@ -275,6 +275,20 @@ public class MerchantServiceImpl implements MerchantService {
 
     public void insertTradeRecord(TradeRecordParam tradeRecordParam) {
         tradeRecordMapper.insert(tradeRecordParam);
+        // 添加积分以及积分记录
+        BigDecimal transAmount = new BigDecimal(tradeRecordParam.getTransAmount());
+        String integerAmount = transAmount.setScale(0, BigDecimal.ROUND_FLOOR).toString();
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // 积分变动详情
+        WalletTradeRecordParam walletTradeRecordParam = new WalletTradeRecordParam();
+        walletTradeRecordParam.setStatus(1);
+        walletTradeRecordParam.setCreateTime(new Date());
+        walletTradeRecordParam.setChangePoint(integerAmount);
+        walletTradeRecordParam.setUpdateTime(new Date());
+        walletTradeRecordParam.setTransAmount(tradeRecordParam.getTransAmount());
+        walletTradeRecordMapper.insert(walletTradeRecordParam);
+        summaryPointMapper.incPoint(userEntity.getMerchantId(), Integer.valueOf(integerAmount));
+        useabelPointMapper.incPoint(userEntity.getMerchantId(), Integer.valueOf(integerAmount));
     }
 
     @Override
@@ -296,10 +310,7 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public void updatePayCheck(String checkStr) {
-        PayCheckParam payCheckParam = new PayCheckParam();
-        payCheckParam.setCheckStr(checkStr);
-        payCheckParam.setUpdateTime(new Date());
+    public void updatePayCheck(PayCheckParam payCheckParam) {
         payCheckMapper.updateByCheckStr(payCheckParam);
     }
 

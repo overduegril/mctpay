@@ -2,6 +2,7 @@ package com.mctpay.pos.service.merchant;
 
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
+import com.mctpay.pos.model.param.PayCheckParam;
 import com.mctpay.pos.model.param.SweepCollectParam;
 import com.mctpay.pos.model.param.TradeRecordParam;
 
@@ -82,7 +83,7 @@ public interface MerchantService {
 
     /**
      * 更新添加未返回支付结果的校验订单信息
-     * @param checkStr
+     * @param payCheckParam
      */
-    void updatePayCheck(String checkStr);
+    void updatePayCheck(PayCheckParam payCheckParam);
 }

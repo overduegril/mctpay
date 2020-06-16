@@ -24,6 +24,9 @@ public class ReserveEntity  extends BaseEntity implements Serializable {
 	@ApiModelProperty(value = "模板名字")
 	private String templateName;
 
+	@ApiModelProperty(value = "预订人名字")
+	private String name;
+
 	@ApiModelProperty(value = "手机号")
 	private String phoneNmuber;
 

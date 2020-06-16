@@ -65,6 +65,8 @@
         ON t1.trade_no = t0.trade_no
         WHERE t1.status != 0
         AND t0.status != 0
+        ORDER BY id desc
+        limit 0, 1
     </select>
 
     <insert id="insert" parameterType="com.mctpay.pos.model.dto.merchant.PayCheckDTO">
@@ -97,7 +99,7 @@
     <update id="updateByCheckStr" parameterType="com.mctpay.pos.model.param.PayCheckParam">
         update pos_pay_check
         <include refid="baseUpdate"></include>
-        where check_str = #{check_str}
+        where check_str = #{checkStr}
     </update>
 
 </mapper>

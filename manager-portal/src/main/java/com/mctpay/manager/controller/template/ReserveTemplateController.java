@@ -44,7 +44,6 @@ public class ReserveTemplateController {
         reserveTemplateParam.setCreateTime(new Date());
         reserveTemplateParam.setUpdateTime(new Date());
         if (reserveTemplateParam.getDynamicFields() != null && !reserveTemplateParam.getDynamicFields().isEmpty()) {
-            System.out.println(reserveTemplateParam.getDynamicFields());
             JSONObject dynamicFields = JSONUtil.parseObj(reserveTemplateParam.getDynamicFields());
             reserveTemplateParam.setDynamicField(dynamicFields);
         }

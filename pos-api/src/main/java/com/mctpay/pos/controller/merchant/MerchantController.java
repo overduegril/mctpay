@@ -8,6 +8,7 @@ import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
 import com.mctpay.pos.model.entity.system.UserEntity;
+import com.mctpay.pos.model.param.PayCheckParam;
 import com.mctpay.pos.model.param.SweepCollectNotifyParam;
 import com.mctpay.pos.model.param.SweepCollectParam;
 import com.mctpay.pos.model.param.TradeRecordParam;
@@ -22,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -90,7 +92,11 @@ public class MerchantController {
                 tradeRecordParam.setOrderStatus(99);
                 merchantService.insertTradeRecord(tradeRecordParam);
                 // 校验码交易号更新
-                merchantService.updatePayCheck(checkStr);
+                PayCheckParam payCheckParam = new PayCheckParam();
+                payCheckParam.setUpdateTime(new Date());
+                payCheckParam.setCheckStr(checkStr);
+                payCheckParam.setTradeNo(sweepCollectNotifyParam.getTrade_no());
+                merchantService.updatePayCheck(payCheckParam);
             }
             return "SUCCESS";
         }
@@ -128,7 +134,7 @@ public class MerchantController {
     }
 
     @ApiOperation(value = "未直接获取到支付结果时，轮询接口，获取支付状态及信息", notes = "如果没有直接获取到支付结果时，轮训接口，获取支付状态及信息", httpMethod = "GET")
-    @PostMapping("/pay-result")
+    @GetMapping("/pay-result")
     public ResponseData<TradeRecordDTO> getPayResult(@RequestParam("checkStr") String checkStr) {
         TradeRecordDTO payResult = merchantService.getPayResult(checkStr);
         return new ResponseData<TradeRecordDTO>().success(payResult);

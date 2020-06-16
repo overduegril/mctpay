@@ -21,8 +21,12 @@ import java.util.Map;
 public class ReserveTemplateParam extends BaseEntity {
     @ApiModelProperty(value = "新增数据时，不传此参数，修改时传入此参数")
     private Integer id;
+
     @ApiModelProperty(value = "模板名字")
     private String templateName;
+
+    @ApiModelProperty("预约者姓名")
+    private Integer name;
 
     @ApiModelProperty(value = "手机号")
     private Integer phoneNmuber;
