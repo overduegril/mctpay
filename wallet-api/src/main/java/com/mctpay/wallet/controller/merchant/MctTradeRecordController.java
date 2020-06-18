@@ -7,10 +7,12 @@ import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.wallet.model.dto.merchant.MerchantDtO;
 import com.mctpay.wallet.model.dto.merchant.TradeRecordDTO;
+import com.mctpay.wallet.model.entity.system.UserEntity;
 import com.mctpay.wallet.service.merchant.MctTradeRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +34,13 @@ public class MctTradeRecordController {
     private MctTradeRecordService mctTradeRecordService;
     @ApiOperation(value = "分页查询商户", notes = "分页查询商户 ;",  httpMethod = "POST", consumes = "application/json")
     @RequestMapping("/listTradeRecord")
-    public ResponseData<List<MerchantDtO>> listTradeRecord( @RequestBody PageParam pageParam){
+    public ResponseData<List<MerchantDtO>> listTradeRecord(String input, @RequestBody PageParam pageParam){
         Page<Object> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
         if (!StringUtils.isEmpty(pageParam.getOrder())) {
             PageHelper.orderBy(pageParam.getOrder());
         }
-        List<TradeRecordDTO> tradeRecordDTOs = mctTradeRecordService.listTradeRecord();
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<TradeRecordDTO> tradeRecordDTOs = mctTradeRecordService.listTradeRecord(userEntity.getId(),input);
         return new ResponsePageInfo<List<TradeRecordDTO>>().success(tradeRecordDTOs, pageInfo);
     }
 

@@ -4,8 +4,10 @@ import com.mctpay.wallet.mapper.merchant.TradeRecordMapper;
 import com.mctpay.wallet.model.dto.merchant.TradeRecordDTO;
 import com.mctpay.wallet.model.entity.merchant.MctTradeRecordEntity;
 import com.mctpay.wallet.service.merchant.MctTradeRecordService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,9 +25,13 @@ public class MctTradeRecordServiceImpl  implements MctTradeRecordService {
      **/
     @Override
     public List<TradeRecordDTO> listTradeRecord(String userId,String input) {
-
         List<MctTradeRecordEntity> tradeRecordEntities = tradeRecordMapper.listTradeRecordByMerchantId(userId,input);
-
-        return null;
+        List<TradeRecordDTO> tradeRecordDTOs = new ArrayList<>();
+        for(MctTradeRecordEntity tradeRecordEntitie : tradeRecordEntities){
+            TradeRecordDTO  tradeRecordDTO = new TradeRecordDTO();
+            BeanUtils.copyProperties(tradeRecordEntitie,tradeRecordDTO);
+            tradeRecordDTOs.add(tradeRecordDTO);
+        }
+        return tradeRecordDTOs;
     }
 }
