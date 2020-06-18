@@ -28,4 +28,6 @@ public interface TradeRecordMapper extends BaseMapper<TradeRecordEntity> {
      * @return
      */
     List<MctTradeRecordEntity> listTradeRecordByMerchantId(@Param("userId") String userId, @Param("inputContent") String inputContent);
+
+
 }
