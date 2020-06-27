@@ -75,7 +75,19 @@ public enum ErrorCode {
 
     CARD_CANT_RECEIVE(3015, "card_cant_receive"),
 
-    CARD_NOT_EXIST_OR_HAS_BEEN_USED(3016, "card_not_exist_or_has_been_used");
+    CARD_NOT_EXIST_OR_HAS_BEEN_USED(3016, "card_not_exist_or_has_been_used"),
+
+    SMS_SEND_FAIL(3017, "sms_send_fail"),
+
+    /**
+     * 短信验证码输入错误
+     */
+    SMSCODE_NOT_CORRECT(3018, "smscode_not_correct"),
+
+    /**
+     * 短信验证码已过期
+     */
+    SMSCODE_HAS_EXPIRED(3019, "smscode_has_expired");
 
     private int code;
     private String message;
@@ -97,4 +109,4 @@ public enum ErrorCode {
         return message;
     }
 
-}
+    }

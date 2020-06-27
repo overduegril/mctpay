@@ -32,6 +32,12 @@ public class LoginedUserDTO {
     private String userQurcodeUrl;
 
     /**
+     * 手机号
+     */
+    @ApiModelProperty(value = "手机号")
+    private String phoneNumber;
+
+    /**
      * 该记录状态
      */
     @ApiModelProperty(value = "记录状态,1，2为激活管理员（2是有账号但是没有登录过系统管理员）;-1，-2为冻结管理员;")

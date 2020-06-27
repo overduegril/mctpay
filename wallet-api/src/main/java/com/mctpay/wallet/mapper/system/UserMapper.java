@@ -97,4 +97,11 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @Date 17:39 2020/6/8
      **/
     Integer getUserPointById(String userId);
+
+    /**
+     * 根据id修改用户手机号
+     * @param phoneNumber
+     * @param id
+     */
+    void updatePhoneNumber(@Param("phoneNumber")String phoneNumber, @Param("id") String id);
 }

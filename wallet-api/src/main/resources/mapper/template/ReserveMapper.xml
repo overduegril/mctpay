@@ -4,22 +4,21 @@
 <mapper namespace="com.mctpay.wallet.mapper.template.ReserveMapper">
 
     <sql id="Base_Column_List">
-	id, template_name, `name`, phone_nmuber, reserve_time, user_count, comment, deposit_amount, picture, dynamic_field, status, create_time, update_time        </sql>
+	 template_name, `name`, phone_nmuber, reserve_time, user_count, `comment`, deposit_amount, trade_no, dynamic_field, status, create_time, update_time        </sql>
 
     <!-- 插入预约信息 -->
     <insert id="insert">
-        INSERT INTO mct_reserve
-        <include refid="Base_Column_List"/>
+        INSERT INTO mct_reserve(
+        <include refid="Base_Column_List"/>)
         VALUES (
-            #{id},
-            #{name},
             #{templateName},
+            #{name},
             #{phoneNmuber},
             #{reserveTime},
             #{userCount},
             #{comment},
             #{depositAmount},
-            #{picture},
+            #{tradeNo},
             #{dynamicField},
             #{status},
             #{createTime},

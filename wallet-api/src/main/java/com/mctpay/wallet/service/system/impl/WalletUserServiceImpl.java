@@ -3,23 +3,25 @@ package com.mctpay.wallet.service.system.impl;
 import cn.hutool.extra.qrcode.QrCodeUtil;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.config.MyBCryptPasswordEncoder;
+import com.mctpay.common.exception.MCTException;
 import com.mctpay.common.uitl.OSSUtils;
 import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.wallet.config.OSSProperties;
 import com.mctpay.wallet.mapper.point.SummaryPointMapper;
 import com.mctpay.wallet.mapper.point.UseabelPointMapper;
 import com.mctpay.wallet.mapper.system.EmailCodeMapper;
+import com.mctpay.wallet.mapper.system.SmsCodeMapper;
 import com.mctpay.wallet.mapper.system.UserMapper;
 import com.mctpay.wallet.model.dto.point.PointInfoDTO;
 import com.mctpay.wallet.model.dto.system.UserDTO;
 import com.mctpay.wallet.model.entity.point.SummaryPointEntity;
 import com.mctpay.wallet.model.entity.system.EmailCodeEntity;
+import com.mctpay.wallet.model.entity.system.SmsCodeEntity;
 import com.mctpay.wallet.model.entity.system.UserEntity;
 import com.mctpay.wallet.model.param.SummaryPointParam;
 import com.mctpay.wallet.model.param.UseabelPointParam;
 import com.mctpay.wallet.model.param.UserParam;
 import com.mctpay.wallet.service.system.UserService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,10 +36,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.mctpay.common.constants.ErrorCode.EMAILCODE_HAS_EXPIRED;
-import static com.mctpay.common.constants.ErrorCode.EMAILCODE_NOT_CORRECT;
-import static com.mctpay.common.constants.ErrorCode.EMAIL_HAS_BEEN_USED;
+import static com.mctpay.common.constants.ErrorCode.*;
 import static com.mctpay.wallet.model.enums.EmailCodeEnum.UPDATE_PASSWORD;
+import static com.mctpay.wallet.model.enums.PhoneCodeEnum.USERS_BINDING;
 
 /**
  * @Author: guodongwei
@@ -64,6 +65,9 @@ public class WalletUserServiceImpl implements UserService {
 
     @Autowired
     private OSSProperties ossProperties;
+
+    @Autowired
+    private SmsCodeMapper smsCodeMapper;
 
     /**
      * @Description 注册管理员
@@ -177,8 +181,6 @@ public class WalletUserServiceImpl implements UserService {
 
     @Override
     public ResponseData updatePassword(String newPassword, String oldPassword, String userId) {
-        // UserEntity userEntity = userMapper.get(Long.valueOf(userId));
-        // myBCryptPasswordEncoder.encode(userEntity.getPassword());
         String newPwd = SecureUtils.MD5Encrypt(newPassword);
         userMapper.updatePassword(newPwd, userId);
         return new ResponseData().success(null);
@@ -205,6 +207,19 @@ public class WalletUserServiceImpl implements UserService {
             return new ResponseData().fail(EMAILCODE_HAS_EXPIRED.getCode(), EMAILCODE_HAS_EXPIRED.getMessage());
         }
         userMapper.updatePasswordByEmail(SecureUtils.MD5Encrypt(newPassword), emailCodeByEmail.getToEmail());
+        return new ResponseData().success(null);
+    }
+
+    @Override
+    public ResponseData bindingPhoneNumber(String userId, String phoneNumber, String smsCode) throws MCTException {
+        SmsCodeEntity phoneAndBussinessType = smsCodeMapper.getByPhoneAndBussinessType(phoneNumber, USERS_BINDING.getPhoneCodeType());
+        if (!smsCode.equals(phoneAndBussinessType.getCode())) {
+            return new ResponseData().fail(SMSCODE_NOT_CORRECT.getCode(), SMSCODE_NOT_CORRECT.getMessage());
+        }
+        if (phoneAndBussinessType.getExpirationTime().compareTo(new Date()) < 0) {
+            return new ResponseData().fail(SMSCODE_HAS_EXPIRED.getCode(), SMSCODE_HAS_EXPIRED.getMessage());
+        }
+        userMapper.updatePhoneNumber(phoneNumber, userId);
         return new ResponseData().success(null);
     }
 }

@@ -1,5 +1,6 @@
 package com.mctpay.wallet.controller.template;
 
+import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.wallet.model.param.ReserveParam;
 import com.mctpay.wallet.service.template.ReserveService;
 import io.swagger.annotations.Api;
@@ -29,8 +30,9 @@ public class ReserveController {
      **/
     @ApiOperation(value = "预约", notes = "预约", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/reserve")
-    public void reserve(@RequestBody ReserveParam reserveParam) {
+    public ResponseData reserve(@RequestBody ReserveParam reserveParam) {
         reserveService.reserve(reserveParam);
+        return new ResponseData().success(null);
     }
 
 }

@@ -6,6 +6,8 @@ import com.mctpay.wallet.service.template.ReserveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @Author: guodongwei
  * @Description: 预约业务
@@ -19,6 +21,9 @@ public class ReserveServiceImpl implements ReserveService {
 
     @Override
     public void reserve(ReserveParam reserveParam) {
+        reserveParam.setCreateTime(new Date());
+        reserveParam.setUpdateTime(new Date());
+        reserveParam.setStatus(1);
         reserveMapper.insert(reserveParam);
     }
 }

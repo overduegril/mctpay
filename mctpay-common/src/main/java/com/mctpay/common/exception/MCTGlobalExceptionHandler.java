@@ -67,11 +67,14 @@ public class MCTGlobalExceptionHandler {
         // 异常信息控制
         if ("输入卡券不存在或已经使用".equals(message)) {
             code = ErrorCode.CARD_NOT_EXIST_OR_HAS_BEEN_USED;
+        } else if ("短信验证码输入不正确".equals(message)) {
+            code = ErrorCode.SMSCODE_NOT_CORRECT;
+        } else if ("短信验证码已经过期".equals(message)) {
+            code = ErrorCode.SMSCODE_HAS_EXPIRED;
         }
 
         log.debug("bug-happen---------------------------------" + ex);
         responseData.fail(code.getCode(), code.getMessage());
         return responseData;
     }
-
 }

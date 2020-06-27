@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @Author: guodongwei
- * @Description: 钱包启动类诶
+ * @Description: 钱包启动类
  * @Date: 2020/2/27 21:37
  */
 @SpringBootApplication(scanBasePackages = {"com.mctpay.wallet.*", "com.mctpay.common.exception", "com.mctpay.common.config"})

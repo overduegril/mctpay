@@ -73,4 +73,12 @@ public interface UserService {
      * @param newPassword
      */
     ResponseData forgetPassword(String email, String emailCode, String newPassword);
+
+    /**
+     * 手机号绑定
+     * @param userId
+     * @param phoneNumber
+     * @param smsCode
+     */
+    ResponseData bindingPhoneNumber(String userId, String phoneNumber, String smsCode);
 }

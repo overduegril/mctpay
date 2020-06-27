@@ -64,3 +64,7 @@ email-properties:
   registEnglishSubject: mctPayt wallet-regist
   updatePasswordChineseSubject: mctPay wallet-updatePassword
   updatePasswordEnglishSubject: mctPay钱包修改密码
+
+phone-properties:
+  bindingEnglishTemplate: SMS_193242482
+  bindingChineseTemplate: SMS_185030008

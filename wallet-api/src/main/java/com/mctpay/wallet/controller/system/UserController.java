@@ -1,23 +1,32 @@
 package com.mctpay.wallet.controller.system;
 
 import cn.hutool.core.util.RandomUtil;
+import com.aliyuncs.exceptions.ClientException;
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.constants.ErrorCode;
+import com.mctpay.common.exception.MCTException;
 import com.mctpay.common.uitl.EmailUtils;
 import com.mctpay.common.uitl.OSSUtils;
+import com.mctpay.common.uitl.SMSUtils;
 import com.mctpay.common.uitl.UIdUtils;
 import com.mctpay.wallet.config.EmailProperties;
 import com.mctpay.wallet.config.OSSProperties;
+import com.mctpay.wallet.config.PhoneProperties;
 import com.mctpay.wallet.model.dto.point.PointInfoDTO;
 import com.mctpay.wallet.model.entity.system.UserEntity;
 import com.mctpay.wallet.model.enums.EmailCodeEnum;
+import com.mctpay.wallet.model.enums.PhoneCodeEnum;
 import com.mctpay.wallet.model.param.CheckCodeParam;
 import com.mctpay.wallet.model.param.EmailCodeParam;
+import com.mctpay.wallet.model.param.SmsCodeParam;
 import com.mctpay.wallet.model.param.UserParam;
 import com.mctpay.wallet.service.system.EmailCodeService;
+import com.mctpay.wallet.service.system.PhoneCodeService;
 import com.mctpay.wallet.service.system.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,8 +36,10 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import static com.mctpay.common.constants.ErrorCode.SMS_SEND_FAIL;
 import static com.mctpay.wallet.model.enums.EmailCodeEnum.REGIST;
 import static com.mctpay.wallet.model.enums.EmailCodeEnum.UPDATE_PASSWORD;
+import static com.mctpay.wallet.model.enums.PhoneCodeEnum.USERS_BINDING;
 
 /**
  * @Author: guodongwei
@@ -50,7 +61,13 @@ public class UserController {
     private EmailCodeService emailCodeService;
 
     @Autowired
+    private PhoneCodeService phoneCodeService;
+
+    @Autowired
     private OSSProperties oSSProperties;
+
+    @Autowired
+    private PhoneProperties phoneProperties;
 
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/insertUser")
@@ -160,14 +177,46 @@ public class UserController {
         return new ResponseData<PointInfoDTO>().success(pointInfo);
     }
 
-    /**
-     * @Description H获取登陆用户的积分信息
-     * @Date 19:31 2020/5/25
-     **/
     @ApiOperation(value = "忘记密码修改密码", notes = "忘记密码修改密码", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/forget-password")
     public ResponseData forgetPassword(@RequestParam("email") String email, @RequestParam("emailCode") String emailCode, @RequestParam("newPassword")  String newPassword){
         userService.forgetPassword(email, emailCode, newPassword);
         return new ResponseData().success(null);
+    }
+
+    @ApiOperation(value = "发送短信验证码", notes = "发送短信验证码", httpMethod = "GET", consumes = "application/json")
+    @GetMapping("/sendSMSCode")
+    public ResponseData sendPhoneCode(String phoneNumber, Integer language, PhoneCodeEnum phoneCodeEnum ) throws ClientException {
+        String randomNumbers = RandomUtil.randomNumbers(6);
+        String template = "";
+        // 存储验证码，等待用户输入后进行校验
+        SmsCodeParam smsCodeParam = new SmsCodeParam();
+        if ("users_binding".equalsIgnoreCase(phoneCodeEnum.getPhoneCodeType())) {
+            // 默认模板
+            template = phoneProperties.getBindingChineseTemplate();
+            if (language != null && language == 1) {
+                template = phoneProperties.getBindingEnglishTemplate();
+            }
+            smsCodeParam.setBusinessType(USERS_BINDING.getPhoneCodeType());
+            SMSUtils.sendMessage(phoneNumber, randomNumbers, template);
+        } else {
+            return new ResponseData().fail(SMS_SEND_FAIL.getCode(), SMS_SEND_FAIL.toString());
+        }
+        smsCodeParam.setCreateTime(new Date());
+        smsCodeParam.setUpdateTime(new Date());
+        smsCodeParam.setCode(randomNumbers);
+        smsCodeParam.setPhoneNumber(phoneNumber);
+        smsCodeParam.setStatus(1);
+        smsCodeParam.setExpirationTime(new Date(System.currentTimeMillis() + 300000));
+        phoneCodeService.insertSMSCode(smsCodeParam);
+        return new ResponseData().success(null);
+    }
+
+    @ApiOperation(value = "用户绑定手机号", notes = "用户绑定手机号", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/binding-phone")
+    public ResponseData bindingPhone(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("smsCode") String smsCode) {
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ResponseData responseData = userService.bindingPhoneNumber(userEntity.getId(), phoneNumber, smsCode);
+        return responseData;
     }
 }
