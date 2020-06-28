@@ -1,6 +1,8 @@
 package com.mctpay.pos.mapper.card;
 
 import com.mctpay.common.base.mapper.BaseMapper;
+import com.mctpay.pos.model.dto.card.CardUseHistoryDTO;
+import com.mctpay.pos.model.entity.card.CardUseHistoryEntity;
 import com.mctpay.pos.model.entity.card.MerchantCardReceiveEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -28,4 +30,11 @@ public interface MerchantCardReceiveMapper extends BaseMapper<MerchantCardReceiv
      * @param redeemCode
      */
     void updateUseStateByRedeenCode(@Param("state") Integer state, @Param("tradeNo") String tradeNo, @Param("redeemCode") String redeemCode);
+
+    /**
+     * 获取卡券使用历史
+     * @param merchantId
+     * @return
+     */
+    List<CardUseHistoryEntity> listCardUseHistory(String merchantId);
 }

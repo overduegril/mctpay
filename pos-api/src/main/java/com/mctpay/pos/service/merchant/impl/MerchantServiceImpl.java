@@ -16,14 +16,13 @@ import com.mctpay.pos.mapper.merchant.WalletTradeRecordMapper;
 import com.mctpay.pos.mapper.point.SummaryPointMapper;
 import com.mctpay.pos.mapper.point.UseabelPointMapper;
 import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
-import com.mctpay.pos.model.dto.merchant.WalletTradeRecordParam;
+import com.mctpay.pos.model.dto.merchant.TradeSummaryDTO;
+import com.mctpay.pos.model.param.WalletTradeRecordParam;
 import com.mctpay.pos.model.entity.merchant.MerchantEntity;
 import com.mctpay.pos.model.entity.merchant.TradeRecordEntity;
+import com.mctpay.pos.model.entity.merchant.TradeSummaryEntity;
 import com.mctpay.pos.model.entity.system.UserEntity;
-import com.mctpay.pos.model.param.PayCheckParam;
-import com.mctpay.pos.model.param.SweepCollectParam;
-import com.mctpay.pos.model.param.TradeRecordParam;
-import com.mctpay.pos.model.param.WalletTradeRecordDTO;
+import com.mctpay.pos.model.param.*;
 import com.mctpay.pos.service.merchant.MerchantService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -81,7 +81,39 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public ResponseData getCollectionQRCode() {
+    public ResponseData getDynamicCollectionQRCode(DynamicCollectionQRCodeParam dynamicCollectionQRCodeParam) {
+        // TODO 获取到支付需要的用户名密码
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("user_id", "Guest");
+        paramMap.put("user_password", SecureUtil.md5("Guest"));
+        BigDecimal amount = dynamicCollectionQRCodeParam.getAmount();
+        paramMap.put("amount", amount);
+        String payType = dynamicCollectionQRCodeParam.getPayType() == null ? "alipay" : dynamicCollectionQRCodeParam.getPayType();
+        paramMap.put("pay_type", payType);
+        String notifyUrl = "http://39.96.29.99:/pay/merchant/dynamic-qrcode-collect-notify?checkStr=" + dynamicCollectionQRCodeParam.getCheckStr();
+        log.debug(notifyUrl + "-------------------------");
+        paramMap.put("notify_url", notifyUrl);
+        paramMap.put("sign_string", SecureUtil.md5("Guest" + SecureUtil.md5("Guest")+ amount + payType + notifyUrl));
+        String result = HttpUtil.get("https://ccpay.sg/dci/api_v2/get_dynamic_qrcode_app", paramMap);
+        JSONObject jsonObject = JSONUtil.parseObj(result);
+        if ("T".equalsIgnoreCase(jsonObject.get("is_success").toString()) && !StringUtils.isEmpty(jsonObject.getStr("qr_pic_url"))) {
+            // 设置回调校验码
+            PayCheckParam payCheckParam = new PayCheckParam();
+            payCheckParam.setStatus(1);
+            payCheckParam.setCreateTime(new Date());
+            payCheckParam.setUpdateTime(new Date());
+            payCheckParam.setCheckStr(dynamicCollectionQRCodeParam.getCheckStr());
+            payCheckMapper.insert(payCheckParam);
+            return new ResponseData().success(jsonObject.getStr("qr_pic_url"));
+        }
+        if (!StringUtils.isEmpty(jsonObject.getStr("error_msg"))) {
+            return new ResponseData().fail(GET_COLLECTION_QRCODE_FAIL.getCode(), jsonObject.getStr("error_msg"));
+        }
+        return new ResponseData().fail(GET_COLLECTION_QRCODE_FAIL.getCode(), GET_COLLECTION_QRCODE_FAIL.toString());
+    }
+
+    @Override
+    public ResponseData getStaticCollectionQRCode() {
         // TODO 获取到支付需要的用户名密码
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("user_id", "Guest");
@@ -136,7 +168,7 @@ public class MerchantServiceImpl implements MerchantService {
         String message = "";
         if (jsonObject.get("error_msg") != null) {
             message = jsonObject.get("error_msg").toString();
-        } else if (jsonObject.get("trade_msg") != null){
+        } else if (jsonObject.get("trade_msg") != null) {
             message = jsonObject.get("trade_msg").toString();
         }
         return new ResponseData().fail(SWEEP_COLLECT_FIAL.getCode(), message);
@@ -171,7 +203,7 @@ public class MerchantServiceImpl implements MerchantService {
         String message = "";
         if (jsonObject.get("error_msg") != null) {
             message = jsonObject.get("error_msg").toString();
-        } else if (jsonObject.get("trade_msg") != null){
+        } else if (jsonObject.get("trade_msg") != null) {
             message = jsonObject.get("trade_msg").toString();
         }
         return new ResponseData().fail(SWEEP_COLLECT_FIAL.getCode(), message);
@@ -192,6 +224,7 @@ public class MerchantServiceImpl implements MerchantService {
 
     /**
      * 记录交易信息
+     *
      * @param jsonObject
      * @param tradeRecordParam
      */
@@ -221,7 +254,7 @@ public class MerchantServiceImpl implements MerchantService {
         if (jsonObject.get("pay_type") != null) {
             tradeRecordParam.setPayType(jsonObject.get("pay_type").toString());
         }
-        if (SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null && SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
+        if (SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
             UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             tradeRecordParam.setMerchantId(userEntity.getMerchantId());
             tradeRecordParam.setOperator(userEntity.getNickname());
@@ -254,12 +287,12 @@ public class MerchantServiceImpl implements MerchantService {
                 throw new Exception("输入卡券不存在或已经使用");
             }
             // 领取记录修改
-            merchantCardReceiveMapper.updateUseStateByRedeenCode(1, jsonObject.getStr("trade_no")  ,redeemCode);
+            merchantCardReceiveMapper.updateUseStateByRedeenCode(1, jsonObject.getStr("trade_no"), redeemCode);
             // 卡券库存修改
             merchantCardMapper.decInventory(sweepCollectParam.getCardId());
         }
         // 添加积分以及积分记录
-        String integerAmount = tradeRecordParam.getTransAmount().setScale(0, BigDecimal.ROUND_FLOOR).toString();
+        String integerAmount = new BigDecimal(tradeRecordParam.getTransAmount()).setScale(0, BigDecimal.ROUND_FLOOR).toString();
         UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // 积分变动详情
         WalletTradeRecordParam walletTradeRecordParam = new WalletTradeRecordParam();
@@ -314,4 +347,31 @@ public class MerchantServiceImpl implements MerchantService {
         payCheckMapper.updateByCheckStr(payCheckParam);
     }
 
+    @Override
+    public TradeSummaryDTO getDayTradeSummary(String merchantId, Date startDate, Date endDate, String operatorId) {
+        TradeSummaryEntity tradeSummaryEntity = tradeRecordMapper.getTradeSummary(merchantId, startDate, endDate);
+        TradeSummaryDTO tradeSummaryDTO = new TradeSummaryDTO();
+        BeanUtils.copyProperties(tradeSummaryEntity, tradeSummaryDTO);
+        if (tradeSummaryDTO.getTotalTradeAmount() == null) {
+            tradeSummaryDTO.setTotalTradeAmount(BigDecimal.ZERO);
+        }
+        tradeSummaryDTO.setTotalTradeAmount(tradeSummaryDTO.getTotalTradeAmount().setScale(2, RoundingMode.HALF_DOWN));
+        return tradeSummaryDTO;
+    }
+
+    public static void main(String[] args) {
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("user_id", "Guest");
+        paramMap.put("user_password", SecureUtil.md5("Guest"));
+        BigDecimal amount = new BigDecimal("0.01");
+        paramMap.put("amount", amount);
+        String payType = "tenpay";
+        paramMap.put("pay_type", payType);
+        paramMap.put("notify_url", " ");
+        paramMap.put("sign_string", SecureUtil.md5("Guest" + SecureUtil.md5("Guest")+ amount + payType + " "));
+        String result = HttpUtil.get("https://ccpay.sg/dci/api_v2/get_dynamic_qrcode_app", paramMap);
+        JSONObject jsonObject = JSONUtil.parseObj(result);
+        System.out.println(result);
+        System.out.println(jsonObject);
+    }
 }

@@ -1,11 +1,14 @@
 package com.mctpay.pos.service.merchant;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.pos.model.dto.merchant.TradeSummaryDTO;
 import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
+import com.mctpay.pos.model.param.DynamicCollectionQRCodeParam;
 import com.mctpay.pos.model.param.PayCheckParam;
 import com.mctpay.pos.model.param.SweepCollectParam;
 import com.mctpay.pos.model.param.TradeRecordParam;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,7 +28,13 @@ public interface MerchantService {
      * 获取静态 收款二维码
      * @return
      */
-    ResponseData getCollectionQRCode();
+    ResponseData getStaticCollectionQRCode();
+
+    /**
+     * 获取静态收款码
+     * @return
+     */
+    ResponseData getDynamicCollectionQRCode(DynamicCollectionQRCodeParam dynamicCollectionQRCodeParam);
 
     /**
      * 获取商铺名称
@@ -86,4 +95,13 @@ public interface MerchantService {
      * @param payCheckParam
      */
     void updatePayCheck(PayCheckParam payCheckParam);
+
+    /**
+     * 获取汇总交易信息
+     * @param merchantId
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    TradeSummaryDTO getDayTradeSummary(String merchantId, Date startDate, Date endDate, String operatorId);
 }

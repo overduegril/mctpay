@@ -6,6 +6,7 @@ import com.mctpay.wallet.model.entity.merchant.MctTradeRecordEntity;
 import com.mctpay.wallet.service.merchant.MctTradeRecordService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +16,14 @@ import java.util.List;
  * @Description: 交易记录serviceImpl
  * @Date: 2020/6/18  14:08
  */
+@Service
 public class MctTradeRecordServiceImpl  implements MctTradeRecordService {
+
     @Autowired
     private  TradeRecordMapper tradeRecordMapper;
 
     /**
-     * @Description 商户集合
+     * @Description 获取交易记录
      * @Date 18:12 2020/6/18
      **/
     @Override

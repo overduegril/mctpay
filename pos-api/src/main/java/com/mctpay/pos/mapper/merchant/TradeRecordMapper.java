@@ -2,10 +2,13 @@ package com.mctpay.pos.mapper.merchant;
 
 import com.mctpay.common.base.mapper.BaseMapper;
 import com.mctpay.pos.model.entity.merchant.TradeRecordEntity;
+import com.mctpay.pos.model.entity.merchant.TradeSummaryEntity;
 import com.mctpay.pos.model.param.TradeRecordParam;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,4 +59,12 @@ public interface TradeRecordMapper extends BaseMapper<TradeRecordEntity> {
      * 根据订单号查看订单是否存在
      */
     Integer countByTradeNo(String tradeNo);
+
+    /**
+     * 获取汇总交易信息
+     * @param merchantId
+     * @param startDate
+     * @param endDate
+     */
+    TradeSummaryEntity getTradeSummary(@Param("merchantId") String merchantId, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("operatorId") String operatorId);
 }

@@ -1,6 +1,7 @@
 package com.mctpay.pos.service.card;
 
 import com.mctpay.pos.model.dto.card.CardDTO;
+import com.mctpay.pos.model.dto.card.CardUseHistoryDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,5 +21,12 @@ public interface MerchantCardService {
      * @return
      */
     List<CardDTO> listAvailableCards(String userId, BigDecimal amount);
+
+    /**
+     * 获取商户的卡券使用记录
+     * @param merchantId
+     * @return
+     */
+    List<CardUseHistoryDTO> listCardUseHistory(String merchantId);
 
 }

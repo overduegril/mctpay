@@ -33,6 +33,20 @@
         limit 0, 1
     </select>
 
+    <!-- 获取卡券使用历史 -->
+    <select id="listCardUseHistory" resultType="com.mctpay.pos.model.entity.card.CardUseHistoryEntity">
+      SELECT  distinct t0.redeem_code, t0.update_time useTime, t0.trade_no,t1.card_name, t2.nickname walletName, t3.trans_amount
+      FROM merchant_card_receive t0
+      LEFT JOIN merchant_card t1
+      ON t0.card_id = t1.id AND t1.merchant_id = #{merchantId} AND t1.`status` !=0
+      LEFT JOIN wallet_user t2
+      ON t0.user_id = t2.id AND t2.`status` != 0
+      LEFT JOIN mct_trade_record t3
+      ON t0.trade_no = t3.trade_no
+      WHERE t0.`status` != 0
+      AND t0.use_state_type = 1
+    </select>
+
     <sql id="baseWhere">
         <if test="id != null">
             and id = #{id}

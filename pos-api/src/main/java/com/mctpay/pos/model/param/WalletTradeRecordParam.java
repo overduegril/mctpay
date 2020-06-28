@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Data
 @ApiModel(value = "钱包交易记录")
-public class WalletTradeRecordDTO extends BaseEntity implements Serializable {
+public class WalletTradeRecordParam extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@ApiModelProperty(value = "")

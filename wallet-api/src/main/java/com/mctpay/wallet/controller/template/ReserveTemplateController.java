@@ -6,11 +6,13 @@ import com.mctpay.common.base.model.PageParam;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.wallet.model.dto.template.ReserveTemplateDTO;
+import com.mctpay.wallet.model.param.PayPageParam;
 import com.mctpay.wallet.service.template.ReserveTemplateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +48,12 @@ public class ReserveTemplateController {
         }
         List<ReserveTemplateDTO> reserveTemplateDTOs = reserveTemplateService.listMerchantReserveTemplate(merchantId);
         return new ResponsePageInfo<List<ReserveTemplateDTO>>().success(reserveTemplateDTOs, pageInfo);
+    }
+
+    @ApiOperation(value = "调起支付页面", notes = "调起支付页面", httpMethod = "GET")
+    @PostMapping("/pay-page")
+    public ResponseData<List<ReserveTemplateDTO>> getPayPage(@RequestBody @Validated PayPageParam payPageParam) {
+        return null;
     }
 
 }

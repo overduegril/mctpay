@@ -32,6 +32,7 @@ public class MctTradeRecordController {
 
     @Autowired
     private MctTradeRecordService mctTradeRecordService;
+
     @ApiOperation(value = "分页查询商户", notes = "分页查询商户 ;",  httpMethod = "POST", consumes = "application/json")
     @RequestMapping("/listTradeRecord")
     public ResponseData<List<MerchantDtO>> listTradeRecord(String input, @RequestBody PageParam pageParam){

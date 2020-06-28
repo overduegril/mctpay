@@ -6,6 +6,7 @@ import com.mctpay.common.base.model.PageParam;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
 import com.mctpay.pos.model.dto.card.CardDTO;
+import com.mctpay.pos.model.dto.card.CardUseHistoryDTO;
 import com.mctpay.pos.model.entity.system.UserEntity;
 import com.mctpay.pos.service.card.MerchantCardService;
 import io.swagger.annotations.Api;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("card")
 public class MerchantCardController {
+
     @Autowired
     private MerchantCardService merchantCardService;
 
@@ -55,4 +57,11 @@ public class MerchantCardController {
         return new ResponseData<List<CardDTO>>().success(cardDTOs);
     }
 
+    @ApiOperation(value = "获取卡券使用历史", notes = "获取卡券使用历史", httpMethod = "GET")
+    @GetMapping("/card-use-history")
+    public ResponseData<List<CardUseHistoryDTO>> listCardUseHistory() {
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<CardUseHistoryDTO> cardUseHistoryDTOs = merchantCardService.listCardUseHistory(userEntity.getMerchantId());
+        return new ResponseData<List<CardUseHistoryDTO>>().success(cardUseHistoryDTOs);
+    }
 }

@@ -3,6 +3,8 @@ package com.mctpay.pos.service.card.impl;
 import com.mctpay.pos.mapper.card.MerchantCardMapper;
 import com.mctpay.pos.mapper.card.MerchantCardReceiveMapper;
 import com.mctpay.pos.model.dto.card.CardDTO;
+import com.mctpay.pos.model.dto.card.CardUseHistoryDTO;
+import com.mctpay.pos.model.entity.card.CardUseHistoryEntity;
 import com.mctpay.pos.model.entity.card.MerchantCardEntity;
 import com.mctpay.pos.service.card.MerchantCardService;
 import org.springframework.beans.BeanUtils;
@@ -44,5 +46,18 @@ public class MerchantCardServiceImpl implements MerchantCardService {
         }
         return cardDTOs;
     }
+
+    @Override
+    public List<CardUseHistoryDTO> listCardUseHistory(String merchantId) {
+        List<CardUseHistoryEntity> cardUseHistoryEntities = merchantCardReceiveMapper.listCardUseHistory(merchantId);
+        List<CardUseHistoryDTO> cardUseHistoryDTOs = new ArrayList<>();
+        for (CardUseHistoryEntity cardUseHistoryEntity : cardUseHistoryEntities) {
+            CardUseHistoryDTO cardUseHistoryDTO = new CardUseHistoryDTO();
+            BeanUtils.copyProperties(cardUseHistoryEntity, cardUseHistoryDTO);
+            cardUseHistoryDTOs.add(cardUseHistoryDTO);
+        }
+        return cardUseHistoryDTOs;
+    }
+
 
 }

@@ -1,26 +1,25 @@
 package com.mctpay.pos.controller.merchant;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.mctpay.common.base.model.PageParam;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
+import com.mctpay.pos.model.dto.merchant.TradeSummaryDTO;
 import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
 import com.mctpay.pos.model.entity.system.UserEntity;
-import com.mctpay.pos.model.param.PayCheckParam;
-import com.mctpay.pos.model.param.SweepCollectNotifyParam;
-import com.mctpay.pos.model.param.SweepCollectParam;
-import com.mctpay.pos.model.param.TradeRecordParam;
+import com.mctpay.pos.model.param.*;
 import com.mctpay.pos.service.merchant.MerchantService;
 import com.mctpay.pos.service.merchant.impl.MerchantServiceImpl;
-import io.micrometer.core.instrument.util.JsonUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -48,9 +47,16 @@ public class MerchantController {
     }
 
     @ApiOperation(value = "获取商户静态收款二维码", notes = "获取商户静态收款二维码", httpMethod = "GET", consumes = "application/json")
-    @GetMapping("/collection-qrcode")
-    public ResponseData<String> getCollectionQRCode() {
-        ResponseData collectionQRCode = merchantService.getCollectionQRCode();
+    @GetMapping("/static-collection-qrcode")
+    public ResponseData<String> getStaticCollectionQRCode() {
+        ResponseData collectionQRCode = merchantService.getStaticCollectionQRCode();
+        return collectionQRCode;
+    }
+
+    @ApiOperation(value = "获取商户动态收款二维码", notes = "获取商户动态收款二维码", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/dynamic-collection-qrcode")
+    public ResponseData<String> getDynamicCollectionQRCode(@RequestBody @Validated DynamicCollectionQRCodeParam dynamicCollectionQRCodeParam) {
+        ResponseData collectionQRCode = merchantService.getDynamicCollectionQRCode(dynamicCollectionQRCodeParam);
         return collectionQRCode;
     }
 
@@ -104,6 +110,35 @@ public class MerchantController {
         return "FAIL";
     }
 
+    @ApiOperation(value = "动态二维码收款回到接口", notes = "动态二维码收款回到接口")
+    @PostMapping("dynamic-qrcode-collect-notify")
+    public String dynamicQrcodeCollectNotify(SweepCollectNotifyParam sweepCollectNotifyParam, @RequestParam String checkStr) {
+        log.debug(sweepCollectNotifyParam);
+        // 判断是否该单已经完成
+        if ("T".equalsIgnoreCase(sweepCollectNotifyParam.getIs_success()) && sweepCollectNotifyParam.getTrade_no() != null) {
+            log.debug("-----------------------------------------");
+            Integer rows = merchantService.countByTradeNo(sweepCollectNotifyParam.getTrade_no());
+            if (rows == 0) {
+                TradeRecordParam tradeRecordParam = new TradeRecordParam();
+                MerchantServiceImpl.recordTradeParam(JSONUtil.parseObj(sweepCollectNotifyParam), tradeRecordParam);
+                log.debug(tradeRecordParam);
+                // 插入记录
+                tradeRecordParam.setOrderStatus(99);
+                tradeRecordParam.setTradeStatus(99);
+                merchantService.insertTradeRecord(tradeRecordParam);
+                // 校验码交易号更新
+                PayCheckParam payCheckParam = new PayCheckParam();
+                payCheckParam.setUpdateTime(new Date());
+                payCheckParam.setCheckStr(checkStr);
+                payCheckParam.setTradeNo(sweepCollectNotifyParam.getTrade_no());
+                merchantService.updatePayCheck(payCheckParam);
+            }
+            return "SUCCESS";
+        }
+        log.debug("=========================================");
+        return "FAIL";
+    }
+
     @ApiOperation(value = "扫码退款回调接口", notes = "扫码退款回调接口")
     @PostMapping("refund-notify")
     public String refundNotify(SweepCollectNotifyParam sweepCollectNotifyParam) {
@@ -140,4 +175,31 @@ public class MerchantController {
         return new ResponseData<TradeRecordDTO>().success(payResult);
     }
 
+    @ApiOperation(value = "今日收款和笔数", notes = "今日收款和笔数")
+    @PostMapping("today-trade-summary")
+    public ResponseData<TradeSummaryDTO> getDayTradeSummary() {
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Date startDate = DateUtil.beginOfDay(new Date());
+        TradeSummaryDTO tradeSummaryDTO = merchantService.getDayTradeSummary(userEntity.getMerchantId(), startDate, new Date(), null);
+        return new ResponseData<TradeSummaryDTO>().success(tradeSummaryDTO);
+    }
+
+    @ApiOperation(value = "收款统计", notes = "今日收款和笔数")
+    @PostMapping("trade-summary")
+    public ResponseData<TradeSummaryDTO> getTradeSummary(@RequestBody @Validated TradeSummaryParam tradeSummaryParam) {
+        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Date startDate, endDate;
+        String operatorId = null;
+        if ("1".equals(tradeSummaryParam.getType())) {
+            startDate = DateUtil.beginOfDay(new Date());
+            endDate = new Date();
+            operatorId = userEntity.getId();
+        } else {
+            startDate = tradeSummaryParam.getStart();
+            endDate = tradeSummaryParam.getEnd();
+
+        }
+        TradeSummaryDTO tradeSummary = merchantService.getDayTradeSummary(userEntity.getMerchantId(), startDate, endDate, operatorId);
+        return new ResponseData<TradeSummaryDTO>().success(tradeSummary);
+    }
 }

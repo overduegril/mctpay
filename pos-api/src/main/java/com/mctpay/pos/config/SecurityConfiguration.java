@@ -58,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/favicon.ico", "/merchant/sweep-collect-notify");
+        web.ignoring().antMatchers("/favicon.ico", "/merchant/sweep-collect-notify", "/merchant/dynamic-qrcode-collect-notify");
     }
 
     @Override

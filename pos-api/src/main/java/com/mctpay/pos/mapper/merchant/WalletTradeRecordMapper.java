@@ -1,7 +1,7 @@
 package com.mctpay.pos.mapper.merchant;
 
 import com.mctpay.common.base.mapper.BaseMapper;
-import com.mctpay.pos.model.dto.merchant.WalletTradeRecordParam;
+import com.mctpay.pos.model.param.WalletTradeRecordParam;
 import com.mctpay.pos.model.entity.merchant.WalletTradeRecordEntity;
 import org.springframework.stereotype.Repository;
 
