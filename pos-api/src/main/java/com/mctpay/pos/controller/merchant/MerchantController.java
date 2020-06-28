@@ -6,12 +6,10 @@ import com.github.pagehelper.PageHelper;
 import com.mctpay.common.base.model.PageParam;
 import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.base.model.ResponsePageInfo;
+import com.mctpay.common.uitl.EmailUtils;
 import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
 import com.mctpay.pos.model.entity.system.UserEntity;
-import com.mctpay.pos.model.param.PayCheckParam;
-import com.mctpay.pos.model.param.SweepCollectNotifyParam;
-import com.mctpay.pos.model.param.SweepCollectParam;
-import com.mctpay.pos.model.param.TradeRecordParam;
+import com.mctpay.pos.model.param.*;
 import com.mctpay.pos.service.merchant.MerchantService;
 import com.mctpay.pos.service.merchant.impl.MerchantServiceImpl;
 import io.micrometer.core.instrument.util.JsonUtils;
@@ -21,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -140,4 +139,12 @@ public class MerchantController {
         return new ResponseData<TradeRecordDTO>().success(payResult);
     }
 
+    @ApiOperation(value = "发送注册邮箱", notes = "发送注册邮箱", httpMethod = "POST", consumes = "application/json")
+    @PostMapping("/send-regist-email")
+    public ResponseData sendRegistEmail(@RequestBody @Validated SendRegistEmailParam sendRegistEmailParam) throws Exception {
+        String subject = "商户注册申请";
+        String content = "我要注册。";
+        EmailUtils.sendRegistEmail(sendRegistEmailParam.getEmail(), subject, content);
+        return new ResponseData().success(null);
+    }
 }

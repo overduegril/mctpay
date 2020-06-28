@@ -259,7 +259,7 @@ public class MerchantServiceImpl implements MerchantService {
             merchantCardMapper.decInventory(sweepCollectParam.getCardId());
         }
         // 添加积分以及积分记录
-        String integerAmount = tradeRecordParam.getTransAmount().setScale(0, BigDecimal.ROUND_FLOOR).toString();
+        String integerAmount = new BigDecimal(tradeRecordParam.getTransAmount()).setScale(0, BigDecimal.ROUND_FLOOR).toString();
         UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // 积分变动详情
         WalletTradeRecordParam walletTradeRecordParam = new WalletTradeRecordParam();
@@ -273,6 +273,7 @@ public class MerchantServiceImpl implements MerchantService {
         useabelPointMapper.incPoint(userEntity.getMerchantId(), Integer.valueOf(integerAmount));
     }
 
+    @Override
     public void insertTradeRecord(TradeRecordParam tradeRecordParam) {
         tradeRecordMapper.insert(tradeRecordParam);
         // 添加积分以及积分记录
