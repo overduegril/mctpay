@@ -306,6 +306,7 @@ public class MerchantServiceImpl implements MerchantService {
         useabelPointMapper.incPoint(userEntity.getMerchantId(), Integer.valueOf(integerAmount));
     }
 
+    @Override
     public void insertTradeRecord(TradeRecordParam tradeRecordParam) {
         tradeRecordMapper.insert(tradeRecordParam);
         // 添加积分以及积分记录
