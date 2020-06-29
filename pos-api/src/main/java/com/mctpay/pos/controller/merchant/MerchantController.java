@@ -14,7 +14,6 @@ import com.mctpay.pos.model.entity.system.UserEntity;
 import com.mctpay.pos.model.param.*;
 import com.mctpay.pos.service.merchant.MerchantService;
 import com.mctpay.pos.service.merchant.impl.MerchantServiceImpl;
-import io.micrometer.core.instrument.util.JsonUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
@@ -40,6 +39,8 @@ public class MerchantController {
 
     @Autowired
     private MerchantService merchantService;
+
+
 
     @ApiOperation(value = "获取商户二维码", notes = "获取商户二维码", httpMethod = "POST", consumes = "application/json")
     @PostMapping("/member-qrcode")
@@ -222,4 +223,7 @@ public class MerchantController {
         EmailUtils.sendRegistEmail(sendFeedbackEmailParam.getEmail(), subject, sendFeedbackEmailParam.getContent());
         return new ResponseData().success(null);
     }
+
+
+
 }

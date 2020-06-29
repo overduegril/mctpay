@@ -87,7 +87,12 @@ public enum ErrorCode {
     /**
      * 短信验证码已过期
      */
-    SMSCODE_HAS_EXPIRED(3019, "smscode_has_expired");
+    SMSCODE_HAS_EXPIRED(3019, "smscode_has_expired"),
+
+    /**
+     * 用户没有注册
+     */
+    USER_NOT_REG(3020 , "找不到输入的用户");
 
     private int code;
     private String message;
