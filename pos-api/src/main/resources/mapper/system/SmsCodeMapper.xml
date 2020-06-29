@@ -43,9 +43,8 @@
     </sql>
 
     <!-- 获取短信验证码 -->
-    <select id="getByPhoneAndBussinessType" resultType="com.mctpay.pos.model.entity.system.SmsCodeEntity>
-        SELECT
-        <include refid="Base_Column_List"/>
+    <select id="getByPhoneAndBussinessType" resultType="com.mctpay.pos.model.entity.system.SmsCodeEntity">
+        SELECT  <include refid="Base_Column_List"/>
         FROM mct_sms_code
         WHERE phone_number = #{phoneNumber} AND business_type = #{businessType}  AND status != 0
         ORDER BY id DESC
