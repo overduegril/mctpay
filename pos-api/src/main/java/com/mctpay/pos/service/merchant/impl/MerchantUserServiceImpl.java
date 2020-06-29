@@ -1,6 +1,7 @@
 package com.mctpay.pos.service.merchant.impl;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.pos.enums.EmailCodeEnum;
 import com.mctpay.pos.mapper.merchant.MerchantUserMapper;
 import com.mctpay.pos.mapper.system.EmailCodeMapper;
@@ -24,7 +25,7 @@ public class MerchantUserServiceImpl implements MerchantUserService {
     private MerchantUserMapper merchantUserMapper;
     @Resource
     private EmailCodeMapper emailCodeMapper;
-
+    @Resource
     private SmsCodeMapper smsCodeMapper;
 
     @Override
@@ -48,13 +49,14 @@ public class MerchantUserServiceImpl implements MerchantUserService {
             if (phoneAndBussinessType.getExpirationTime().compareTo(new Date()) < 0) {
                 return new ResponseData().fail(SMSCODE_HAS_EXPIRED.getCode(), SMSCODE_HAS_EXPIRED.getMessage());
             }
-            merchantUserEntity = merchantUserMapper.findMerchantUserByPhone(number);
+            merchantUserEntity = merchantUserMapper.findMerchantUserByPhone("1");
         }
 
 
         if(merchantUserEntity == null){
             return new ResponseData().fail(USER_NOT_REG.getCode(),USER_NOT_REG.getMessage());
         }
-        return null;
+        merchantUserMapper.updatePassword(SecureUtils.MD5Encrypt(password),merchantUserEntity.getId().toString());
+        return new ResponseData().success(null);
     }
 }
