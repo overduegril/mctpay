@@ -16,14 +16,11 @@ import com.mctpay.pos.mapper.merchant.WalletTradeRecordMapper;
 import com.mctpay.pos.mapper.point.SummaryPointMapper;
 import com.mctpay.pos.mapper.point.UseabelPointMapper;
 import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
-import com.mctpay.pos.model.dto.merchant.WalletTradeRecordParam;
+import com.mctpay.pos.model.dto.merchant.TradeSummaryDTO;
 import com.mctpay.pos.model.entity.merchant.MerchantEntity;
 import com.mctpay.pos.model.entity.merchant.TradeRecordEntity;
 import com.mctpay.pos.model.entity.system.UserEntity;
-import com.mctpay.pos.model.param.PayCheckParam;
-import com.mctpay.pos.model.param.SweepCollectParam;
-import com.mctpay.pos.model.param.TradeRecordParam;
-import com.mctpay.pos.model.param.WalletTradeRecordDTO;
+import com.mctpay.pos.model.param.*;
 import com.mctpay.pos.service.merchant.MerchantService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
@@ -81,7 +78,12 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public ResponseData getCollectionQRCode() {
+    public ResponseData getDynamicCollectionQRCode(DynamicCollectionQRCodeParam dynamicCollectionQRCodeParam) {
+        return null;
+    }
+
+    @Override
+    public ResponseData getStaticCollectionQRCode() {
         // TODO 获取到支付需要的用户名密码
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("user_id", "Guest");
@@ -313,6 +315,11 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     public void updatePayCheck(PayCheckParam payCheckParam) {
         payCheckMapper.updateByCheckStr(payCheckParam);
+    }
+
+    @Override
+    public TradeSummaryDTO getDayTradeSummary(String merchantId, Date startDate, Date endDate, String operatorId) {
+        return null;
     }
 
 }

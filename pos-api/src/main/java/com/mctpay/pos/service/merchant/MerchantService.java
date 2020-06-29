@@ -104,4 +104,5 @@ public interface MerchantService {
      * @return
      */
     TradeSummaryDTO getDayTradeSummary(String merchantId, Date startDate, Date endDate, String operatorId);
+
 }
