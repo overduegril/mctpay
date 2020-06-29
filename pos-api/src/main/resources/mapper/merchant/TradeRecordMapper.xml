@@ -100,6 +100,20 @@
       </if>
     </select>
 
+
+    <!-- 获取汇总交易信息 -->
+    <select id="getRefundTradeSummary" resultType="com.mctpay.pos.model.entity.merchant.TradeSummaryEntity">
+        SELECT count(0) totalRefundCount, sum(trans_amount) totalRefundAmount
+        FROM mct_trade_record
+        WHERE merchant_id = #{merchantId}
+        AND pay_time BETWEEN #{startDate} AND #{endDate}
+        AND status != 0
+        AND order_status = 109
+        <if test="operatorId != null and operatorId != ''">
+            AND operator_id = #{operatorId}
+        </if>
+    </select>
+
     <sql id="baseWhere">
         <if test="id != null">
             and id = #{id}

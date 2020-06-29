@@ -67,4 +67,12 @@ public interface TradeRecordMapper extends BaseMapper<TradeRecordEntity> {
      * @param endDate
      */
     TradeSummaryEntity getTradeSummary(@Param("merchantId") String merchantId, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("operatorId") String operatorId);
+
+    /**
+     * 获取汇总交易信息
+     * @param merchantId
+     * @param startDate
+     * @param endDate
+     */
+    TradeSummaryEntity getRefundTradeSummary(@Param("merchantId") String merchantId, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("operatorId") String operatorId);
 }

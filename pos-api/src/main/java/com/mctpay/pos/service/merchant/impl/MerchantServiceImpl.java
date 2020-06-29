@@ -350,13 +350,20 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     public TradeSummaryDTO getDayTradeSummary(String merchantId, Date startDate, Date endDate, String operatorId) {
-        TradeSummaryEntity tradeSummaryEntity = tradeRecordMapper.getTradeSummary(merchantId, startDate, endDate);
+        TradeSummaryEntity tradeSummaryEntity = tradeRecordMapper.getTradeSummary(merchantId, startDate, endDate, operatorId);
         TradeSummaryDTO tradeSummaryDTO = new TradeSummaryDTO();
         BeanUtils.copyProperties(tradeSummaryEntity, tradeSummaryDTO);
         if (tradeSummaryDTO.getTotalTradeAmount() == null) {
             tradeSummaryDTO.setTotalTradeAmount(BigDecimal.ZERO);
         }
+        TradeSummaryEntity refundTradeSummary = tradeRecordMapper.getRefundTradeSummary(merchantId, startDate, endDate, operatorId);
+        tradeSummaryDTO.setTotalRefundCount(refundTradeSummary.getTotalRefundCount());
+        tradeSummaryDTO.setTotalRefundAmount(refundTradeSummary.getTotalRefundAmount());
+        if (refundTradeSummary.getTotalRefundAmount() == null) {
+            tradeSummaryDTO.setTotalRefundAmount(BigDecimal.ZERO);
+        }
         tradeSummaryDTO.setTotalTradeAmount(tradeSummaryDTO.getTotalTradeAmount().setScale(2, RoundingMode.HALF_DOWN));
+        tradeSummaryDTO.setTotalRefundAmount(tradeSummaryDTO.getTotalRefundAmount().setScale(2, RoundingMode.HALF_DOWN));
         return tradeSummaryDTO;
     }
 
