@@ -58,3 +58,13 @@ aliyun-oss:
   bucketName: wosz
   keyPrefix: mctpay/merchant/
   qrcodePath: merchant/qrcode/
+
+email-properties:
+  registChineseSubject: mctPay钱包注册
+  registEnglishSubject: mctPayt wallet-regist
+  updatePasswordChineseSubject: mctPay wallet-updatePassword
+  updatePasswordEnglishSubject: mctPay钱包修改密码
+
+phone-properties:
+  bindingEnglishTemplate: SMS_193242482
+  bindingChineseTemplate: SMS_185030008

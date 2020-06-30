@@ -7,11 +7,11 @@
 	    id, username, nickname, password, gender, phone_number, email, min_discount_rate, remark, status, create_time, update_time</sql>
 
     <!-- 根据邮箱获取用户 -->
-    <select id="findMerchantUserByEmail">
+    <select id="findMerchantUserByEmail" resultType="com.mctpay.pos.model.entity.merchant.MerchantUserEntity">
         select *from merchant_user where email = #{email} limit 0 , 1
     </select>
     <!-- 根据手机号码用户 -->
-    <select id="findMerchantUserByPhone">
+    <select id="findMerchantUserByPhone" resultType="com.mctpay.pos.model.entity.merchant.MerchantUserEntity">
         select *from merchant_user where phone_number = #{phone} limit 0 , 1
     </select>
 

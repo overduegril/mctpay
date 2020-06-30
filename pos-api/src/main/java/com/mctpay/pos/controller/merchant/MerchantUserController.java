@@ -122,7 +122,7 @@ public class MerchantUserController {
                     @ApiImplicitParam(name = "password", value = "新密码" ,required = true)
             }
     )
-    @PostMapping("/member-qrcode")
+    @PostMapping("/updatefindBackPassword")
     public ResponseData updatefindBackPassword(Integer type, String number, String password,String code){
 
         return merchantUserService.updatefindBackPassword( type, number, password, code);
