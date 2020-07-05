@@ -39,7 +39,7 @@
         </if>
          <![CDATA[ AND latitude > #{minLat} AND latitude < #{maxLat} AND longitude > #{minLng} AND longitude < #{maxLng} ]]>
 
-        order by distance
+        order by distance asc
     </select>
 
 

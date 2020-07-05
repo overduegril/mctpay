@@ -43,11 +43,11 @@ public class MerchantServiceImpl implements MerchantService {
         //double lat = 23.12564488053505; //当前纬度
         //double lon = 113.34385183452603; //当前经度
 
-        long raidus = 1000000000000000000l; //半径10km
+        long raidus = 1000000000; //半径10km
         List<MerchantEntity> merchantEntities = null;
         if(lat == null || lon == null) {
-            lat = 113.34385183452603; //当前纬度
-            lon = 1.376821 ; //当前经度
+            lat = 1.3122618 ; //当前纬度
+            lon =  103.863018; //当前经度
         }
 
             Map<String, Object> param = new HashMap<>();
