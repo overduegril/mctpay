@@ -1,7 +1,10 @@
 package com.mctpay.wallet.service.merchant;
 
+import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.wallet.model.dto.merchant.MerchantDtO;
 import com.mctpay.wallet.model.dto.merchant.TradeRecordDTO;
+import com.mctpay.wallet.model.param.DynamicCollectionQRCodeParam;
+import com.mctpay.wallet.model.param.PayCheckParam;
 import com.mctpay.wallet.model.param.TradeRecordParam;
 
 import java.util.List;
@@ -34,4 +37,17 @@ public interface MerchantService {
      * @return
      */
     List<TradeRecordDTO> listTradeRecord(String userId, String inputContent);
+
+    /**
+     * 获取静态收款码
+     * @return
+     */
+    ResponseData getDynamicCollectionQRCode(DynamicCollectionQRCodeParam dynamicCollectionQRCodeParam);
+
+    /**
+     * 更新添加未返回支付结果的校验订单信息
+     * @param payCheckParam
+     */
+    void updatePayCheck(PayCheckParam payCheckParam);
+
 }

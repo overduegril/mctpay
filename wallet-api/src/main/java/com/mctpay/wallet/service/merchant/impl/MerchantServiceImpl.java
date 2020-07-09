@@ -1,6 +1,7 @@
 package com.mctpay.wallet.service.merchant.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.mctpay.common.base.model.ResponseData;
 import com.mctpay.common.uitl.MapUtils;
 import com.mctpay.wallet.mapper.merchant.MerchantMapper;
 import com.mctpay.wallet.mapper.merchant.TradeRecordMapper;
@@ -9,6 +10,8 @@ import com.mctpay.wallet.model.dto.merchant.MerchantDtO;
 import com.mctpay.wallet.model.dto.merchant.TradeRecordDTO;
 import com.mctpay.wallet.model.entity.merchant.MctTradeRecordEntity;
 import com.mctpay.wallet.model.entity.merchant.MerchantEntity;
+import com.mctpay.wallet.model.param.DynamicCollectionQRCodeParam;
+import com.mctpay.wallet.model.param.PayCheckParam;
 import com.mctpay.wallet.model.param.TradeRecordParam;
 import com.mctpay.wallet.service.card.MerchantCardService;
 import com.mctpay.wallet.service.merchant.MerchantService;
@@ -126,6 +129,16 @@ public class MerchantServiceImpl implements MerchantService {
             tradeRecordDTOs.add(tradeRecordDTO);
         }
         return tradeRecordDTOs;
+    }
+
+    @Override
+    public ResponseData getDynamicCollectionQRCode(DynamicCollectionQRCodeParam dynamicCollectionQRCodeParam) {
+        return null;
+    }
+
+    @Override
+    public void updatePayCheck(PayCheckParam payCheckParam) {
+
     }
 
 
