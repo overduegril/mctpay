@@ -27,6 +27,6 @@ public interface MerchantCardService {
      * @param merchantId
      * @return
      */
-    List<CardUseHistoryDTO> listCardUseHistory(String merchantId);
+    List<CardUseHistoryDTO> listCardUseHistory(String merchantId, String cardId);
 
 }

@@ -36,5 +36,5 @@ public interface MerchantCardReceiveMapper extends BaseMapper<MerchantCardReceiv
      * @param merchantId
      * @return
      */
-    List<CardUseHistoryEntity> listCardUseHistory(String merchantId);
+    List<CardUseHistoryEntity> listCardUseHistory(@Param("merchantId") String merchantId, @Param("cardId") String cardId);
 }

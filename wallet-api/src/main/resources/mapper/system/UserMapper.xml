@@ -145,7 +145,7 @@
         SELECT <include refid="Base_Column_List"/>
         FROM wallet_user
         WHERE email = #{username}
-        WHERE status != 0
+        AND status != 0
     </select>
 
     <!-- 根据用户ID获取积分 -->

@@ -59,9 +59,9 @@ public class MerchantCardController {
 
     @ApiOperation(value = "获取卡券使用历史", notes = "获取卡券使用历史", httpMethod = "GET")
     @GetMapping("/card-use-history")
-    public ResponseData<List<CardUseHistoryDTO>> listCardUseHistory() {
+    public ResponseData<List<CardUseHistoryDTO>> listCardUseHistory(@RequestParam(required = false) String cardId) {
         UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<CardUseHistoryDTO> cardUseHistoryDTOs = merchantCardService.listCardUseHistory(userEntity.getMerchantId());
+        List<CardUseHistoryDTO> cardUseHistoryDTOs = merchantCardService.listCardUseHistory(userEntity.getMerchantId(), cardId);
         return new ResponseData<List<CardUseHistoryDTO>>().success(cardUseHistoryDTOs);
     }
 }

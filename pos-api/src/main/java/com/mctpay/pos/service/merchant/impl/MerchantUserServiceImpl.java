@@ -1,6 +1,7 @@
 package com.mctpay.pos.service.merchant.impl;
 
 import com.mctpay.common.base.model.ResponseData;
+import com.mctpay.common.uitl.SecureUtils;
 import com.mctpay.pos.enums.EmailCodeEnum;
 import com.mctpay.pos.mapper.merchant.MerchantUserMapper;
 import com.mctpay.pos.mapper.system.EmailCodeMapper;

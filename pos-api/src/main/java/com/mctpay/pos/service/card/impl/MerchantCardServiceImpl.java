@@ -48,8 +48,8 @@ public class MerchantCardServiceImpl implements MerchantCardService {
     }
 
     @Override
-    public List<CardUseHistoryDTO> listCardUseHistory(String merchantId) {
-        List<CardUseHistoryEntity> cardUseHistoryEntities = merchantCardReceiveMapper.listCardUseHistory(merchantId);
+    public List<CardUseHistoryDTO> listCardUseHistory(String merchantId, String cardId) {
+        List<CardUseHistoryEntity> cardUseHistoryEntities = merchantCardReceiveMapper.listCardUseHistory(merchantId, cardId);
         List<CardUseHistoryDTO> cardUseHistoryDTOs = new ArrayList<>();
         for (CardUseHistoryEntity cardUseHistoryEntity : cardUseHistoryEntities) {
             CardUseHistoryDTO cardUseHistoryDTO = new CardUseHistoryDTO();

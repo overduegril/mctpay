@@ -19,6 +19,7 @@ import com.mctpay.pos.model.dto.merchant.TradeRecordDTO;
 import com.mctpay.pos.model.dto.merchant.TradeSummaryDTO;
 import com.mctpay.pos.model.entity.merchant.MerchantEntity;
 import com.mctpay.pos.model.entity.merchant.TradeRecordEntity;
+import com.mctpay.pos.model.entity.merchant.TradeSummaryEntity;
 import com.mctpay.pos.model.entity.system.UserEntity;
 import com.mctpay.pos.model.param.*;
 import com.mctpay.pos.service.merchant.MerchantService;
@@ -31,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -319,7 +321,21 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     public TradeSummaryDTO getDayTradeSummary(String merchantId, Date startDate, Date endDate, String operatorId) {
-        return null;
+        TradeSummaryEntity tradeSummaryEntity = tradeRecordMapper.getTradeSummary(merchantId, startDate, endDate, operatorId);
+        TradeSummaryDTO tradeSummaryDTO = new TradeSummaryDTO();
+        BeanUtils.copyProperties(tradeSummaryEntity, tradeSummaryDTO);
+        if (tradeSummaryDTO.getTotalTradeAmount() == null) {
+            tradeSummaryDTO.setTotalTradeAmount(BigDecimal.ZERO);
+        }
+        TradeSummaryEntity refundTradeSummary = tradeRecordMapper.getRefundTradeSummary(merchantId, startDate, endDate, operatorId);
+        tradeSummaryDTO.setTotalRefundCount(refundTradeSummary.getTotalRefundCount());
+        tradeSummaryDTO.setTotalRefundAmount(refundTradeSummary.getTotalRefundAmount());
+        if (refundTradeSummary.getTotalRefundAmount() == null) {
+            tradeSummaryDTO.setTotalRefundAmount(BigDecimal.ZERO);
+        }
+        tradeSummaryDTO.setTotalTradeAmount(tradeSummaryDTO.getTotalTradeAmount().setScale(2, RoundingMode.HALF_DOWN));
+        tradeSummaryDTO.setTotalRefundAmount(tradeSummaryDTO.getTotalRefundAmount().setScale(2, RoundingMode.HALF_DOWN));
+        return tradeSummaryDTO;
     }
 
 }

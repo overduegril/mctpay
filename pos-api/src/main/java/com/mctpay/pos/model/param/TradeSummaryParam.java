@@ -16,7 +16,7 @@ import java.util.Date;
 public class TradeSummaryParam {
 
     @ApiModelProperty("查询类型，0 班表，1日表")
-    private Date type;
+    private Integer type;
 
     @ApiModelProperty("查询开始时间")
     private Date start;

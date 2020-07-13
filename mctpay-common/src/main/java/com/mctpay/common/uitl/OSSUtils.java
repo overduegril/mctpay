@@ -22,7 +22,7 @@ public class OSSUtils {
         config.setConnectionTimeout(30 * 1000);
         config.setMaxConnections(60);
         config.setMaxErrorRetry(3);
-        config.setSocketTimeout(10 * 1000);
+        config.setSocketTimeout(300 * 1000);
         client = new OSSClientBuilder().build(OSSConfig.endpoint, OSSConfig.accessKeyId, OSSConfig.accessKeySecret, config);
     }
 

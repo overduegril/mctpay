@@ -22,6 +22,9 @@ public class CardUseHistoryEntity {
     @ApiModelProperty("使用时间")
     private Date useTime;
 
+    @ApiModelProperty("卡券Id")
+    private String cardId;
+
     @ApiModelProperty("卡券名字")
     private String cardName;
 

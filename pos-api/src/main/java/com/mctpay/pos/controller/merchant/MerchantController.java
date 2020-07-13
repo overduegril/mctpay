@@ -194,7 +194,7 @@ public class MerchantController {
         UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Date startDate, endDate;
         String operatorId = null;
-        if ("1".equals(tradeSummaryParam.getType())) {
+        if ("1".equals(tradeSummaryParam.getType().toString())) {
             startDate = DateUtil.beginOfDay(new Date());
             endDate = new Date();
             operatorId = userEntity.getId();
